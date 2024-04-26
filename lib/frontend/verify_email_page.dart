@@ -34,7 +34,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
     if (isEmailVerified) {
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email Successfully Verified")));
-      MaterialPageRoute(builder: (context) => const SuccessVerifyEmailPage());
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessVerifyEmailPage()));
       timer?.cancel();
     }
   }

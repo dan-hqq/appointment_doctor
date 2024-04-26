@@ -48,7 +48,7 @@ class Register{
       );
 
       // Move to Verify Email Page
-      MaterialPageRoute(builder: (context) => const VerifyEmailPage());
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const VerifyEmailPage()));
 
     } 
     catch (e) {
