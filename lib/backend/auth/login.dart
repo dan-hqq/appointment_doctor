@@ -1,6 +1,7 @@
 import 'package:appointment_doctor/backend/auth/auth.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class Login{
 
@@ -12,42 +13,60 @@ class Login{
     required this.password
   });
   
-  login() async {
+  Future<void>login(BuildContext context) async {
     try {
       
       await Auth.instance.loginWithEmailAndPassword(email.trim(), password.trim());
 
+      if (!context.mounted) return;
+
       // Show Success Message
-      MaterialBanner(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        forceActionsBelow: true,
-        content: AwesomeSnackbarContent(
-          title: 'Login Success',
-          message: 'Kamu telah berhasil login!',
-          contentType: ContentType.success,
-          // to configure for material banner
-          inMaterialBanner: true,
-        ), actions: const [SizedBox.shrink()],
+      showTopSnackBar(
+        Overlay.of(context),
+        const CustomSnackBar.success(
+          message: "Kamu telah berhasil login",
+        ),
       );
+      // ScaffoldMessenger.of(context).showMaterialBanner(
+      //   MaterialBanner(
+      //     elevation: 0,
+      //     backgroundColor: Colors.transparent,
+      //     forceActionsBelow: true,
+      //     content: AwesomeSnackbarContent(
+      //       title: 'Login Success',
+      //       message: 'Kamu telah berhasil login!',
+      //       contentType: ContentType.success,
+      //       // to configure for material banner
+      //       inMaterialBanner: true,
+      //     ), actions: const [SizedBox.shrink()],
+      //   )
+      // );
 
       Auth.instance.screenRedirect();
 
     } 
     catch (e) {
-      MaterialBanner(
-        /// need to set following properties for best effect of awesome_snackbar_content
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        forceActionsBelow: true,
-        content: AwesomeSnackbarContent(
-          title: 'Error',
+      showTopSnackBar(
+        Overlay.of(context),
+        CustomSnackBar.error(
           message: e.toString(),
-          contentType: ContentType.failure,
-          // to configure for material banner
-          inMaterialBanner: true,
-        ), actions: const [SizedBox.shrink()],
+        ),
       );
+      // ScaffoldMessenger.of(context).showMaterialBanner(
+      //   MaterialBanner(
+      //     /// need to set following properties for best effect of awesome_snackbar_content
+      //     elevation: 0,
+      //     backgroundColor: Colors.transparent,
+      //     forceActionsBelow: true,
+      //     content: AwesomeSnackbarContent(
+      //       title: 'Error',
+      //       message: e.toString(),
+      //       contentType: ContentType.failure,
+      //       // to configure for material banner
+      //       inMaterialBanner: true,
+      //     ), actions: const [SizedBox.shrink()],
+      //   )
+      // );
     }
   }
 }

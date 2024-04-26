@@ -86,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
           role: 4
         );
 
-        await register.register();
+        await register.register(context);
 
         setState(() {
           isLoading = false;

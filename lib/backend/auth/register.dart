@@ -1,8 +1,9 @@
 import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/frontend/verify_email_page.dart';
 import 'package:appointment_doctor/model/user_model.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class Register{
 
@@ -18,7 +19,7 @@ class Register{
     required this.role
   });
   
-  register() async {
+  Future<void> register(BuildContext context) async {
     try {
 
       final newUserAuth = await Auth.instance.registerWithEmailAndPassword(email.trim(), password.trim());
@@ -34,37 +35,54 @@ class Register{
       await tempUserModel.createUserInDatabase(newUser);
 
       // Show Success Message
-      MaterialBanner(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        forceActionsBelow: true,
-        content: AwesomeSnackbarContent(
-          title: 'Registration Success',
-          message: 'Jangan lupa verifikasi email-mu!',
-          contentType: ContentType.success,
-          // to configure for material banner
-          inMaterialBanner: true,
-        ), actions: const [SizedBox.shrink()],
+      if (!context.mounted) return;
+      showTopSnackBar(
+        Overlay.of(context),
+        const CustomSnackBar.success(
+          message: "Jangan lupa verifikasi email-mu!",
+        ),
       );
+      // ScaffoldMessenger.of(context).showMaterialBanner(
+      //   MaterialBanner(
+      //     elevation: 0,
+      //     backgroundColor: Colors.transparent,
+      //     forceActionsBelow: true,
+      //     content: AwesomeSnackbarContent(
+      //       title: 'Registration Success',
+      //       message: 'Jangan lupa verifikasi email-mu!',
+      //       contentType: ContentType.success,
+      //       // to configure for material banner
+      //       inMaterialBanner: true,
+      //     ), actions: const [SizedBox.shrink()],
+      //   )
+      // );
 
       // Move to Verify Email Page
       Navigator.push(context, MaterialPageRoute(builder: (context) => const VerifyEmailPage()));
 
     } 
     catch (e) {
-      MaterialBanner(
-        /// need to set following properties for best effect of awesome_snackbar_content
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        forceActionsBelow: true,
-        content: AwesomeSnackbarContent(
-          title: 'Error',
+      showTopSnackBar(
+        Overlay.of(context),
+        CustomSnackBar.error(
           message: e.toString(),
-          contentType: ContentType.failure,
-          // to configure for material banner
-          inMaterialBanner: true,
-        ), actions: const [SizedBox.shrink()],
+        ),
       );
+      // ScaffoldMessenger.of(context).showMaterialBanner(
+      //   MaterialBanner(
+      //     /// need to set following properties for best effect of awesome_snackbar_content
+      //     elevation: 0,
+      //     backgroundColor: Colors.transparent,
+      //     forceActionsBelow: true,
+      //     content: AwesomeSnackbarContent(
+      //       title: 'Error',
+      //       message: e.toString(),
+      //       contentType: ContentType.failure,
+      //       // to configure for material banner
+      //       inMaterialBanner: true,
+      //     ), actions: const [SizedBox.shrink()],
+      //   )
+      // );
     }
   }
 }

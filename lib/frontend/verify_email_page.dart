@@ -22,10 +22,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   void initState() {
     super.initState();
     Auth.instance.sendEmailVerification();
-    timer = Timer.periodic(const Duration(seconds: 3), (_) => checkEmailVerified());
+    timer = Timer.periodic(const Duration(seconds: 1), (_) => checkEmailVerified(context));
   }
 
-  checkEmailVerified() async {
+  Future<void> checkEmailVerified(BuildContext context) async {
     await FirebaseAuth.instance.currentUser?.reload();
 
     setState(() {
@@ -34,8 +34,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
     if (isEmailVerified) {
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email Successfully Verified")));
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessVerifyEmailPage()));
       timer?.cancel();
+      if (!context.mounted) return;
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessVerifyEmailPage()));
     }
   }
 
