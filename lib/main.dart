@@ -1,5 +1,7 @@
 import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/firebase_options.dart';
+import 'package:appointment_doctor/pages/home_admin_aplikasi.dart';
+import 'package:appointment_doctor/widgets/navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -67,31 +69,9 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text("Hello ${FirebaseAuth.instance.currentUser!.email ?? ''}" ),
-        ),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: isLoading == false ? () {
-              setState(() {
-                isLoading = true;
-              });
+       body: HomeAdminApk(),
+        bottomNavigationBar: NavigationBarApp(),
       
-              final logout = Auth();
-      
-              logout.logout();
-      
-              setState(() {
-                isLoading = true;
-              });
-            } : null,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xffde1a51),
-              padding: const EdgeInsets.symmetric(vertical: 16.0)
-            ),
-            child: isLoading == false ? const Text("Logout", style: TextStyle(color: Colors.white),) : const CircularProgressIndicator(color: Colors.white,),
-          ),
-        ),
       ),
     );
   }
