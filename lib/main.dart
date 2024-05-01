@@ -6,17 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  )
-  .then(
-    (FirebaseApp value) => Get.put(Auth())
-  );
+  ).then((FirebaseApp value) => Get.put(Auth()));
 
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
@@ -34,6 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -60,36 +58,53 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Hello ${FirebaseAuth.instance.currentUser!.email ?? ''}" ),
+          title:
+              Text("Hello ${FirebaseAuth.instance.currentUser!.email ?? ''}"),
         ),
         body: Center(
           child: ElevatedButton(
-            onPressed: isLoading == false ? () {
-              setState(() {
-                isLoading = true;
-              });
-      
-              final logout = Auth();
-      
-              logout.logout();
-      
-              setState(() {
-                isLoading = true;
-              });
-            } : null,
+            onPressed: isLoading == false
+                ? () {
+                    setState(() {
+                      isLoading = true;
+                    });
+
+                    final logout = Auth();
+                    logout.logout();
+
+                    setState(() {
+                      isLoading = true;
+                    });
+                  }
+                : null,
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xffde1a51),
-              padding: const EdgeInsets.symmetric(vertical: 16.0)
+              padding:
+                  const EdgeInsets.symmetric(vertical: 12, horizontal: 120),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
-            child: isLoading == false ? const Text("Logout", style: TextStyle(color: Colors.white),) : const CircularProgressIndicator(color: Colors.white,),
+            child: isLoading == false
+                ? Text(
+                    "Logout",
+                    style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  )
+                : const CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
           ),
         ),
       ),

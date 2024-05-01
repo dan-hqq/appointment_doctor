@@ -1,6 +1,8 @@
 import 'package:appointment_doctor/backend/auth/login.dart';
 import 'package:appointment_doctor/frontend/register_page.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -53,81 +55,147 @@ class _LoginPageState extends State<LoginPage> {
   // }
 
   Widget _submitButton() {
-    
     bool isLoading = false;
-    
+
     return ElevatedButton(
-      onPressed: isLoading == false ? () async {
-        
-        setState(() {
-          isLoading = true;
-        });
-        
-        // signInWithEmailAndPassword();
-        final login = Login(email: _emailController.text, password: _passwordController.text);
+      onPressed: isLoading == false
+          ? () async {
+              setState(() {
+                isLoading = true;
+              });
 
-        await login.login(context);
+              // signInWithEmailAndPassword();
+              final login = Login(
+                  email: _emailController.text,
+                  password: _passwordController.text);
 
-        setState(() {
-          isLoading = false;
-        });
+              await login.login(context);
 
-      } : null,
-      style: TextButton.styleFrom(
+              setState(() {
+                isLoading = false;
+              });
+            }
+          : null,
+      style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xffde1a51),
-        foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 135),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        elevation: 10,
+        shadowColor: Colors.black.withOpacity(0.6),
       ),
-      child: isLoading == false ? const Text('Login') : const CircularProgressIndicator(color: Colors.white,),
+      child: isLoading == false
+          ? Text(
+              'Masuk',
+              style: GoogleFonts.inter(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            )
+          : const CircularProgressIndicator(
+              color: Colors.white,
+            ),
     );
   }
 
   Widget _goToRegisterPage() {
-    return TextButton(
-      onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
-      },
-      child: const Text('Register', style: TextStyle(color:  Color(0xffde1a51))),
+    return RichText(
+      text: TextSpan(
+        children: [
+          const TextSpan(
+            text: 'Belum punya akun? ',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+            ),
+          ),
+          TextSpan(
+            text: 'Buat akun',
+            style: const TextStyle(
+              color: Color(0xffde1a51),
+              fontSize: 16,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RegisterPage(),
+                  ),
+                );
+              },
+          ),
+        ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-        backgroundColor: Colors.black,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Enter to your account in a seconds',
-                style: TextStyle(fontSize: 18.0),
+              const SizedBox(height: 75),
+              Image.asset(
+                'assets/images/hospify-removebg.png',
+                height: 180,
               ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  hintText: 'Email',
-                  border: OutlineInputBorder(),
+              const SizedBox(height: 25),
+              Text(
+                'Masuk',
+                style: GoogleFonts.poppins(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(
-                  hintText: 'Password',
-                  border: OutlineInputBorder(),
+              const SizedBox(height: 5),
+              Text(
+                'Masuk ke akun Anda',
+                style: GoogleFonts.inter(
+                  fontSize: 16,
+                  color: Colors.grey,
                 ),
               ),
-              const SizedBox(height: 32.0),
-              _submitButton(),
-              const SizedBox(height: 16.0),
-              _goToRegisterPage(),
+              const SizedBox(height: 15),
+              Expanded(
+                  child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        hintText: 'Email',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      style: GoogleFonts.inter(),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                        hintText: 'Password',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      style: GoogleFonts.inter(),
+                    ),
+                    const SizedBox(height: 20),
+                    _submitButton(),
+                    const SizedBox(height: 10),
+                    _goToRegisterPage(),
+                  ],
+                ),
+              ))
             ],
           ),
         ),

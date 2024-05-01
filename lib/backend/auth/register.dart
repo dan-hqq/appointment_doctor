@@ -5,31 +5,28 @@ import 'package:flutter/material.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-class Register{
-
+class Register {
   final String fullName;
   final String email;
   final String password;
   final int role;
 
-  const Register({
-    required this.fullName,
-    required this.email,
-    required this.password,
-    required this.role
-  });
-  
+  const Register(
+      {required this.fullName,
+      required this.email,
+      required this.password,
+      required this.role});
+
   Future<void> register(BuildContext context) async {
     try {
-
-      final newUserAuth = await Auth.instance.registerWithEmailAndPassword(email.trim(), password.trim());
+      final newUserAuth = await Auth.instance
+          .registerWithEmailAndPassword(email.trim(), password.trim());
 
       final newUser = UserModel(
-        id: newUserAuth.user!.uid,
-        fullName: fullName.trim(),
-        email: email.trim(),
-        role: role
-      );
+          id: newUserAuth.user!.uid,
+          fullName: fullName.trim(),
+          email: email.trim(),
+          role: role);
 
       final tempUserModel = UserModel();
       await tempUserModel.createUserInDatabase(newUser);
@@ -58,10 +55,9 @@ class Register{
       // );
 
       // Move to Verify Email Page
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const VerifyEmailPage()));
-
-    } 
-    catch (e) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const VerifyEmailPage()));
+    } catch (e) {
       showTopSnackBar(
         Overlay.of(context),
         CustomSnackBar.error(
