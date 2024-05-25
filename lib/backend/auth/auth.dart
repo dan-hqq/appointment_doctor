@@ -1,5 +1,5 @@
-import 'package:appointment_doctor/frontend/login_page.dart';
-import 'package:appointment_doctor/frontend/verify_email_page.dart';
+import 'package:appointment_doctor/pages/login_page.dart';
+import 'package:appointment_doctor/pages/verify_email_page.dart';
 import 'package:appointment_doctor/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';

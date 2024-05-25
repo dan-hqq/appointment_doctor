@@ -17,18 +17,30 @@ dependencies:
   intl: ^0.19.0
   top_snackbar_flutter: ^3.1.0
   image_picker: ^0.8.4+2
-  google_maps_flutter: ^2.6.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
  
-
 flutter:
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
   uses-material-design: true
   assets:
     - assets/images/gambar.png
     - assets/images/menu1.png
     - assets/images/menu2.png
     - assets/images/rs.png
+    - assets/images/temuidokter.png
+    - assets/images/chatdokter.png
+    - assets/images/daftarspesialis.png
+    - assets/images/daftardokter.png
+    - assets/images/profil.png
+    
+    

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HomeAdminApk extends StatelessWidget {
-  const HomeAdminApk({Key? key});
+class HomePasien extends StatelessWidget {
+  const HomePasien({Key? key}) : super(key: key); // Menggunakan identifier yang benar
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +11,32 @@ class HomeAdminApk extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Halo, John Doe!",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Halo, John Doe!",
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Keputih", // Nama lokasi
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Icon(Icons.location_on), // Icon lokasi
+                    ],
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 10), // Atur jarak antara teks dengan bagian selanjutnya
@@ -47,7 +68,7 @@ class HomeAdminApk extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 5.0), // Atur padding kiri pada gambar menu 1
                     child: Image.asset(
-                      'assets/images/menu1.png',
+                      'assets/images/temuidokter.png',
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -58,7 +79,7 @@ class HomeAdminApk extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 5.0), // Atur padding kanan pada gambar menu 2
                     child: Image.asset(
-                      'assets/images/menu2.png',
+                      'assets/images/chatdokter.png',
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -70,7 +91,7 @@ class HomeAdminApk extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    "Rumah Sakit Terkini",
+                    "Daftar Rumah Sakit",
                     style: TextStyle(
                       fontSize: 23,
                       fontWeight: FontWeight.bold,

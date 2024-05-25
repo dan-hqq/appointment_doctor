@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 class AddAdminRS extends StatefulWidget {
   const AddAdminRS({Key? key}) : super(key: key);
@@ -144,18 +144,7 @@ Container(
     ),
     borderRadius: BorderRadius.circular(15.0), // Menambahkan border radius
   ),
-  child: GoogleMap(
-    initialCameraPosition: CameraPosition(
-      target: LatLng(0, 0), // Koordinat awal peta
-      zoom: 15.0, // Zoom awal peta
-    ),
-    markers: {
-      // Anda dapat menambahkan marker di sini
-    },
-    onMapCreated: (GoogleMapController controller) {
-      // Callback yang dipanggil saat peta telah dibuat
-    },
-  ),
+ 
 ),
     SizedBox(height: 10),
 TextFormField(

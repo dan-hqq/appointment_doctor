@@ -1,5 +1,5 @@
 import 'package:appointment_doctor/backend/auth/login.dart';
-import 'package:appointment_doctor/frontend/register_page.dart';
+import 'package:appointment_doctor/pages/register_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
