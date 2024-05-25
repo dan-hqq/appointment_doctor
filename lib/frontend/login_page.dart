@@ -53,40 +53,46 @@ class _LoginPageState extends State<LoginPage> {
   // }
 
   Widget _submitButton() {
-    
     bool isLoading = false;
-    
+
     return ElevatedButton(
-      onPressed: isLoading == false ? () async {
-        
-        setState(() {
-          isLoading = true;
-        });
-        
-        // signInWithEmailAndPassword();
-        final login = Login(email: _emailController.text, password: _passwordController.text);
+      onPressed: isLoading == false
+          ? () async {
+              setState(() {
+                isLoading = true;
+              });
 
-        await login.login(context);
+              // signInWithEmailAndPassword();
+              final login = Login(
+                  email: _emailController.text,
+                  password: _passwordController.text);
 
-        setState(() {
-          isLoading = false;
-        });
+              await login.login(context);
 
-      } : null,
+              setState(() {
+                isLoading = false;
+              });
+            }
+          : null,
       style: TextButton.styleFrom(
         backgroundColor: const Color(0xffde1a51),
         foregroundColor: Colors.white,
       ),
-      child: isLoading == false ? const Text('Login') : const CircularProgressIndicator(color: Colors.white,),
+      child: isLoading == false
+          ? const Text('Login')
+          : const CircularProgressIndicator(
+              color: Colors.white,
+            ),
     );
   }
 
   Widget _goToRegisterPage() {
     return TextButton(
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const RegisterPage()));
       },
-      child: const Text('Register', style: TextStyle(color:  Color(0xffde1a51))),
+      child: const Text('Register', style: TextStyle(color: Color(0xffde1a51))),
     );
   }
 

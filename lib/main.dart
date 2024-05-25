@@ -8,17 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:appointment_doctor/pages/list_daftar_rs.dart';
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  )
-  .then(
-    (FirebaseApp value) => Get.put(Auth())
-  );
+  ).then((FirebaseApp value) => Get.put(Auth()));
 
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
@@ -62,18 +59,11 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-       body: HomeAdminApk(),
-        bottomNavigationBar: NavigationBarApp(),
-      
-      ),
-    );
+    return MaterialApp(home: NavigationBarApp());
   }
 }
 
