@@ -4,7 +4,7 @@ import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/frontend/success_verify_email_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
+import 'package:get/get.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({super.key});
@@ -35,8 +35,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     if (isEmailVerified) {
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email Successfully Verified")));
       timer?.cancel();
-      if (!context.mounted) return;
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const SuccessVerifyEmailPage()));
+      Get.offAll(() => const SuccessVerifyEmailPage());
     }
   }
 

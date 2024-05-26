@@ -2,6 +2,7 @@ import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/frontend/verify_email_page.dart';
 import 'package:appointment_doctor/model/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -34,31 +35,8 @@ class Register{
       final tempUserModel = UserModel();
       await tempUserModel.createUserInDatabase(newUser);
 
-      // Show Success Message
-      if (!context.mounted) return;
-      showTopSnackBar(
-        Overlay.of(context),
-        const CustomSnackBar.success(
-          message: "Jangan lupa verifikasi email-mu!",
-        ),
-      );
-      // ScaffoldMessenger.of(context).showMaterialBanner(
-      //   MaterialBanner(
-      //     elevation: 0,
-      //     backgroundColor: Colors.transparent,
-      //     forceActionsBelow: true,
-      //     content: AwesomeSnackbarContent(
-      //       title: 'Registration Success',
-      //       message: 'Jangan lupa verifikasi email-mu!',
-      //       contentType: ContentType.success,
-      //       // to configure for material banner
-      //       inMaterialBanner: true,
-      //     ), actions: const [SizedBox.shrink()],
-      //   )
-      // );
-
       // Move to Verify Email Page
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const VerifyEmailPage()));
+      Get.offAll(() => const VerifyEmailPage());
 
     } 
     catch (e) {

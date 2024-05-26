@@ -2,7 +2,6 @@ import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/firebase_options.dart';
 import 'package:appointment_doctor/pages/home_admin_aplikasi.dart';
 import 'package:appointment_doctor/widgets/navigator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -67,7 +66,7 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
        body: HomeAdminApk(),
         bottomNavigationBar: NavigationBarApp(),
