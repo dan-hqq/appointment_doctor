@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomeDokter(),
         '/riwayat': (context) => HomeDokter(), //sesuain sama class riwayatkonsul
-        '/profil': (context) => HomeDokter(), //sesuain sama class profil 
+        '/profil': (context) => HomeDokter(), //sesuain sama class profil
       },
     );
   }
