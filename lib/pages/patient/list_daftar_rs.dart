@@ -82,7 +82,6 @@ class _HospitalListPageState extends State<HospitalListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text(
           widget.title, // Menggunakan title dari argumen

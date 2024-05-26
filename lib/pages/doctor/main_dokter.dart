@@ -1,32 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:appointment_doctor/pages/adminApk/home_admin_apk.dart';
-import 'package:appointment_doctor/pages/adminApk/add_admin_rs.dart';
+import 'package:appointment_doctor/pages/doctor/home_dokter.dart';
 
-
-void main() {
-  runApp(MyApp());
-}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeScreenAdminApk(),
+      home: HomeScreenDoc(),
       routes: {
-        '/home': (context) => HomeAdminApk(),
-        '/riwayat': (context) => AddAdminRS(),
-        '/profil': (context) => AddAdminRS(),
+        '/home': (context) => HomeDokter(),
+        '/riwayat': (context) => HomeDokter(), //sesuain sama class riwayatkonsul
+        '/profil': (context) => HomeDokter(), //sesuain sama class profil 
       },
     );
   }
 }
 
-class HomeScreenAdminApk extends StatefulWidget {
+class HomeScreenDoc extends StatefulWidget {
   @override
-  _HomeScreenAdminApkState createState() => _HomeScreenAdminApkState();
+  _HomeScreenDocState createState() => _HomeScreenDocState();
 }
 
-class _HomeScreenAdminApkState extends State<HomeScreenAdminApk> {
+class _HomeScreenDocState extends State<HomeScreenDoc> {
   int _selectedIndex = 0;
 
   static const List<String> _routes = <String>[
@@ -47,10 +42,10 @@ class _HomeScreenAdminApkState extends State<HomeScreenAdminApk> {
     return Scaffold(
       body: Center(
         child: _selectedIndex == 0
-            ? HomeAdminApk()
+            ? HomeDokter()
             : _selectedIndex == 1
-                ? AddAdminRS()
-                : AddAdminRS(),
+                ? HomeDokter()
+                : HomeDokter(),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -59,8 +54,8 @@ class _HomeScreenAdminApkState extends State<HomeScreenAdminApk> {
             label: 'Beranda',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-           
+            icon: Icon(Icons.history),
+            label: 'Riwayat Konsultasi',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

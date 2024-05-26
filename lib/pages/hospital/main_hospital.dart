@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:appointment_doctor/pages/adminApk/home_admin_apk.dart';
-import 'package:appointment_doctor/pages/adminApk/add_admin_rs.dart';
+import 'package:appointment_doctor/pages/hospital/home_admin_rs.dart';
+import 'package:appointment_doctor/pages/hospital/profile_admin_rs.dart';
 
 
 void main() {
@@ -11,22 +11,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeScreenAdminApk(),
+      home: HomeScreenAdminRS(),
       routes: {
-        '/home': (context) => HomeAdminApk(),
-        '/riwayat': (context) => AddAdminRS(),
-        '/profil': (context) => AddAdminRS(),
+        '/home': (context) => HomeAdminRS(),
+        '/riwayat': (context) => HomeAdminRS(),
+        '/profil': (context) => ProfilAdminRS(),
       },
     );
   }
 }
 
-class HomeScreenAdminApk extends StatefulWidget {
+class HomeScreenAdminRS extends StatefulWidget {
   @override
-  _HomeScreenAdminApkState createState() => _HomeScreenAdminApkState();
+  _HomeScreenAdminRSState createState() => _HomeScreenAdminRSState();
 }
 
-class _HomeScreenAdminApkState extends State<HomeScreenAdminApk> {
+class _HomeScreenAdminRSState extends State<HomeScreenAdminRS> {
   int _selectedIndex = 0;
 
   static const List<String> _routes = <String>[
@@ -47,10 +47,10 @@ class _HomeScreenAdminApkState extends State<HomeScreenAdminApk> {
     return Scaffold(
       body: Center(
         child: _selectedIndex == 0
-            ? HomeAdminApk()
+            ? HomeAdminRS()
             : _selectedIndex == 1
-                ? AddAdminRS()
-                : AddAdminRS(),
+                ? HomeAdminRS()
+                : ProfilAdminRS(),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -60,7 +60,7 @@ class _HomeScreenAdminApkState extends State<HomeScreenAdminApk> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-           
+            label: 'Undang Dokter',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

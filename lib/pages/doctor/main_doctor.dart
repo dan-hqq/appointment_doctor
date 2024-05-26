@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/doctor/home_dokter.dart';
+import 'package:appointment_doctor/pages/doctor/profile_dokter.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomeDokter(),
         '/riwayat': (context) => HomeDokter(),
-        '/profil': (context) => HomeDokter(),
+        '/profil': (context) => ProfileDokter(),
       },
     );
   }
@@ -48,7 +49,7 @@ class _HomeScreenDocState extends State<HomeScreenDoc> {
             ? HomeDokter()
             : _selectedIndex == 1
                 ? HomeDokter()
-                : HomeDokter(),
+                : ProfileDokter(),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

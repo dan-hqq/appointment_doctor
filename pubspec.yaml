@@ -36,4 +36,49 @@ flutter:
         - asset: assets/fonts/Poppins-Bold.ttf
   uses-material-design: true
   assets:
+<<<<<<< HEAD
     - assets/images/
+=======
+    - assets/images/gambar.png
+    - assets/images/hospify.png
+    - assets/images/menu1.png
+    - assets/images/menu2.png
+    - assets/images/rs.png
+    - assets/images/dokter.png
+    - assets/images/bgrs.png
+    - assets/images/doctor1.png
+    - assets/images/doctor2.png
+    - assets/images/doctor3.png
+    - assets/images/doctor4.png
+    - assets/images/doctor5.png
+    - assets/images/kulit.png
+    - assets/images/anak.png
+    - assets/images/dokter_umum.png
+    - assets/images/penyakit_dalam.png
+    - assets/images/psikologi_klinis.png
+    - assets/images/covid19.png
+    - assets/images/gizi_klinik.png
+    - assets/images/kandungan.png
+    - assets/images/hewan.png
+    - assets/images/tht.png
+    - assets/images/konsultasi.png
+    - assets/images/gigi.png
+    - assets/images/psikiater.png
+    - assets/images/seksologi.png
+    - assets/images/bedah.png
+    - assets/images/saraf.png
+    - assets/images/jantung.png
+    - assets/images/laktasi.png
+    - assets/images/program_hamil.png
+    - assets/images/mata.png
+    - assets/images/paru.png
+    - assets/images/fisioterapi.png
+    - assets/images/medikolegal.png
+    - assets/images/talk_therapy.png
+    - assets/images/pemeriksaan_lab.png
+    - assets/images/bidanku.png
+    - assets/images/layanan_kontrasepsi.png
+    - assets/images/temuidokter.png
+    - assets/images/chatdokter.png
+    - assets/images/menuspesialis.png
+>>>>>>> 09b5d88247991e31baec0b6f332d04b9da0d06e6

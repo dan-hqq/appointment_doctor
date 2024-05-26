@@ -1,7 +1,7 @@
 
 import 'package:appointment_doctor/pages/adminApk/add_admin_rs.dart';
-import 'package:appointment_doctor/pages/adminRS/daftarspesialis.dart';
-import 'package:appointment_doctor/pages/hospital/home_admin_aplikasi.dart';
+import 'package:appointment_doctor/pages/hospital/daftarspesialis.dart';
+import 'package:appointment_doctor/pages/adminApk/home_admin_apk.dart';
 import 'package:appointment_doctor/pages/hospital/home_admin_rs.dart';
 import 'package:appointment_doctor/pages/doctor/home_dokter.dart';
 import 'package:appointment_doctor/pages/patient/home_pasien.dart';

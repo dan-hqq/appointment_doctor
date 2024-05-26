@@ -83,7 +83,6 @@ class _DoctorListPageState extends State<DoctorListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text(
           widget.title,

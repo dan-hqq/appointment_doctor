@@ -1,7 +1,7 @@
 import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/firebase_options.dart';
 import 'package:appointment_doctor/pages/doctor/main_doctor.dart';
-import 'package:appointment_doctor/pages/hospital/home_admin_aplikasi.dart';
+import 'package:appointment_doctor/pages/adminApk/home_admin_apk.dart';
 import 'package:appointment_doctor/widgets/navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
