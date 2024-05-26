@@ -1,15 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:appointment_doctor/pages/list_daftar_rs.dart';
+import 'package:appointment_doctor/pages/list_daftar_dokter.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/widgets.dart';
 
 class HomeAdminApk extends StatelessWidget {
-  const HomeAdminApk({Key? key});
+  const HomeAdminApk({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: 50, left: 15, right: 15), // Atur padding sesuai kebutuhan
+        padding: EdgeInsets.only(
+            top: 50, left: 15, right: 15), // Atur padding sesuai kebutuhan
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               "Halo, John Doe!",
@@ -18,15 +25,21 @@ class HomeAdminApk extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10), // Atur jarak antara teks dengan bagian selanjutnya
             SizedBox(
-              width: MediaQuery.of(context).size.width - 20, // Mengatur lebar sesuai dengan lebar layar dikurangi 30
+                height: 5), // Atur jarak antara teks dengan bagian selanjutnya
+            SizedBox(
+              width: MediaQuery.of(context).size.width -
+                  20, // Mengatur lebar sesuai dengan lebar layar dikurangi 20
               height: 210,
               child: Padding(
-                padding: const EdgeInsets.only(right: 4.0), // Atur jarak gambar dari kanan
-                child: Image.asset(
-                  'assets/images/gambar.png',
-                  fit: BoxFit.cover,
+                padding: const EdgeInsets.only(
+                    right: 4.0), // Atur jarak gambar dari kanan
+                child: FittedBox(
+                  fit: BoxFit
+                      .contain, // Menggunakan FittedBox untuk menyesuaikan gambar
+                  child: Image.asset(
+                    'assets/images/gambar.png',
+                  ),
                 ),
               ),
             ),
@@ -45,10 +58,23 @@ class HomeAdminApk extends StatelessWidget {
                 Expanded(
                   flex: 1, // Set flex untuk gambar menu 1
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 5.0), // Atur padding kiri pada gambar menu 1
-                    child: Image.asset(
-                      'assets/images/menu1.png',
-                      fit: BoxFit.cover,
+                    padding: const EdgeInsets.only(
+                        left: 5.0), // Atur padding kiri pada gambar menu 1
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DoctorListPage(
+                              title: 'Daftar Dokter',
+                            ),
+                          ),
+                        );
+                      },
+                      child: Image.asset(
+                        'assets/images/menu1.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -56,17 +82,30 @@ class HomeAdminApk extends StatelessWidget {
                 Expanded(
                   flex: 1, // Set flex untuk gambar menu 2
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 5.0), // Atur padding kanan pada gambar menu 2
-                    child: Image.asset(
-                      'assets/images/menu2.png',
-                      fit: BoxFit.cover,
+                    padding: const EdgeInsets.only(
+                        right: 5.0), // Atur padding kanan pada gambar menu 2
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HospitalListPage(
+                              title: 'Daftar Rumah Sakit',
+                            ),
+                          ),
+                        );
+                      },
+                      child: Image.asset(
+                        'assets/images/menu2.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 5.0, top: 10.0, bottom: 5.0),
+              padding: const EdgeInsets.only(left: 5.0, top: 10.0),
               child: Row(
                 children: [
                   Text(
@@ -77,21 +116,31 @@ class HomeAdminApk extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  TextButton(
-                    onPressed: () {
-                      // Action ketika tombol "Lihat Semua" ditekan
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          "Lihat Semua",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.blue,
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HospitalListPage(
+                              title: 'Pilih Rumah Sakit',
+                            ),
                           ),
-                        ),
-                        Icon(Icons.chevron_right),
-                      ],
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            "Lihat Semua",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.blue,
+                            ),
+                          ),
+                          Icon(Icons.chevron_right),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -99,11 +148,14 @@ class HomeAdminApk extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
+                physics: BouncingScrollPhysics(),
                 itemCount: 5,
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: EdgeInsets.symmetric(vertical: 6),
-                    padding: EdgeInsets.only(left: 5, right: 5), // Atur padding kiri dan kanan pada container
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.only(
+                        left: 5,
+                        right: 5), // Atur padding kiri dan kanan pada container
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -178,4 +230,24 @@ class HomeAdminApk extends StatelessWidget {
       ),
     );
   }
+}
+
+class ListDaftarRumahSakit extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Daftar Rumah Sakit'),
+      ),
+      body: Center(
+        child: Text('List of Hospitals'),
+      ),
+    );
+  }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: HomeAdminApk(),
+  ));
 }

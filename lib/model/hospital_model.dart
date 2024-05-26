@@ -12,6 +12,7 @@ class HospitalModel {
   // final String? longitude;
   final GeoFirePoint? position;
   final String? imageUrl;
+  final DateTime? dateAdded;
 
   const HospitalModel({
     this.id,
@@ -21,7 +22,8 @@ class HospitalModel {
     // this.latitude,
     // this.longitude,
     this.position,
-    this.imageUrl
+    this.imageUrl,
+    this.dateAdded
   });
 
   static HospitalModel empty() => HospitalModel(
@@ -32,7 +34,8 @@ class HospitalModel {
     // latitude: '',
     // longitude: '',
     position: GeoFlutterFire().point(latitude: 0, longitude: 0),
-    imageUrl: ''
+    imageUrl: '',
+    dateAdded: DateTime.now()
   );
 
   Map<String, dynamic> toJson() {
@@ -43,7 +46,8 @@ class HospitalModel {
       // 'latitude': latitude,
       // 'longitude': longitude,
       'position': position?.data,
-      'imageUrl': imageUrl
+      'imageUrl': imageUrl,
+      'dateAdded': DateTime.now()
     };
   }
 
@@ -57,7 +61,8 @@ class HospitalModel {
       // latitude: data['latitude'],
       // longitude: data['longitude'],
       position: GeoFirePoint(data['position']['geopoint'].latitude, data['position']['geopoint'].longitude),
-      imageUrl: data['imageUrl']
+      imageUrl: data['imageUrl'],
+      dateAdded: (data['dateAdded'] as Timestamp).toDate()
     );
   }
 
@@ -102,5 +107,25 @@ class HospitalModel {
     catch (e) {
       throw 'Something went wrong. Please try again';
     }
+  }
+
+  static Future<List<HospitalModel>> getAllHospital() async {
+    List<HospitalModel> hospitals = [];
+
+    try {
+    
+      final querySnapshot = await FirebaseFirestore.instance
+        .collection("hospitals")
+        .orderBy('dateAdded', descending: true) // Urutkan berdasarkan dateAdded dengan urutan menurun (terbaru ke terlama)
+        .get();
+
+      hospitals = querySnapshot.docs.map((doc) => HospitalModel.fromSnapshot(doc)).toList();
+    } 
+    catch (e) {
+      print(e);
+      throw 'Gagal mengambil data rumah sakit';
+    }
+
+    return hospitals;
   }
 }
