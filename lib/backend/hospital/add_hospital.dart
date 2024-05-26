@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:appointment_doctor/main.dart';
 import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:appointment_doctor/model/user_model.dart';
+import 'package:appointment_doctor/pages/doctor/main_doctor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +110,7 @@ class AddHospital {
         ),
       );
 
-      Get.offAll(() => const MainApp());
+      Get.offAll(() => const MyAppDoctor());
     } 
     catch (e) {
       showTopSnackBar(

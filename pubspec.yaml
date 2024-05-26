@@ -21,15 +21,24 @@ dependencies:
   http: ^1.2.1
   geoflutterfire2: ^2.3.15
   flutter_inner_drawer: ^1.0.0+1
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  # flutter_lints: ^3.0.0
-
+  flutter_lints: ^3.0.0
+ 
 flutter:
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
   uses-material-design: true
   assets:
+    - assets/images/
     - assets/images/gambar.png
     - assets/images/hospify.png
     - assets/images/menu1.png

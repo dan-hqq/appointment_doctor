@@ -1,5 +1,9 @@
-import 'package:appointment_doctor/frontend/login_page.dart';
-import 'package:appointment_doctor/frontend/verify_email_page.dart';
+import 'package:appointment_doctor/pages/adminApk/main_admin_apk.dart';
+import 'package:appointment_doctor/pages/doctor/main_doctor.dart';
+import 'package:appointment_doctor/pages/hospital/main_hospital.dart';
+import 'package:appointment_doctor/pages/login_page.dart';
+import 'package:appointment_doctor/pages/patient/main_pasien.dart';
+import 'package:appointment_doctor/pages/verify_email_page.dart';
 import 'package:appointment_doctor/main.dart';
 import 'package:appointment_doctor/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,17 +39,20 @@ class Auth extends GetxController {
 
         if(userRole == 1){
           // Admin Aplikasi
-          Get.offAll(() => const MainApp());
+          Get.offAll(() => const MyAppAdminApk());
         }
-        // else if(userRole == 2){
+        else if(userRole == 2){
           // Admin Rumah Sakit
-        // }
-        // else if(userRole == 3){
+          Get.offAll(() => const MyAppHospital());
+        }
+        else if(userRole == 3){
           // Dokter
-        // }
-        // else{
+          Get.offAll(() => const MyAppDoctor());
+        }
+        else{
           // Pasien
-        // }
+          Get.offAll(() => const MyAppPasien());
+        }
 
       } 
       else {

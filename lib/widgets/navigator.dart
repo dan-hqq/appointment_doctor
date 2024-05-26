@@ -1,8 +1,14 @@
 
-import 'package:appointment_doctor/pages/add_admin_rs.dart';
-import 'package:appointment_doctor/pages/home_admin_aplikasi.dart';
-import 'package:appointment_doctor/pages/profile_admin_rs.dart';
+import 'package:appointment_doctor/pages/adminApk/add_admin_rs.dart';
+import 'package:appointment_doctor/pages/hospital/daftarspesialis.dart';
+import 'package:appointment_doctor/pages/adminApk/home_admin_apk.dart';
+import 'package:appointment_doctor/pages/hospital/home_admin_rs.dart';
+import 'package:appointment_doctor/pages/doctor/home_dokter.dart';
+import 'package:appointment_doctor/pages/patient/home_pasien.dart';
+import 'package:appointment_doctor/pages/patient/profil_pasien.dart';
+import 'package:appointment_doctor/pages/hospital/profile_admin_rs.dart';
 import 'package:flutter/material.dart';
+
 
 void main() => runApp(const NavigationBarApp());
 
@@ -29,9 +35,9 @@ class _NavigationState extends State<Navigation> {
   int currentPageIndex = 0;
 
   final List<Widget> _pages = [
-    HomeAdminApk(), // Halaman Beranda
-    AddAdminRS(), // Halaman Tambah Admin
-    ProfilAdminRS(), // Halaman Profile
+    HomeAdminApk(),
+    AddAdminRS(),
+    DaftarSpesialis(),
   ];
 
   void _onItemTapped(int index) {
@@ -50,7 +56,9 @@ class _NavigationState extends State<Navigation> {
         unselectedItemColor: Colors.white,
         currentIndex: currentPageIndex,
         onTap: _onItemTapped,
-        items: const <BottomNavigationBarItem>[
+        selectedIconTheme: IconThemeData(color: Colors.white, size: 30.0),
+        unselectedIconTheme: IconThemeData(color: Colors.white.withOpacity(0.5), size: 24.0),
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home),
