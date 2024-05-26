@@ -1,10 +1,10 @@
 name: appointment_doctor
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.3.4 <4.0.0'
+  sdk: ">=3.3.4 <4.0.0"
 
 dependencies:
   flutter:
@@ -17,6 +17,9 @@ dependencies:
   intl: ^0.19.0
   top_snackbar_flutter: ^3.1.0
   image_picker: ^0.8.4+2
+  google_maps_flutter: ^2.6.1
+  flutter_inner_drawer: ^1.0.0+1
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -33,14 +36,4 @@ flutter:
         - asset: assets/fonts/Poppins-Bold.ttf
   uses-material-design: true
   assets:
-    - assets/images/gambar.png
-    - assets/images/menu1.png
-    - assets/images/menu2.png
-    - assets/images/rs.png
-    - assets/images/temuidokter.png
-    - assets/images/chatdokter.png
-    - assets/images/daftarspesialis.png
-    - assets/images/daftardokter.png
-    - assets/images/profil.png
-    
-    
+    - assets/images/

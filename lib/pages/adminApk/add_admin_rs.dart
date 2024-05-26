@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 
@@ -17,6 +18,8 @@ class _AddAdminRSState extends State<AddAdminRS> {
   late String _email;
   late String _password;
   late String _imagePath = '';
+  late String latitude = '';
+  late String longitude = '';
 
   void _onChangeImagePath(String newPath) {
     setState(() {
@@ -98,19 +101,24 @@ Center(
       style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
     ),
     SizedBox(height: 10),
-    TextFormField(
-      decoration: InputDecoration(
-        labelText: 'Masukkan nama rumah sakit',
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0), // Menambahkan border radius
-        ),
+TextFormField(
+  decoration: InputDecoration(
+    labelText: 'Masukkan nama rumah sakit',
+    labelStyle: GoogleFonts.poppins(
+      textStyle: TextStyle(
+        fontSize: 16.0,
       ),
-      onChanged: (value) {
-        setState(() {
-          _namaRS = value;
-        });
-      },
     ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(15.0),
+    ),
+  ),
+  onChanged: (value) {
+    setState(() {
+      _namaRS = value;
+    });
+  },
+),
     SizedBox(height: 10),
     Text(
       'Telepon',
@@ -120,6 +128,11 @@ Center(
     TextFormField(
       decoration: InputDecoration(
         labelText: 'Masukkan nomor telepon rumah sakit',
+        labelStyle: GoogleFonts.poppins(
+      textStyle: TextStyle(
+        fontSize: 16.0,
+      ),
+    ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0), // Menambahkan border radius
         ),
@@ -135,21 +148,16 @@ Text(
   'Alamat',
   style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
 ),
-Container(
-  height: 200, // Atur tinggi sesuai kebutuhan
-  decoration: BoxDecoration(
-    border: Border.all(
-      color: Colors.grey, // Warna border
-      width: 1.0, // Lebar border
-    ),
-    borderRadius: BorderRadius.circular(15.0), // Menambahkan border radius
-  ),
- 
-),
+
     SizedBox(height: 10),
 TextFormField(
   decoration: InputDecoration(
     labelText: 'Masukkan alamat rumah sakit',
+    labelStyle: GoogleFonts.poppins(
+      textStyle: TextStyle(
+        fontSize: 16.0,
+      ),
+    ),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(15.0), // Menambahkan border radius
     ),
@@ -167,6 +175,11 @@ Row(
       child: TextFormField(
         decoration: InputDecoration(
           labelText: 'Latitude',
+          labelStyle: GoogleFonts.poppins(
+      textStyle: TextStyle(
+        fontSize: 16.0,
+      ),
+    ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0), // Menambahkan border radius
           ),
@@ -181,6 +194,11 @@ Row(
       child: TextFormField(
         decoration: InputDecoration(
           labelText: 'Longitude',
+          labelStyle: GoogleFonts.poppins(
+      textStyle: TextStyle(
+        fontSize: 16.0,
+      ),
+    ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0), // Menambahkan border radius
           ),
@@ -202,6 +220,11 @@ Row(
     TextFormField(
       decoration: InputDecoration(
         labelText: 'Masukkan email rumah sakit',
+        labelStyle: GoogleFonts.poppins(
+      textStyle: TextStyle(
+        fontSize: 16.0,
+      ),
+    ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0), // Menambahkan border radius
         ),
@@ -221,6 +244,11 @@ Row(
     TextFormField(
       decoration: InputDecoration(
         labelText: 'Masukkan password rumah sakit',
+        labelStyle: GoogleFonts.poppins(
+      textStyle: TextStyle(
+        fontSize: 16.0,
+      ),
+    ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0), // Menambahkan border radius
         ),
