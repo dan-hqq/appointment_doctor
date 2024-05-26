@@ -1,5 +1,5 @@
 import 'package:appointment_doctor/backend/auth/register.dart';
-import 'package:appointment_doctor/frontend/login_page.dart';
+import 'package:appointment_doctor/pages/login_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

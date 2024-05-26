@@ -1,5 +1,6 @@
-import 'package:appointment_doctor/frontend/login_page.dart';
-import 'package:appointment_doctor/frontend/verify_email_page.dart';
+import 'package:appointment_doctor/pages/login_page.dart';
+import 'package:appointment_doctor/pages/onboard/onboard.dart';
+import 'package:appointment_doctor/pages/verify_email_page.dart';
 import 'package:appointment_doctor/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -26,66 +27,54 @@ class Auth extends GetxController {
 
   screenRedirect() async {
     final user = firebaseAuth.currentUser;
-    
-    if(user != null){
-      if(user.emailVerified){
+
+    if (user != null) {
+      if (user.emailVerified) {
         Get.offAll(() => const MainApp());
-      } 
-      else {
+      } else {
         Get.offAll(
           () => const VerifyEmailPage(),
         );
       }
-    } 
-    else {
+    } else {
       // Local storage
-      // deviceStorage.writeIfNull('isFirstTime', true);
+      deviceStorage.writeIfNull('isFirstTime', true);
       // check if it's the firs time launching the app
-      // deviceStorage.read('isFirstTime') != true
-      // ? Get.offAll(() => const LoginPage());
-      // : Get.offAll(const OnBoardingScreen());
+      deviceStorage.read('isFirstTime') != true
+          ? Get.offAll(() => const LoginPage())
+          : Get.offAll(const OnboardPage());
       Get.offAll(() => const LoginPage());
     }
   }
 
-  Future<UserCredential> loginWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> loginWithEmailAndPassword(
+      String email, String password) async {
     try {
       return await firebaseAuth.signInWithEmailAndPassword(
-        email: email, 
-        password: password
-      );
-    } 
-    on FirebaseAuthException catch (e) {
+          email: email, password: password);
+    } on FirebaseAuthException catch (e) {
       throw e.code;
-    } 
-    on FirebaseException catch (e) {
+    } on FirebaseException catch (e) {
       throw e.code;
-    } 
-    on FormatException catch (_) {
+    } on FormatException catch (_) {
       throw 'Format Exeption Error';
-    } 
-    catch (e) {
+    } catch (e) {
       throw 'Something went wrong. Please try again';
     }
   }
 
-  Future<UserCredential> registerWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> registerWithEmailAndPassword(
+      String email, String password) async {
     try {
       return await firebaseAuth.createUserWithEmailAndPassword(
-        email: email, 
-        password: password
-      );
-    } 
-    on FirebaseAuthException catch (e) {
+          email: email, password: password);
+    } on FirebaseAuthException catch (e) {
       throw e.code;
-    } 
-    on FirebaseException catch (e) {
+    } on FirebaseException catch (e) {
       throw e.code;
-    } 
-    on FormatException catch (_) {
+    } on FormatException catch (_) {
       throw 'Format Exeption Error';
-    } 
-    catch (e) {
+    } catch (e) {
       throw 'Something went wrong. Please try again';
     }
   }
@@ -93,20 +82,15 @@ class Auth extends GetxController {
   Future<void> sendEmailVerification() async {
     try {
       await firebaseAuth.currentUser?.sendEmailVerification();
-    } 
-    on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (e) {
       throw e.code;
-    } 
-    on FirebaseException catch (e) {
+    } on FirebaseException catch (e) {
       throw e.code;
-    } 
-    on FormatException catch (_) {
+    } on FormatException catch (_) {
       throw 'Format exception error';
-    } 
-    on PlatformException catch (e) {
+    } on PlatformException catch (e) {
       throw e.code;
-    } 
-    catch (e) {
+    } catch (e) {
       throw 'Something went wrong. Please try again';
     }
   }
@@ -115,22 +99,16 @@ class Auth extends GetxController {
     try {
       await FirebaseAuth.instance.signOut();
       Get.offAll(() => const LoginPage());
-    } 
-    on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (e) {
       throw e.code;
-    } 
-    on FirebaseException catch (e) {
+    } on FirebaseException catch (e) {
       throw e.code;
-    } 
-    on FormatException catch (_) {
+    } on FormatException catch (_) {
       throw 'Format exception error';
-    } 
-    on PlatformException catch (e) {
+    } on PlatformException catch (e) {
       throw e.code;
-    } 
-    catch (e) {
+    } catch (e) {
       throw 'Something went wrong. Please try again';
     }
   }
-
 }

@@ -1,5 +1,5 @@
 import 'package:appointment_doctor/backend/auth/login.dart';
-import 'package:appointment_doctor/frontend/register_page.dart';
+import 'package:appointment_doctor/pages/register_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -181,6 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _passwordController,
+                      obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Password',
                         border: OutlineInputBorder(
