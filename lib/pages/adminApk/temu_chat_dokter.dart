@@ -1,3 +1,5 @@
+import 'package:appointment_doctor/pages/adminApk/detail_dokter.dart';
+import 'package:appointment_doctor/pages/adminApk/detail_rs.dart';
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/list_specialty.dart';
 import 'package:appointment_doctor/pages/filter_dokter.dart';
@@ -155,19 +157,58 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
               SizedBox(height: 120),
             ],
           ),
-          Positioned(
-            top: 40,
-            left: 16,
-            child: CircleAvatar(
-              backgroundColor: Color(0xFFDE1A51),
-              child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+        Positioned(
+  top: 40,
+  left: 16,
+  child: GestureDetector(
+    onTap: () {
+      Navigator.pop(context);
+    },
+    child: CircleAvatar(
+      backgroundColor: Color(0xFFDE1A51),
+      child: Icon(Icons.arrow_back, color: Colors.white),
+    ),
+  ),
+),
+Positioned(
+  top: 40,
+  right: 16,
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      GestureDetector(
+        onTap: () {
+          showMenu(
+            context: context,
+            position: RelativeRect.fromLTRB(90, 80, 10, 0),
+            items: [
+              PopupMenuItem(
+                value: 'view_detail',
+                child: Text('View Detail'),
               ),
-            ),
-          ),
+            ],
+            elevation: 5.0,
+          ).then((value) {
+            if(value == 'view_detail') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailRS(),
+                ),
+              );
+            }
+          });
+        },
+        child: CircleAvatar(
+          backgroundColor: Color(0xFFDE1A51),
+          child: Icon(Icons.more_horiz, color: Colors.white),
+        ),
+      ),
+    ],
+  ),
+),
+
+
           Positioned(
             top: 155,
             left: 35,
@@ -242,51 +283,67 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
             ),
           ),
           Positioned(
-            top: 320,
-            left: 20,
-            right: 20,
-            bottom: 0,
-            child: ListView.builder(
-              itemCount: _filteredDoctors.length,
-              itemBuilder: (context, index) {
-                final doctor = _filteredDoctors[index];
-                return Card(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          doctor.imageUrl,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
+  top: 320,
+  left: 20,
+  right: 20,
+  bottom: 0,
+  child: ListView.builder(
+    itemCount: _filteredDoctors.length,
+    itemBuilder: (context, index) {
+      final doctor = _filteredDoctors[index];
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailDoctor(),
+            ),
+          );
+        },
+        child: Card(
+          margin: EdgeInsets.symmetric(vertical: 10),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Image.asset(
+                  doctor.imageUrl,
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        doctor.name,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                doctor.name,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(doctor.specialty),
-                             
-                            ],
-                          ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        doctor.specialty,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey[600],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                );
-              },
+                ),
+              ],
             ),
           ),
+        ),
+      );
+    },
+  ),
+),
+
         ],
       ),
     );
