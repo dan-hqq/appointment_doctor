@@ -2,11 +2,7 @@ import 'package:appointment_doctor/pages/patient/home_pasien.dart';
 import 'package:appointment_doctor/pages/patient/profil_pasien.dart';
 import 'package:appointment_doctor/pages/patient/riwayat_konsultasi.dart';
 import 'package:flutter/material.dart';
-import 'package:appointment_doctor/pages/doctor/home_dokter.dart';
-
-// void main() {
-//   runApp(MyApp());
-// }
+import 'package:google_fonts/google_fonts.dart';
 
 class MyAppPasien extends StatefulWidget {
   const MyAppPasien({super.key});
@@ -19,9 +15,9 @@ class _MyAppPasienState extends State<MyAppPasien> {
   int _selectedIndex = 0;
 
   static final List<Widget> _screens = [
-    const HomePasien(),
-    const RiwayatKonsultasi(),
-    ProfilPasien()
+      HomePasien(),
+      RiwayatKonsultasi(),
+     ProfilPasien(),
   ];
 
   void _onItemTapped(int index) {
@@ -36,103 +32,43 @@ class _MyAppPasienState extends State<MyAppPasien> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildScreen(),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Beranda',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'Riwayat Konsultasi',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profil',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white70,
-        backgroundColor: const Color(0xFFE91E63),
-        onTap: _onItemTapped,
+    return MaterialApp(
+      home: Scaffold(
+        body: _buildScreen(),
+        bottomNavigationBar: NavigationBar(
+          onDestinationSelected: _onItemTapped,
+          selectedIndex: _selectedIndex,
+          indicatorColor: Color(0xFFE78895), // Ganti warna indikator
+          height: 60,
+          backgroundColor: const Color(0xFFDE1A51),
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          destinations: const <NavigationDestination>[
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined, color: Colors.white),
+              selectedIcon: Icon(Icons.home, color: Colors.white),
+              label: 'Beranda',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.history_outlined, color: Colors.white),
+              selectedIcon: Icon(Icons.history, color: Colors.white),
+              label: 'Riwayat Konsultasi',
+              
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.person_outline, color: Colors.white),
+              selectedIcon: Icon(Icons.person, color: Colors.white),
+              label: 'Profil',
+            ),
+          ],
+        ),
+      ),
+      theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(), // Atur font family
       ),
     );
   }
 }
 
-// class MyAppPasien extends StatelessWidget {
-//   const MyAppPasien({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: const HomeScreenPasien(),
-//       routes: {
-//         '/home': (context) => const HomePasien(),
-//         '/riwayat': (context) => const RiwayatKonsultasi(),
-//         '/profil': (context) => ProfilPasien(),
-//       },
-//     );
-//   }
-// }
-
-// class HomeScreenPasien extends StatefulWidget {
-//   const HomeScreenPasien({super.key});
-
-//   @override
-//   _HomeScreenPasienState createState() => _HomeScreenPasienState();
-// }
-
-// class _HomeScreenPasienState extends State<HomeScreenPasien> {
-//   int _selectedIndex = 0;
-
-//   static const List<String> _routes = <String>[
-//     '/home',
-//     '/riwayat',
-//     '/profil',
-//   ];
-
-//   void _onItemTapped(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//     });
-//     Navigator.pushNamed(context, _routes[index]);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: _selectedIndex == 0
-//             ? const HomeDokter()
-//             : _selectedIndex == 1
-//                 ? const RiwayatKonsultasi()
-//                 : const HomeDokter(),
-//       ),
-//       bottomNavigationBar: BottomNavigationBar(
-//         items: const <BottomNavigationBarItem>[
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.home),
-//             label: 'Beranda',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.history),
-//             label: 'Riwayat Konsultasi',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.person),
-//             label: 'Profil',
-//           ),
-//         ],
-//         currentIndex: _selectedIndex,
-//         selectedItemColor: Colors.white,
-//         unselectedItemColor: Colors.white70,
-//         backgroundColor: const Color(0xFFE91E63),
-//         onTap: _onItemTapped,
-//       ),
-//     );
-//   }
-// }
+void main() {
+  runApp(const MyAppPasien());
+}

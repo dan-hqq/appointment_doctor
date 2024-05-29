@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:appointment_doctor/main.dart';
 import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:appointment_doctor/model/user_model.dart';
 import 'package:appointment_doctor/pages/doctor/main_doctor.dart';
@@ -61,7 +60,7 @@ class AddHospital {
     
     try {
       
-      UserCredential newAdminHospitalCredential= await FirebaseAuth.instanceFor(app: app).createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential newAdminHospitalCredential= await FirebaseAuth.instanceFor(app: app).createUserWithEmailAndPassword(email: email.trim(), password: password.trim());
       await FirebaseAuth.instanceFor(app: app).currentUser?.sendEmailVerification();
       
       // Set the UID generated to a variable so we can use it later

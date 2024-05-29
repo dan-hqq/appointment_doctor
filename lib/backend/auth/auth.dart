@@ -4,7 +4,6 @@ import 'package:appointment_doctor/pages/hospital/main_hospital.dart';
 import 'package:appointment_doctor/pages/login_page.dart';
 import 'package:appointment_doctor/pages/patient/main_pasien.dart';
 import 'package:appointment_doctor/pages/verify_email_page.dart';
-import 'package:appointment_doctor/main.dart';
 import 'package:appointment_doctor/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
