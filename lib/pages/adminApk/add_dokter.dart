@@ -1,3 +1,4 @@
+import 'package:appointment_doctor/backend/doctor/add_doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -23,7 +24,7 @@ class _AddDoctorPageState extends State<AddDoctorPage> {
         title: Text(
           'Tambah Dokter',
           style: GoogleFonts.poppins(
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18.0,
               color: Colors.black, // Sesuaikan warna teks sesuai kebutuhan
@@ -33,9 +34,9 @@ class _AddDoctorPageState extends State<AddDoctorPage> {
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
-            backgroundColor: Color(0xFFDE1A51),
+            backgroundColor: const Color(0xFFDE1A51),
             child: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -44,23 +45,23 @@ class _AddDoctorPageState extends State<AddDoctorPage> {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         children: [
           // Nama
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Email',
                 style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Masukkan email',
                   labelStyle: GoogleFonts.poppins(
-      textStyle: TextStyle(
+      textStyle: const TextStyle(
         fontSize: 16.0,
       ),
     ),
@@ -82,17 +83,17 @@ class _AddDoctorPageState extends State<AddDoctorPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Password',
                 style: TextStyle(fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Masukkan password',
                   labelStyle: GoogleFonts.poppins(
-      textStyle: TextStyle(
+      textStyle: const TextStyle(
         fontSize: 16.0,
       ),
     ),
@@ -110,20 +111,22 @@ class _AddDoctorPageState extends State<AddDoctorPage> {
           ),
           // Alamat
           
-          SizedBox(height: 160),
+          const SizedBox(height: 160),
           Container(
             width: double.infinity, // Membuat tombol memiliki panjang yang sama dengan form
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Proses simpan data di sini
+                final addDoctorUser = AddDoctor(email: _email, password: _password);
+                await addDoctorUser.addNewDoctor(context);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFDE1A51), // Warna latar belakang merah
+                backgroundColor: const Color(0xFFDE1A51), // Warna latar belakang merah
               ),
               child: Container(
                 width: double.infinity, // Membuat tombol memiliki panjang yang sama dengan parent
-                padding: EdgeInsets.symmetric(vertical: 16.0), // Menambahkan padding vertikal
-                child: Center(
+                padding: const EdgeInsets.symmetric(vertical: 16.0), // Menambahkan padding vertikal
+                child: const Center(
                   child: Text(
                     'Simpan',
                     style: TextStyle(
