@@ -1,7 +1,9 @@
+import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/pages/patient/edit_profil_pasien.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:get/get.dart';
 
 class ProfilPasien extends StatefulWidget {
   @override
@@ -10,6 +12,7 @@ class ProfilPasien extends StatefulWidget {
 
 class _ProfilPasien extends State<ProfilPasien> {
   String _imagePath = '';
+  final Auth _auth = Get.put(Auth()); // Ensure Auth is correctly injected
 
   void _onChangeImagePath(String path) {
     setState(() {
@@ -191,7 +194,7 @@ class _ProfilPasien extends State<ProfilPasien> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
                     onTap: () {
-                      // Handle logout
+                      _auth.logout(); // Call logout method using the instance
                     },
                     child: Container(
                       decoration: BoxDecoration(

@@ -1,15 +1,11 @@
 import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/firebase_options.dart';
 import 'package:appointment_doctor/pages/doctor/main_doctor.dart';
-import 'package:appointment_doctor/pages/adminApk/home_admin_apk.dart';
-import 'package:appointment_doctor/widgets/navigator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:appointment_doctor/pages/adminApk/list_daftar_rs.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -52,21 +49,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainApp extends StatefulWidget {
-  const MainApp({super.key});
+// class MainApp extends StatefulWidget {
+//   const MainApp({super.key});
 
-  @override
-  State<MainApp> createState() => _MainAppState();
-}
+//   @override
+//   State<MainApp> createState() => _MainAppState();
+// }
 
-class _MainAppState extends State<MainApp> {
-  bool isLoading = false;
+// class _MainAppState extends State<MainApp> {
+//   bool isLoading = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: HomeScreenDoc());
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(home: HomeScreenDoc());
+//   }
+// }
 
 // class MainApp extends StatelessWidget {
 //   const MainApp({super.key});

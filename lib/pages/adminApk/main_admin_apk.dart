@@ -1,27 +1,27 @@
-import 'package:appointment_doctor/pages/hospital/undang_dokter.dart';
+import 'package:appointment_doctor/pages/adminApk/profile_admin_apk.dart';
 import 'package:flutter/material.dart';
-import 'package:appointment_doctor/pages/hospital/home_admin_rs.dart';
-import 'package:appointment_doctor/pages/hospital/profile_admin_rs.dart';
+import 'package:appointment_doctor/pages/adminApk/home_admin_apk.dart';
+import 'package:appointment_doctor/pages/adminApk/add_admin_rs.dart';
 
 
 // void main() {
 //   runApp(MyApp());
 // }
 
-class MyAppHospital extends StatefulWidget {
-  const MyAppHospital({super.key});
+class MyAppAdminApk extends StatefulWidget {
+  const MyAppAdminApk({super.key});
 
   @override
-  _MyAppHospitalState createState() => _MyAppHospitalState();
+  _MyAppAdminApkState createState() => _MyAppAdminApkState();
 }
 
-class _MyAppHospitalState extends State<MyAppHospital> {
+class _MyAppAdminApkState extends State<MyAppAdminApk> {
   int _selectedIndex = 0;
 
   static const List<Widget> _screens = [
-    HomeAdminRS(),
-    UndangDokter(),
-    ProfilAdminRS(),
+    HomeAdminApk(),
+    AddAdminRS(),
+    ProfileAdminApk(),
   ];
 
   void _onItemTapped(int index) {
@@ -46,7 +46,7 @@ class _MyAppHospitalState extends State<MyAppHospital> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
-            label: 'Undang',
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -63,35 +63,35 @@ class _MyAppHospitalState extends State<MyAppHospital> {
   }
 }
 
-// class MyAppHospital extends StatelessWidget {
-//   const MyAppHospital({super.key});
+// class MyAppAdminApk extends StatelessWidget {
+//   const MyAppAdminApk({super.key});
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
-//       home: const HomeScreenAdminRS(),
+//       home: const HomeScreenAdminApk(),
 //       routes: {
-//         '/home': (context) => const HomeAdminRS(),
-//         '/undang': (context) => const UndangDokter(),
-//         '/profil': (context) => const ProfilAdminRS(),
+//         '/home': (context) => const HomeAdminApk(),
+//         '/add-admin': (context) => const AddAdminRS(),
+//         '/profil': (context) => const ProfileAdminApk(),
 //       },
 //     );
 //   }
 // }
 
-// class HomeScreenAdminRS extends StatefulWidget {
-//   const HomeScreenAdminRS({super.key});
+// class HomeScreenAdminApk extends StatefulWidget {
+//   const HomeScreenAdminApk({super.key});
 
 //   @override
-//   _HomeScreenAdminRSState createState() => _HomeScreenAdminRSState();
+//   _HomeScreenAdminApkState createState() => _HomeScreenAdminApkState();
 // }
 
-// class _HomeScreenAdminRSState extends State<HomeScreenAdminRS> {
+// class _HomeScreenAdminApkState extends State<HomeScreenAdminApk> {
 //   int _selectedIndex = 0;
 
 //   static const List<String> _routes = <String>[
 //     '/home',
-//     '/undang',
+//     '/add-admin',
 //     '/profil',
 //   ];
 
@@ -107,10 +107,10 @@ class _MyAppHospitalState extends State<MyAppHospital> {
 //     return Scaffold(
 //       body: Center(
 //         child: _selectedIndex == 0
-//             ? const HomeAdminRS()
+//             ? const HomeAdminApk()
 //             : _selectedIndex == 1
-//                 ? const UndangDokter()
-//                 : const ProfilAdminRS(),
+//                 ? const AddAdminRS()
+//                 : const ProfileAdminApk(),
 //       ),
 //       bottomNavigationBar: BottomNavigationBar(
 //         items: const <BottomNavigationBarItem>[
@@ -120,7 +120,7 @@ class _MyAppHospitalState extends State<MyAppHospital> {
 //           ),
 //           BottomNavigationBarItem(
 //             icon: Icon(Icons.add),
-//             label: 'Undang Dokter',
+//             label: ''
 //           ),
 //           BottomNavigationBarItem(
 //             icon: Icon(Icons.person),

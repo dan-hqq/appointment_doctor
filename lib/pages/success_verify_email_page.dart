@@ -1,6 +1,8 @@
+import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 
 class SuccessVerifyEmailPage extends StatelessWidget {
@@ -38,7 +40,7 @@ class SuccessVerifyEmailPage extends StatelessWidget {
               width: double.infinity,
               height: 60,
               child: ElevatedButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: ((context) => const MainApp()))),
+                onPressed: () => Auth.instance.screenRedirect(),
                 style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all(const Color(0xffde1a51)),

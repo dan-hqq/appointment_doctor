@@ -47,7 +47,7 @@ class HomePasien extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 4.0), // Atur jarak gambar dari kanan
                 child: Image.asset(
                   'assets/images/gambar.png',
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),

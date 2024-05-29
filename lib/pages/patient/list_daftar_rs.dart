@@ -1,3 +1,4 @@
+import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/temu_chat_dokter.dart';
 
@@ -11,52 +12,62 @@ class HospitalListPage extends StatefulWidget {
 }
 
 class _HospitalListPageState extends State<HospitalListPage> {
-  final List<Map<String, String>> hospitals = [
-    {
-      "name": "RSU Siloam Surabaya",
-      "address": "Jl. Raya Gubeng No.70 Surabaya",
-      "phone": "+62 31 5038133",
-      "image": "assets/images/rs.png" // replace with actual image URL
-    },
-    {
-      "name": "RS Mitra Keluarga Kenjeran",
-      "address": "Jl. Kenjeran 506 60113 Surabaya",
-      "phone": "+62 31 99000000",
-      "image": "assets/images/rs.png" // replace with actual image URL
-    },
-    {
-      "name": "RS Haji",
-      "address": "Jl. Manyar Kertoadi 60116 Surabaya",
-      "phone": "+62 31 5924000",
-      "image": "assets/images/rs.png" // replace with actual image URL
-    },
-    {
-      "name": "RSUD Dr. Soetomo Surabaya",
-      "address": "Jl. Prof. Dr. Moestopo No. 6-8 Surabaya",
-      "phone": "+62 31 5501078",
-      "image": "assets/images/rs.png" // replace with actual image URL
-    },
-    {
-      "name": "RS Karang Tembok Surabaya",
-      "address": "Jl. Karang Tembok",
-      "phone": "+62 31 5501078",
-      "image": "assets/images/rs.png" // replace with actual image URL
-    },
-    {
-      "name": "RS Karang Menjangan",
-      "address": "Jl. Karang Menjangan",
-      "phone": "+62 31 5501078",
-      "image": "assets/images/rs.png" // replace with actual image URL
-    }
-  ];
+  // final List<Map<String, String>> hospitals = [
+  //   {
+  //     "name": "RSU Siloam Surabaya",
+  //     "address": "Jl. Raya Gubeng No.70 Surabaya",
+  //     "phone": "+62 31 5038133",
+  //     "image": "assets/images/rs.png" // replace with actual image URL
+  //   },
+  //   {
+  //     "name": "RS Mitra Keluarga Kenjeran",
+  //     "address": "Jl. Kenjeran 506 60113 Surabaya",
+  //     "phone": "+62 31 99000000",
+  //     "image": "assets/images/rs.png" // replace with actual image URL
+  //   },
+  //   {
+  //     "name": "RS Haji",
+  //     "address": "Jl. Manyar Kertoadi 60116 Surabaya",
+  //     "phone": "+62 31 5924000",
+  //     "image": "assets/images/rs.png" // replace with actual image URL
+  //   },
+  //   {
+  //     "name": "RSUD Dr. Soetomo Surabaya",
+  //     "address": "Jl. Prof. Dr. Moestopo No. 6-8 Surabaya",
+  //     "phone": "+62 31 5501078",
+  //     "image": "assets/images/rs.png" // replace with actual image URL
+  //   },
+  //   {
+  //     "name": "RS Karang Tembok Surabaya",
+  //     "address": "Jl. Karang Tembok",
+  //     "phone": "+62 31 5501078",
+  //     "image": "assets/images/rs.png" // replace with actual image URL
+  //   },
+  //   {
+  //     "name": "RS Karang Menjangan",
+  //     "address": "Jl. Karang Menjangan",
+  //     "phone": "+62 31 5501078",
+  //     "image": "assets/images/rs.png" // replace with actual image URL
+  //   }
+  // ];
 
-  List<Map<String, String>> filteredHospitals = []; // Inisialisasi dengan daftar kosong
+  List<HospitalModel> hospitals = [];
+
+  List<HospitalModel> filteredHospitals = []; // Inisialisasi dengan daftar kosong
   TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    filteredHospitals = hospitals; // Inisialisasi daftar filteredHospitals
+    fetchHospital();
+  }
+
+  void fetchHospital() async {
+    hospitals = await HospitalModel.getAllHospital();
+    setState(() {
+      filteredHospitals = hospitals; // Inisialisasi daftar filteredHospitals dengan hospitals
+    });
+    // filteredHospitals = hospitals; // Inisialisasi daftar filteredHospitals
     searchController.addListener(() {
       filterHospitals();
     });
@@ -72,7 +83,7 @@ class _HospitalListPageState extends State<HospitalListPage> {
     final query = searchController.text.toLowerCase();
     setState(() {
       filteredHospitals = hospitals.where((hospital) {
-        final hospitalName = hospital['name']!.toLowerCase();
+        final hospitalName = hospital.namaRS!.toLowerCase();
         return hospitalName.contains(query);
       }).toList();
     });
@@ -126,10 +137,10 @@ class _HospitalListPageState extends State<HospitalListPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => RSUHospitalScreen(
-                          imageUrl: hospital['image']!,
-                          hospitalName: hospital['name']!,
-                          address: hospital['address']!,
-                          phoneNumber: hospital['phone']!,
+                          imageUrl: hospital.imageUrl!,
+                          hospitalName: hospital.namaRS!,
+                          address: hospital.alamat!,
+                          phoneNumber: hospital.telepon!,
                         ),
                       ),
                     );
@@ -158,8 +169,8 @@ class _HospitalListPageState extends State<HospitalListPage> {
                             padding: EdgeInsets.all(8),
                             child: AspectRatio(
                               aspectRatio: 8 / 7,
-                              child: Image.asset(
-                                hospital['image']!,
+                              child: Image.network(
+                                hospital.imageUrl!,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -173,7 +184,7 @@ class _HospitalListPageState extends State<HospitalListPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  hospital['name']!,
+                                  hospital.namaRS!,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 19,
@@ -182,7 +193,7 @@ class _HospitalListPageState extends State<HospitalListPage> {
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  hospital['address']!,
+                                  hospital.alamat!,
                                   style: TextStyle(
                                     color: Colors.grey[700],
                                     fontSize: 13,
@@ -190,7 +201,7 @@ class _HospitalListPageState extends State<HospitalListPage> {
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  hospital['phone']!,
+                                  hospital.telepon!,
                                   style: TextStyle(
                                     color: Colors.grey[700],
                                     fontSize: 13,

@@ -63,12 +63,9 @@ class UserModel {
     }
   }
 
-  Future<UserModel> getUserDetails() async {
-    
-    final database = FirebaseFirestore.instance;
-
+  static Future<UserModel> getUserDetails() async {
     try {
-      final documentSnapshot = await database.collection("users").doc(Auth.instance.authUser?.uid).get();
+      final documentSnapshot = await FirebaseFirestore.instance.collection("users").doc(Auth.instance.authUser?.uid).get();
       if (documentSnapshot.exists) {
         return UserModel.fromSnapshot(documentSnapshot);
       } 

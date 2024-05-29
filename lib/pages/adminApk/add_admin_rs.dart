@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:appointment_doctor/backend/hospital/add_hospital.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -186,6 +187,7 @@ Row(
         ),
         onChanged: (value) {
           // Anda dapat menyimpan nilai latitude di sini
+          latitude = value;
         },
       ),
     ),
@@ -205,6 +207,7 @@ Row(
         ),
         onChanged: (value) {
           // Anda dapat menyimpan nilai longitude di sini
+          longitude = value;
         },
       ),
     ),
@@ -264,8 +267,20 @@ Row(
 Container(
   width: double.infinity, // Membuat tombol memiliki panjang yang sama dengan form
   child: ElevatedButton(
-    onPressed: () {
+    onPressed: () async {
       // Proses simpan data di sini
+      final addHospital = AddHospital(
+        namaRS: _namaRS,
+        telepon: _telepon,
+        alamat: _alamat,
+        latitude: double.parse(latitude),
+        longitude: double.parse(longitude),
+        imagePath: _imagePath,
+        email: _email,
+        password: _password
+      );
+
+      await addHospital.addNewHospital(context);
     },
     style: ElevatedButton.styleFrom(
       backgroundColor: Color(0xFFDE1A51), // Warna latar belakang merah
@@ -273,7 +288,7 @@ Container(
      child: Container(
       width: double.infinity, // Membuat tombol memiliki panjang yang sama dengan parent
       padding: EdgeInsets.symmetric(vertical: 16.0), // Menambahkan padding vertikal
-      child: Center(
+      child: const Center(
         child: Text(
           'Simpan',
           style: TextStyle(
@@ -296,8 +311,8 @@ Container(
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: AddAdminRS(),
-  ));
-}
+// void main() {
+//   runApp(MaterialApp(
+//     home: AddAdminRS(),
+//   ));
+// }

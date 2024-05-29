@@ -35,8 +35,7 @@ class HomeAdminApk extends StatelessWidget {
                 padding: const EdgeInsets.only(
                     right: 4.0), // Atur jarak gambar dari kanan
                 child: FittedBox(
-                  fit: BoxFit
-                      .contain, // Menggunakan FittedBox untuk menyesuaikan gambar
+                  fit: BoxFit.contain, // Menggunakan FittedBox untuk menyesuaikan gambar
                   child: Image.asset(
                     'assets/images/gambar.png',
                   ),

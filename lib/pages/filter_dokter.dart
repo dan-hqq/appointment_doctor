@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/list_specialty.dart';
-import 'package:appointment_doctor/pages/temu_chat_dokter.dart';
 
 class FilterDokter extends StatefulWidget {
   final List<Doctor> doctors;

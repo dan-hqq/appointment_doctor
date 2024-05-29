@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 class HomeAdminApk extends StatelessWidget {
-  const HomeAdminApk({Key? key}) : super(key: key);
+  const HomeAdminApk({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -239,22 +239,3 @@ class HomeAdminApk extends StatelessWidget {
   }
 }
 
-class ListDaftarRumahSakit extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Daftar Rumah Sakit'),
-      ),
-      body: Center(
-        child: Text('List of Hospitals'),
-      ),
-    );
-  }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: HomeAdminApk(),
-  ));
-}

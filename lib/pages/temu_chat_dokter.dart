@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/list_specialty.dart';
-import 'package:appointment_doctor/pages/adminApk/list_daftar_dokter.dart';
-import 'package:appointment_doctor/pages/adminApk/list_daftar_rs.dart';
 import 'package:appointment_doctor/pages/filter_dokter.dart';
 
 class RSUHospitalScreen extends StatefulWidget {
@@ -148,7 +146,7 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
         children: [
           Column(
             children: [
-              Image.asset(
+              Image.network(
                 widget.imageUrl,
                 width: double.infinity,
                 height: 250,

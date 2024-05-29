@@ -18,6 +18,8 @@ dependencies:
   top_snackbar_flutter: ^3.1.0
   image_picker: ^0.8.4+2
   google_maps_flutter: ^2.6.1
+  http: ^1.2.1
+  geoflutterfire2: ^2.3.15
   flutter_inner_drawer: ^1.0.0+1
   google_fonts: ^6.2.1
 
