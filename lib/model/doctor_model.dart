@@ -44,6 +44,7 @@ class DoctorModel {
   factory DoctorModel.fromSnapshot(DocumentSnapshot documentSnapshot) {
     final data = documentSnapshot.data() as Map<String, dynamic>;
     return DoctorModel(
+      id: documentSnapshot.id,
       nama: data['nama'],
       spesialis: data['spesialis'],
       telepon: data['telepon'],
@@ -70,4 +71,40 @@ class DoctorModel {
       throw 'Something went wrong. Please try again $e';
     }
   }
+
+  static Future<List<DoctorModel>> getAllDoctors() async {
+    try {
+      final snapshot = await FirebaseFirestore.instance.collection('doctors').get();
+
+      return snapshot.docs.map((doc) {
+        return DoctorModel.fromSnapshot(doc);
+      }).toList();
+    } catch (e) {
+      print('Error retrieving doctor data: $e');
+      return [];
+    }
+  }
+
+  static Future<DoctorModel> getLoginDetailDoctor() async {
+    try {
+      final snapshot = await FirebaseFirestore.instance.collection('doctors').doc(FirebaseAuth.instance.currentUser!.uid).get();
+
+      return DoctorModel.fromSnapshot(snapshot);
+    } 
+    catch (e) {
+      print('Error retrieving doctor data: $e');
+      return const DoctorModel();
+    }
+  }
+
+  // static Future<List<DoctorModel>> getNearestDoctorsWithSpecialist(double latitude, double langitude, String specialist) async {
+  //   try{
+
+  //   }
+  //   catch(e){
+  //     print('Error retrieving doctor data: $e');
+  //     return [];
+  //   }
+    
+  // }
 }

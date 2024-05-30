@@ -1,3 +1,4 @@
+import 'package:appointment_doctor/model/doctor_model.dart';
 import 'package:appointment_doctor/pages/adminApk/detail_dokter.dart';
 import 'package:flutter/material.dart';
 
@@ -5,60 +6,30 @@ import 'package:flutter/material.dart';
 class DoctorListPage extends StatefulWidget {
   final String title;
 
-  DoctorListPage({required this.title});
+  const DoctorListPage({super.key, required this.title});
 
   @override
-  _DoctorListPageState createState() => _DoctorListPageState();
+  State<DoctorListPage> createState() => _DoctorListPageState();
 }
 
 class _DoctorListPageState extends State<DoctorListPage> {
-  final List<Map<String, String>> doctors = [
-    {
-      "name": "Dr. Dodi Maulana",
-      "specialty": "Umum",
-      "phone": "+62 123 4567890",
-      "image": "assets/images/dokter.png" // replace with actual image URL
-    },
-    {
-      "name": "Dr. Hendry Agus",
-      "specialty": "Bedah",
-      "phone": "+62 987 6543210",
-      "image": "assets/images/dokter.png" // replace with actual image URL
-    },
-    {
-      "name": "Dr. Yono Bakrie",
-      "specialty": "Bedah",
-      "phone": "+62 987 6543210",
-      "image": "assets/images/dokter.png" // replace with actual image URL
-    },
-    {
-      "name": "Dr. Abdullah Majid",
-      "specialty": "Bedah",
-      "phone": "+62 987 6543210",
-      "image": "assets/images/dokter.png" // replace with actual image URL
-    },
-    {
-      "name": "Dr. Ahmad Dzkrie",
-      "specialty": "Bedah",
-      "phone": "+62 987 6543210",
-      "image": "assets/images/dokter.png" // replace with actual image URL
-    },
-     {
-      "name": "Dr. Budie Goenadi",
-      "specialty": "Bedah",
-      "phone": "+62 987 6543210",
-      "image": "assets/images/dokter.png" // replace with actual image URL
-    },
-    // Tambahkan data dokter lainnya di sini
-  ];
 
-  List<Map<String, String>> filteredDoctors = [];
+  List<DoctorModel> doctors = [];
+
+  List<DoctorModel> filteredDoctors = [];
   TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    filteredDoctors = doctors;
+    fetchDoctors();
+  }
+
+  void fetchDoctors() async {
+    doctors = await DoctorModel.getAllDoctors();
+    setState(() {
+      filteredDoctors = doctors;
+    });
     searchController.addListener(() {
       filterDoctors();
     });
@@ -74,7 +45,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
     final query = searchController.text.toLowerCase();
     setState(() {
       filteredDoctors = doctors.where((doctor) {
-        final doctorName = doctor['name']!.toLowerCase();
+        final doctorName = doctor.nama!.toLowerCase();
         return doctorName.contains(query);
       }).toList();
     });
@@ -88,14 +59,14 @@ class _DoctorListPageState extends State<DoctorListPage> {
         centerTitle: true,
         title: Text(
           widget.title,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: CircleAvatar(
-            backgroundColor: Color(0xFFDE1A51),
+            backgroundColor: const Color(0xFFDE1A51),
             child: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -111,7 +82,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
               controller: searchController,
               decoration: InputDecoration(
                 hintText: 'Cari dokter...',
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
@@ -128,13 +99,13 @@ class _DoctorListPageState extends State<DoctorListPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DetailDoctor(),
+              builder: (context) => DetailDoctor(doctor: doctor),
             ),
           );
         },
         child: Container(
-          margin: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-          padding: EdgeInsets.all(5),
+          margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+          padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -143,7 +114,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                 color: Colors.grey.withOpacity(0.2),
                 spreadRadius: 1,
                 blurRadius: 1,
-                offset: Offset(0, 2),
+                offset: const Offset(0, 2),
               ),
             ],
           ),
@@ -153,11 +124,11 @@ class _DoctorListPageState extends State<DoctorListPage> {
               Expanded(
                 flex: 2,
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: AspectRatio(
                     aspectRatio: 8 / 7,
-                    child: Image.asset(
-                      doctor['image']!,
+                    child: Image.network(
+                      doctor.profileDoctor!,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -171,24 +142,24 @@ class _DoctorListPageState extends State<DoctorListPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        doctor['name']!,
-                        style: TextStyle(
+                        doctor.nama!,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 19,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
-                        doctor['specialty']!,
+                        doctor.spesialis!,
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontSize: 13,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
-                        doctor['phone']!,
+                        doctor.telepon!,
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontSize: 13,

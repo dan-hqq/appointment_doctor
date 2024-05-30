@@ -1,17 +1,40 @@
+import 'package:appointment_doctor/model/doctor_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'dart:io';
-import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailDoctor extends StatefulWidget {
-  const DetailDoctor({super.key});
+  
+  final DoctorModel doctor;
+  
+  const DetailDoctor({super.key, required this.doctor});
 
   @override
   State<DetailDoctor> createState() => _DetailDoctorState();
 }
 
 class _DetailDoctorState extends State<DetailDoctor> {
+  
+
+  String email = "";
+
+  @override
+  void initState() {
+    super.initState();
+    fetchEmailDoctor();
+  }
+
+  void fetchEmailDoctor() async {
+    
+    final snapshot = await FirebaseFirestore.instance.collection('users').doc(widget.doctor.id).get();
+
+    final data = snapshot.data();
+    setState(() {
+      email = data!["email"];
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,16 +79,16 @@ class _DetailDoctorState extends State<DetailDoctor> {
                       width: 4.0, // Ketebalan border
                     ),
                   ),
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage(
-                        'assets/images/doctor1.png'), // Gambar yang diupload pengguna
+                    backgroundImage: const AssetImage('assets/images/doctor1.png'), // Gambar yang diupload pengguna
+                    foregroundImage: widget.doctor.profileDoctor != null ? NetworkImage(widget.doctor.profileDoctor!) : null,
                   ),
                 ),
               ),
               const SizedBox(height: 20),
               Text(
-                'Dr. Dodi Maulana',
+                widget.doctor.nama ?? "",
                 style: GoogleFonts.poppins(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -113,7 +136,7 @@ class _DetailDoctorState extends State<DetailDoctor> {
                     ),
                   ),
                   subtitle: Text(
-                    'siloamhospitalby@gmail.com',
+                    email,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.normal,
                       fontSize: 14,
@@ -138,7 +161,7 @@ class _DetailDoctorState extends State<DetailDoctor> {
                     ),
                   ),
                   subtitle: Text(
-                    '+62 465838',
+                    widget.doctor.telepon ?? "",
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.normal,
                       fontSize: 14,

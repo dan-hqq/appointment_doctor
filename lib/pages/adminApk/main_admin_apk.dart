@@ -6,7 +6,7 @@ import 'package:appointment_doctor/pages/adminApk/profile_admin_apk.dart';
 import 'package:appointment_doctor/pages/adminApk/home_admin_apk.dart';
 
 class MyAppAdminApk extends StatefulWidget {
-  const MyAppAdminApk({Key? key}) : super(key: key);
+  const MyAppAdminApk({super.key});
 
   @override
   _MyAppAdminApkState createState() => _MyAppAdminApkState();
