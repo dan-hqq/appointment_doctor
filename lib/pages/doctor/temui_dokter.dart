@@ -29,7 +29,7 @@ class _TemuiDokterState extends State<TemuiDokter> {
           ),
         ),
         title: const Text(
-          'Terima Pasien',
+          ' Booking Dokter ',
           style: TextStyle(
               color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
         ),

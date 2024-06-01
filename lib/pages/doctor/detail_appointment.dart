@@ -11,6 +11,7 @@ class _DetailAppointmentState extends State<DetailAppointment> {
   String status = 'Menunggu Konfirmasi';
   Color statusColor = Colors.orange[300]!;
   Color textColor = Colors.white;
+  bool isAccepted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class _DetailAppointmentState extends State<DetailAppointment> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          'Detail Appointment',
+          'Detail Konsultasi',
           style: TextStyle(
               color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
         ),
@@ -94,16 +95,17 @@ class _DetailAppointmentState extends State<DetailAppointment> {
                       Container(
                         padding: const EdgeInsets.all(16.0),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          border: Border.all(color: Colors.grey.shade300, width: 1.0),
+                          // color: Colors.white,
                           borderRadius: BorderRadius.circular(8.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //     color: Colors.grey.withOpacity(0.5),
+                          //     spreadRadius: 2,
+                          //     blurRadius: 5,
+                          //     offset: const Offset(0, 3),
+                          //   ),
+                          // ],
                         ),
                         child: Row(
                           children: [
@@ -149,46 +151,63 @@ class _DetailAppointmentState extends State<DetailAppointment> {
               Row(
                 children: [
                   Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          status = 'Diterima';
-                          statusColor = const Color(0xFFA1DD70);
-                          textColor = const Color(0xFF0A6847);
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFA0F6A2),
-                        foregroundColor: Colors.greenAccent[700],
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      ),
-                      child: const Text('Terima Konsultasi'),
-                    ),
+                    child: isAccepted
+                        ? ElevatedButton(
+                            onPressed: () {
+                              // Logic for marking as completed
+                              setState(() {
+                                // Perform necessary actions for marking as completed
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xB5C0D0),
+                              foregroundColor: Colors.black,
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            ),
+                            child: const Text('Tandai Selesai'),
+                          )
+                        : ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                status = 'Diterima';
+                                statusColor = const Color(0xFFA1DD70);
+                                textColor = const Color(0xFF0A6847);
+                                isAccepted = true;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFA0F6A2),
+                              foregroundColor: Colors.greenAccent[700],
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            ),
+                            child: const Text('Terima Konsultasi'),
+                          ),
                   ),
                 ],
               ),
               const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          status = 'Ditolak';
-                          statusColor = const Color(0xFFFFC0CB);
-                          textColor = const Color(0xFFDE1A51);
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFC0CB),
-                        foregroundColor: const Color(0xFFDE1A51),
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+              if (!isAccepted)
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            status = 'Ditolak';
+                            statusColor = const Color(0xFFFFC0CB);
+                            textColor = const Color(0xFFDE1A51);
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFFC0CB),
+                          foregroundColor: const Color(0xFFDE1A51),
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        ),
+                        child: const Text('Tolak Konsultasi'),
                       ),
-                      child: const Text('Tolak Konsultasi'),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
             ],
           ),
         ),
