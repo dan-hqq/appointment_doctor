@@ -2,6 +2,9 @@ import 'package:appointment_doctor/model/doctor_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/backend/auth/auth.dart';
+import 'package:appointment_doctor/pages/doctor/jadwal_praktek.dart'; // Import halaman JadwalPraktek
+import 'dart:io';
+import 'package:get/get.dart';
 
 class ProfileDokter extends StatefulWidget {
   const ProfileDokter({super.key});
@@ -86,13 +89,18 @@ class _ProfileDokterState extends State<ProfileDokter> {
                 borderRadius: BorderRadius.circular(14.0),
                 border: Border.all(color: Colors.grey.shade300, width: 1.0),
               ),
-              child: const ListTile(
-                leading: Icon(Icons.calendar_today, color: Color(0xFFDE1A51)),
-                title: Text(
+              child: ListTile(
+                leading: const Icon(Icons.calendar_today, color: Color(0xFFDE1A51)),
+                title: const Text(
                   'Jadwal Praktek',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text('Hari Selasa - Kamis\nPagi: 08:00 - 13:00'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const JadwalPraktek()),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 10),
