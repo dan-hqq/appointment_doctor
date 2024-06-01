@@ -1,10 +1,12 @@
 import 'package:appointment_doctor/pages/adminApk/main_admin_apk.dart';
+import 'package:appointment_doctor/pages/doctor/biodata_doctor.dart';
 import 'package:appointment_doctor/pages/doctor/main_doctor.dart';
 import 'package:appointment_doctor/pages/hospital/main_hospital.dart';
 import 'package:appointment_doctor/pages/login_page.dart';
 import 'package:appointment_doctor/pages/patient/main_pasien.dart';
 import 'package:appointment_doctor/pages/verify_email_page.dart';
 import 'package:appointment_doctor/model/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -46,7 +48,23 @@ class Auth extends GetxController {
         }
         else if(userRole == 3){
           // Dokter
-          Get.offAll(() => const MyAppDoctor());
+          final snapshot = await FirebaseFirestore.instance
+            .collection("doctors")
+            .doc(user.uid)
+            .get();
+
+          if (snapshot.exists) {
+            var data = snapshot.data();
+            if (data!['status'] == 'valid') {
+              Get.offAll(() => const MyAppDoctor());
+            }
+            else{
+              Get.offAll(() => const BiodataDoctor());
+            }
+          }
+          else{
+            Auth.instance.logout();
+          } 
         }
         else{
           // Pasien

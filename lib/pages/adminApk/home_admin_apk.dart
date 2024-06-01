@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:appointment_doctor/pages/adminApk/list_daftar_rs.dart';
 import 'package:appointment_doctor/pages/adminApk/list_daftar_dokter.dart';
-import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeAdminApk extends StatefulWidget {
-  const HomeAdminApk({Key? key}) : super(key: key);
+  const HomeAdminApk({super.key});
 
   @override
-  _HomeAdminApkState createState() => _HomeAdminApkState();
+  State<HomeAdminApk> createState() => _HomeAdminApkState();
 }
 
 class _HomeAdminApkState extends State<HomeAdminApk> {
@@ -52,12 +51,12 @@ class _HomeAdminApkState extends State<HomeAdminApk> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(top: 50, left: 17, right: 15),
+        padding: const EdgeInsets.only(top: 50, left: 17, right: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               "Halo, John Doe!",
               style: TextStyle(
                 fontFamily: 'Poppins',
@@ -65,7 +64,7 @@ class _HomeAdminApkState extends State<HomeAdminApk> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             SizedBox(
               width: MediaQuery.of(context).size.width - 20,
               height: 210,
@@ -113,7 +112,7 @@ class _HomeAdminApkState extends State<HomeAdminApk> {
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   flex: 1,
                   child: Padding(
@@ -142,7 +141,7 @@ class _HomeAdminApkState extends State<HomeAdminApk> {
               padding: const EdgeInsets.only(left: 5.0, top: 10.0),
               child: Row(
                 children: [
-                  Text(
+                  const Text(
                     "Rumah Sakit Terkini",
                     style: TextStyle(
                       fontFamily: 'Poppins',
@@ -150,7 +149,7 @@ class _HomeAdminApkState extends State<HomeAdminApk> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: TextButton(
@@ -164,7 +163,7 @@ class _HomeAdminApkState extends State<HomeAdminApk> {
                           ),
                         );
                       },
-                      child: Row(
+                      child: const Row(
                         children: [
                           Text(
                             "Lihat Semua",

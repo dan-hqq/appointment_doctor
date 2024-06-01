@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'dart:io';
-import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailRS extends StatefulWidget {

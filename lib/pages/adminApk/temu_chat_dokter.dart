@@ -10,7 +10,7 @@ class RSUHospitalScreen extends StatefulWidget {
   final String address;
   final String phoneNumber;
 
-  RSUHospitalScreen({
+  const RSUHospitalScreen({super.key, 
     required this.imageUrl,
     required this.hospitalName,
     required this.address,
@@ -18,11 +18,12 @@ class RSUHospitalScreen extends StatefulWidget {
   });
 
   @override
-  _RSUHospitalScreenState createState() => _RSUHospitalScreenState();
+  State<RSUHospitalScreen> createState() => _RSUHospitalScreenState();
 }
 
 class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
-  TextEditingController _searchController = TextEditingController();
+  
+  final TextEditingController _searchController = TextEditingController();
   List<Doctor> _doctors = [];
   List<Doctor> _filteredDoctors = [];
   String _filterGroup = 'Dokter'; // State variable for radio buttons
@@ -293,12 +294,12 @@ Positioned(
       final doctor = _filteredDoctors[index];
       return GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailDoctor(),
-            ),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => DetailDoctor(),
+          //   ),
+          // );
         },
         child: Card(
           margin: EdgeInsets.symmetric(vertical: 10),

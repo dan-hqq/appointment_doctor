@@ -1,4 +1,3 @@
-import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/model/doctor_model.dart';
 import 'package:appointment_doctor/model/user_model.dart';
 import 'package:appointment_doctor/pages/adminApk/main_admin_apk.dart';
