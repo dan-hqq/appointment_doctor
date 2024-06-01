@@ -1,6 +1,6 @@
 import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:flutter/material.dart';
-import 'package:appointment_doctor/pages/temu_chat_dokter.dart';
+import 'package:appointment_doctor/pages/patient/temu_chat_dokter.dart';
 
 class HospitalListPage extends StatefulWidget {
   final String title;

@@ -26,36 +26,42 @@ class _ProfilPasien extends State<ProfilPasien> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70), // Tinggi AppBar
         child: AppBar(
-          scrolledUnderElevation: 0,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true, // Menengahkan judul appbar
-          title: Padding(
-            padding: EdgeInsets.only(top: 30), // Menambah jarak dari atas pada judul
-            child: Text(
-              "Profil",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20), // Ukuran teks judul
+  scrolledUnderElevation: 0,
+  backgroundColor: Colors.transparent,
+  elevation: 0,
+  centerTitle: true, // Menengahkan judul appbar
+  title: Padding(
+    padding: EdgeInsets.only(top: 30), // Menambah jarak dari atas pada judul
+    child: Text(
+      "Profil",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20, // Ukuran teks judul
+      ),
+    ),
+  ),
+  actions: [
+    Padding(
+      padding: EdgeInsets.only(right: 10, top: 30), // Menambah jarak dari kanan dan atas
+      child: TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditProfilPasien(title: 'Edit Profil'),
             ),
-          ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: 10, top: 30), // Menambah jarak dari kanan dan atas
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EditProfilPasien(title: 'Edit Profil')),
-                  );
-                },
-                child: Text(
-                  "Edit",
-                  style: TextStyle(color: Color(0xFFDE1A51)),
-                ),
-              ),
-            ),
-          ],
+          );
+        },
+        child: Text(
+          "Edit",
+          style: TextStyle(color: Color(0xFFDE1A51)),
         ),
+      ),
+    ),
+  ],
+),
+
       ),
       body: SingleChildScrollView(
         child: Column(

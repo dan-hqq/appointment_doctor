@@ -17,9 +17,8 @@ class _DetailAppointmentState extends State<DetailAppointment> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        centerTitle: true,
         title: const Text(
-          'Detail Konsultasi',
+          'Detail Appointment',
           style: TextStyle(
               color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
         ),
@@ -72,19 +71,19 @@ class _DetailAppointmentState extends State<DetailAppointment> {
                           const CircleAvatar(
                             radius: 30,
                             backgroundImage: AssetImage(
-                                'assets/images/doctor1.png'), // Update this path to your asset image
+                                'assets/images/profile.png'), // Update this path to your asset image
                           ),
                           const SizedBox(width: 16),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
                               Text(
-                                'Dr. Carla Sevara',
+                                'Jefri Rinantoro',
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                'Sp. Kulit dan Kelamin',
+                                'Pasien',
                                 style: TextStyle(color: Colors.grey),
                               ),
                             ],
@@ -117,7 +116,7 @@ class _DetailAppointmentState extends State<DetailAppointment> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: const [
                                 Text(
-                                  'Lokasi Praktek',
+                                  'Lokasi Rumah Sakit',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(height: 8),

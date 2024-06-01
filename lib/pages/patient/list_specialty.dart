@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Specialty {
   final String name;
@@ -94,7 +95,7 @@ class _ListSpecialtyState extends State<ListSpecialty> {
             child: CircleAvatar(
               backgroundColor: Color(0xFFDE1A51),
               child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
+                icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -232,8 +233,30 @@ class ListDaftarDokter extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dokter $specialty'),
-        backgroundColor: Color(0xFFDE1A51),
+        centerTitle: true,
+        title: Text(
+          'Dokter $specialty',
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Colors.black,
+          ),
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            backgroundColor: const Color(0xFFDE1A51),
+            child: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ),
       ),
       body: ListView.builder(
         itemCount: doctors.length,
@@ -258,7 +281,7 @@ class ListDaftarDokter extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Text('Chat Dokter'),
+                    child: Text('Janji Temu'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
                       backgroundColor: Color(0xFFDE1A51),
@@ -323,8 +346,31 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat with ${doctor.name}'),
-        backgroundColor: Color(0xFFDE1A51),
+        centerTitle: true,
+        title: Text(
+          'Chat with ${doctor.name}',
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Colors.black,
+          ),
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            backgroundColor: const Color(0xFFDE1A51),
+            child: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ),
+        backgroundColor: Colors.white,
       ),
       body: Center(
         child: Text('Chat feature for ${doctor.name}'),

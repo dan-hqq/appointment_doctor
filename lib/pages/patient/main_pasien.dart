@@ -1,3 +1,4 @@
+import 'package:appointment_doctor/pages/doctor/riwayat_appointment.dart';
 import 'package:appointment_doctor/pages/patient/home_pasien.dart';
 import 'package:appointment_doctor/pages/patient/profil_pasien.dart';
 import 'package:appointment_doctor/pages/patient/riwayat_konsultasi.dart';
@@ -16,7 +17,7 @@ class _MyAppPasienState extends State<MyAppPasien> {
 
   static final List<Widget> _screens = [
       HomePasien(),
-      RiwayatKonsultasi(),
+      RiwayatAppointment(),
      ProfilPasien(),
   ];
 
