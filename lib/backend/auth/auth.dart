@@ -1,7 +1,12 @@
+import 'package:appointment_doctor/pages/adminApk/main_admin_apk.dart';
+import 'package:appointment_doctor/pages/doctor/main_doctor.dart';
+import 'package:appointment_doctor/pages/hospital/main_hospital.dart';
 import 'package:appointment_doctor/pages/login_page.dart';
-import 'package:appointment_doctor/pages/onboard/onboard.dart';
+import 'package:appointment_doctor/pages/patient/main_pasien.dart';
 import 'package:appointment_doctor/pages/verify_email_page.dart';
-import 'package:appointment_doctor/main.dart';
+// import 'package:appointment_doctor/main.dart';
+import 'package:appointment_doctor/pages/onboard/onboard.dart';
+import 'package:appointment_doctor/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -12,11 +17,10 @@ class Auth extends GetxController {
 
   /// Variables
   final deviceStorage = GetStorage();
-  final firebaseAuth = FirebaseAuth.instance;
   // final isLoading = false.obs;
 
   /// Get Authenticated User Data
-  User? get authUser => firebaseAuth.currentUser;
+  User? get authUser => FirebaseAuth.instance.currentUser;
 
   /// Called fron main.dart on app launch
   @override
@@ -26,11 +30,26 @@ class Auth extends GetxController {
   }
 
   screenRedirect() async {
-    final user = firebaseAuth.currentUser;
+    final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
       if (user.emailVerified) {
-        Get.offAll(() => const MainApp());
+        final userLogin = await UserModel.getUserDetails();
+        final userRole = userLogin.role;
+
+        if (userRole == 1) {
+          // Admin Aplikasi
+          Get.offAll(() => const MyAppAdminApk());
+        } else if (userRole == 2) {
+          // Admin Rumah Sakit
+          Get.offAll(() => const MyAppHospital());
+        } else if (userRole == 3) {
+          // Dokter
+          Get.offAll(() => const MyAppDoctor());
+        } else {
+          // Pasien
+          Get.offAll(() => const MyAppPasien());
+        }
       } else {
         Get.offAll(
           () => const VerifyEmailPage(),
@@ -39,6 +58,7 @@ class Auth extends GetxController {
     } else {
       // Local storage
       deviceStorage.writeIfNull('isFirstTime', true);
+
       // check if it's the firs time launching the app
       deviceStorage.read('isFirstTime') != true
           ? Get.offAll(() => const LoginPage())
@@ -50,8 +70,8 @@ class Auth extends GetxController {
   Future<UserCredential> loginWithEmailAndPassword(
       String email, String password) async {
     try {
-      return await firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+      return await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       throw e.code;
     } on FirebaseException catch (e) {
@@ -66,8 +86,8 @@ class Auth extends GetxController {
   Future<UserCredential> registerWithEmailAndPassword(
       String email, String password) async {
     try {
-      return await firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      return await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       throw e.code;
     } on FirebaseException catch (e) {
@@ -81,7 +101,7 @@ class Auth extends GetxController {
 
   Future<void> sendEmailVerification() async {
     try {
-      await firebaseAuth.currentUser?.sendEmailVerification();
+      await FirebaseAuth.instance.currentUser?.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       throw e.code;
     } on FirebaseException catch (e) {

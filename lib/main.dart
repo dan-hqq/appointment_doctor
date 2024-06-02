@@ -53,27 +53,34 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: isOnboardingComplete ? const LoginPage() : const MainApp(),
-      home: const MainApp(),
+      home: const Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Colors.black,
+          ),
+        ),
+      ),
     );
   }
 }
 
-class MainApp extends StatefulWidget {
-  const MainApp({super.key});
+// class MainApp extends StatefulWidget {
+//   const MainApp({super.key});
 
-  @override
-  State<MainApp> createState() => _MainAppState();
-}
+//   @override
+//   State<MainApp> createState() => _MainAppState();
+// }
 
-class _MainAppState extends State<MainApp> {
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: DetailRS(),
-    );
-  }
-}
+// class _MainAppState extends State<MainApp> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: MainApp(),
+//     );
+//   }
+// }
 
 
         // appBar: AppBar(

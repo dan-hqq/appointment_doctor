@@ -22,6 +22,9 @@ dependencies:
   shared_preferences: ^2.2.3
   flutter_native_splash: ^2.4.0
   smooth_page_indicator: ^1.1.0
+  http: ^1.2.1
+  geoflutterfire2: ^2.3.15
+  flutter_inner_drawer: ^1.0.0+1
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +51,13 @@ flutter_launcher_icons:
     image_path: "assets/images/hospify-logo.png"
 
 flutter:
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
   uses-material-design: true
 
   assets:

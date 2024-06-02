@@ -1,39 +1,47 @@
-// import 'package:appointment_doctor/widgets/navigator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:appointment_doctor/pages/adminApk/list_daftar_rs.dart';
+import 'package:appointment_doctor/pages/adminApk/list_daftar_dokter.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeAdminApk extends StatelessWidget {
-  const HomeAdminApk({Key? key});
+  const HomeAdminApk({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.only(
-            top: 50, left: 15, right: 15), // Atur padding sesuai kebutuhan
+        padding: EdgeInsets.only(
+            top: 50, left: 17, right: 15), // Atur padding sesuai kebutuhan
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               "Halo, John Doe!",
-              style: GoogleFonts.poppins(
+              style: TextStyle(
+                fontFamily: 'Poppins',
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
               ),
             ),
-            const SizedBox(
-                height: 10), // Atur jarak antara teks dengan bagian selanjutnya
+            SizedBox(
+                height: 5), // Atur jarak antara teks dengan bagian selanjutnya
             SizedBox(
               width: MediaQuery.of(context).size.width -
-                  20, // Mengatur lebar sesuai dengan lebar layar dikurangi 30
+                  20, // Mengatur lebar sesuai dengan lebar layar dikurangi 20
               height: 210,
               child: Padding(
                 padding: const EdgeInsets.only(
                     right: 4.0), // Atur jarak gambar dari kanan
-                child: Image.asset(
-                  'assets/images/gambar.png',
-                  fit: BoxFit.cover,
+                child: FittedBox(
+                  fit: BoxFit
+                      .contain, // Menggunakan FittedBox untuk menyesuaikan gambar
+                  child: Image.asset(
+                    'assets/images/gambar.png',
+                  ),
                 ),
               ),
             ),
@@ -44,7 +52,6 @@ class HomeAdminApk extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
                 ),
               ),
             ),
@@ -55,9 +62,21 @@ class HomeAdminApk extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 5.0), // Atur padding kiri pada gambar menu 1
-                    child: Image.asset(
-                      'assets/images/menu1.png',
-                      fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DoctorListPage(
+                              title: 'Daftar Dokter',
+                            ),
+                          ),
+                        );
+                      },
+                      child: Image.asset(
+                        'assets/images/menu1.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -67,43 +86,65 @@ class HomeAdminApk extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(
                         right: 5.0), // Atur padding kanan pada gambar menu 2
-                    child: Image.asset(
-                      'assets/images/menu2.png',
-                      fit: BoxFit.cover,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HospitalListPage(
+                              title: 'Daftar Rumah Sakit',
+                            ),
+                          ),
+                        );
+                      },
+                      child: Image.asset(
+                        'assets/images/menu2.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 5.0, top: 10.0, bottom: 5.0),
+              padding: const EdgeInsets.only(left: 5.0, top: 10.0),
               child: Row(
                 children: [
                   Text(
                     "Rumah Sakit Terkini",
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
                     ),
                   ),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: () {
-                      // Action ketika tombol "Lihat Semua" ditekan
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          "Lihat Semua",
-                          style: GoogleFonts.poppins(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey[500],
+                  Spacer(),
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HospitalListPage(
+                              title: 'Pilih Rumah Sakit',
+                            ),
                           ),
-                        ),
-                        const Icon(Icons.chevron_right),
-                      ],
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            "Lihat Semua",
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 12,
+                              color: Colors.blue,
+                            ),
+                          ),
+                          Icon(Icons.chevron_right),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -111,11 +152,12 @@ class HomeAdminApk extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
+                physics: BouncingScrollPhysics(),
                 itemCount: 5,
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: const EdgeInsets.symmetric(vertical: 6),
-                    padding: const EdgeInsets.only(
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.only(
                         left: 5,
                         right: 5), // Atur padding kiri dan kanan pada container
                     decoration: BoxDecoration(
@@ -126,7 +168,7 @@ class HomeAdminApk extends StatelessWidget {
                           color: Colors.grey.withOpacity(0.2),
                           spreadRadius: 1,
                           blurRadius: 1,
-                          offset: const Offset(0, 2),
+                          offset: Offset(0, 2),
                         ),
                       ],
                     ),
@@ -136,7 +178,7 @@ class HomeAdminApk extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Container(
-                            padding: const EdgeInsets.all(8),
+                            padding: EdgeInsets.all(8),
                             child: AspectRatio(
                               aspectRatio: 8 / 7,
                               child: Image.asset(
@@ -155,28 +197,29 @@ class HomeAdminApk extends StatelessWidget {
                               children: [
                                 Text(
                                   'RSU. Aslam Surabaya',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
                                     color: Colors.black,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4),
                                 Text(
                                   'Jl. Raya Gubeng No.70 Surabaya',
-                                  style: GoogleFonts.poppins(
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.grey[700],
                                     fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey[800],
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4),
                                 Text(
                                   '+62 897 09282',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey[800],
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: Colors.grey[700],
+                                    fontSize: 13,
                                   ),
                                 ),
                               ],

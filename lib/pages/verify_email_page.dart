@@ -5,7 +5,7 @@ import 'package:appointment_doctor/pages/success_verify_email_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:get/get.dart';
+import 'package:get/get.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({super.key});

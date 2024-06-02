@@ -1,5 +1,10 @@
+import 'package:appointment_doctor/pages/adminApk/add_admin_rs.dart';
+import 'package:appointment_doctor/pages/hospital/daftarspesialis.dart';
 import 'package:appointment_doctor/pages/adminApk/home_admin_apk.dart';
-import 'package:appointment_doctor/pages/adminApk/add_hospital_page.dart';
+import 'package:appointment_doctor/pages/hospital/home_admin_rs.dart';
+import 'package:appointment_doctor/pages/doctor/home_dokter.dart';
+import 'package:appointment_doctor/pages/patient/home_pasien.dart';
+import 'package:appointment_doctor/pages/patient/profil_pasien.dart';
 import 'package:appointment_doctor/pages/hospital/profile_admin_rs.dart';
 import 'package:flutter/material.dart';
 
@@ -28,9 +33,9 @@ class _NavigationState extends State<Navigation> {
   int currentPageIndex = 0;
 
   final List<Widget> _pages = [
-    const HomeAdminApk(), // Halaman Beranda
-    const AddAdminRS(), // Halaman Tambah Admin
-    const ProfilAdminRS(), // Halaman Profile
+    HomeAdminApk(),
+    AddAdminRS(),
+    DaftarSpesialis(),
   ];
 
   void _onItemTapped(int index) {
@@ -42,14 +47,17 @@ class _NavigationState extends State<Navigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFDE1A51),
+      backgroundColor: Color(0xFFDE1A51),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xFFDE1A51),
+        backgroundColor: Color(0xFFDE1A51),
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white,
         currentIndex: currentPageIndex,
         onTap: _onItemTapped,
-        items: const <BottomNavigationBarItem>[
+        selectedIconTheme: IconThemeData(color: Colors.white, size: 30.0),
+        unselectedIconTheme:
+            IconThemeData(color: Colors.white.withOpacity(0.5), size: 24.0),
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home),
