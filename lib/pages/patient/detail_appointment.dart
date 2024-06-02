@@ -11,16 +11,14 @@ class _DetailAppointmentState extends State<DetailAppointment> {
   String status = 'Menunggu Konfirmasi';
   Color statusColor = Colors.orange[300]!;
   Color textColor = Colors.white;
-  bool isAccepted = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        centerTitle: true,
         title: const Text(
-          'Detail Konsultasi',
+          'Detail Appointment',
           style: TextStyle(
               color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
         ),
@@ -73,19 +71,19 @@ class _DetailAppointmentState extends State<DetailAppointment> {
                           const CircleAvatar(
                             radius: 30,
                             backgroundImage: AssetImage(
-                                'assets/images/doctor1.png'), // Update this path to your asset image
+                                'assets/images/profile.png'), // Update this path to your asset image
                           ),
                           const SizedBox(width: 16),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
                               Text(
-                                'Dr. Carla Sevara',
+                                'Jefri Rinantoro',
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                'Sp. Kulit dan Kelamin',
+                                'Pasien',
                                 style: TextStyle(color: Colors.grey),
                               ),
                             ],
@@ -96,17 +94,16 @@ class _DetailAppointmentState extends State<DetailAppointment> {
                       Container(
                         padding: const EdgeInsets.all(16.0),
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey.shade300, width: 1.0),
-                          // color: Colors.white,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(8.0),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Colors.grey.withOpacity(0.5),
-                          //     spreadRadius: 2,
-                          //     blurRadius: 5,
-                          //     offset: const Offset(0, 3),
-                          //   ),
-                          // ],
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
                         ),
                         child: Row(
                           children: [
@@ -119,7 +116,7 @@ class _DetailAppointmentState extends State<DetailAppointment> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: const [
                                 Text(
-                                  'Lokasi Praktek',
+                                  'Lokasi Rumah Sakit',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(height: 8),
@@ -152,63 +149,46 @@ class _DetailAppointmentState extends State<DetailAppointment> {
               Row(
                 children: [
                   Expanded(
-                    child: isAccepted
-                        ? ElevatedButton(
-                            onPressed: () {
-                              // Logic for marking as completed
-                              setState(() {
-                                // Perform necessary actions for marking as completed
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xB5C0D0),
-                              foregroundColor: Colors.black,
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            ),
-                            child: const Text('Tandai Selesai'),
-                          )
-                        : ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                status = 'Diterima';
-                                statusColor = const Color(0xFFA1DD70);
-                                textColor = const Color(0xFF0A6847);
-                                isAccepted = true;
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFA0F6A2),
-                              foregroundColor: Colors.greenAccent[700],
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            ),
-                            child: const Text('Terima Konsultasi'),
-                          ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          status = 'Diterima';
+                          statusColor = const Color(0xFFA1DD70);
+                          textColor = const Color(0xFF0A6847);
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFA0F6A2),
+                        foregroundColor: Colors.greenAccent[700],
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      ),
+                      child: const Text('Terima Konsultasi'),
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 8),
-              if (!isAccepted)
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            status = 'Ditolak';
-                            statusColor = const Color(0xFFFFC0CB);
-                            textColor = const Color(0xFFDE1A51);
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFFC0CB),
-                          foregroundColor: const Color(0xFFDE1A51),
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        ),
-                        child: const Text('Tolak Konsultasi'),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          status = 'Ditolak';
+                          statusColor = const Color(0xFFFFC0CB);
+                          textColor = const Color(0xFFDE1A51);
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFFFC0CB),
+                        foregroundColor: const Color(0xFFDE1A51),
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
                       ),
+                      child: const Text('Tolak Konsultasi'),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

@@ -68,19 +68,41 @@ class AppointmentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    // Daftar janji temu
+    final List<Map<String, String>> appointments = [
+      {
+        'name': 'Jefri Rinantoro',
+        'role': 'Pasien',
+        'date': 'Selasa, 17 Juni 2024',
+        'time': '17:00 PM'
+      },
+      // Tambahkan janji temu lainnya jika ada
+    ];
+
+    // Tampilkan teks jika tidak ada janji temu
+    if (appointments.isEmpty) {
+      return Center(
+        child: Text(
+          'Belum ada janji temu.',
+          style: TextStyle(fontSize: 18, color: Colors.grey),
+        ),
+      );
+    }
+
+    return ListView.builder(
       padding: const EdgeInsets.all(16.0),
-      children: [
-        AppointmentCard(
-          name: 'Jefri Rinantoro',
-          role: 'Pasien',
-          date: 'Selasa, 17 Juni 2024',
-          time: '17:00 PM',
+      itemCount: appointments.length,
+      itemBuilder: (context, index) {
+        final appointment = appointments[index];
+        return AppointmentCard(
+          name: appointment['name']!,
+          role: appointment['role']!,
+          date: appointment['date']!,
+          time: appointment['time']!,
           status: status,
           statusColor: color,
-        ),
-        // Tambahkan AppointmentCard lainnya sesuai kebutuhan
-      ],
+        );
+      },
     );
   }
 }

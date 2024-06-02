@@ -1,6 +1,5 @@
 import 'package:appointment_doctor/pages/adminApk/detail_dokter.dart';
 import 'package:appointment_doctor/pages/adminApk/detail_rs.dart';
-import 'package:appointment_doctor/pages/patient/janji_temu_dokter.dart';
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/list_specialty.dart';
 import 'package:appointment_doctor/pages/filter_dokter.dart';
@@ -334,34 +333,6 @@ Positioned(
                           color: Colors.grey[600],
                         ),
                       ),
-                      SizedBox(height: 10),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFDE1A51), // Background color for border
-                                  border: Border.all(
-                                    color: Color(0xFFDE1A51),
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => JanjiTemuDokter(title: 'Temui Dokter',),
-              ),
-            );// Handle chat doctor action
-                                  },
-                                  child: Text('Janji Temu'),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xFFDE1A51),
-                                    foregroundColor: Colors.white,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 12),
-                                    elevation: 0, // Remove elevation to make it flat
-                                  ),
-                                ),
-                              ),
                     ],
                   ),
                 ),

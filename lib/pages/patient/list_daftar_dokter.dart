@@ -1,5 +1,6 @@
 import 'package:appointment_doctor/model/doctor_model.dart';
 import 'package:appointment_doctor/pages/adminApk/detail_dokter.dart';
+import 'package:appointment_doctor/pages/patient/janji_temu_dokter.dart';
 import 'package:flutter/material.dart';
 
 
@@ -135,40 +136,54 @@ class _DoctorListPageState extends State<DoctorListPage> {
                 ),
               ),
               Expanded(
-                flex: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        doctor.nama!,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        doctor.spesialis!,
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 13,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        doctor.telepon!,
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+  flex: 3,
+  child: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          doctor.nama!,
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 19,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          doctor.spesialis!,
+          style: TextStyle(
+            color: Colors.grey[700],
+            fontSize: 13,
+          ),
+        ),
+        const SizedBox(height: 4),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => JanjiTemuDokter(title: 'Temui Dokter',),
               ),
+            );// Tambahkan logika untuk tombol janji temu di sini
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFDE1A51), // Warna tombol
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8), // Ubah sesuai kebutuhan
+            ),
+          ),
+          child: Text(
+            'Janji Temu',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
             ],
           ),
         ),

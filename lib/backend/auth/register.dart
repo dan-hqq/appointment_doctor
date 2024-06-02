@@ -1,6 +1,6 @@
 import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/pages/verify_email_page.dart';
-import 'package:appointment_doctor/models/user_model.dart';
+import 'package:appointment_doctor/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';

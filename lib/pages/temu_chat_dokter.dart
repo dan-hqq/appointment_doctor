@@ -276,29 +276,7 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
                               ),
                               SizedBox(height: 4),
                               Text(doctor.specialty),
-                              SizedBox(height: 10),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFDE1A51), // Background color for border
-                                  border: Border.all(
-                                    color: Color(0xFFDE1A51),
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // Handle chat doctor action
-                                  },
-                                  child: Text('Chat Dokter'),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xFFDE1A51),
-                                    foregroundColor: Colors.white,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 12),
-                                    elevation: 0, // Remove elevation to make it flat
-                                  ),
-                                ),
-                              ),
+                             
                             ],
                           ),
                         ),

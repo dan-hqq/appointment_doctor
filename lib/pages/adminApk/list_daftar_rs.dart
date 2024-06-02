@@ -1,4 +1,4 @@
-import 'package:appointment_doctor/models/hospital_model.dart';
+import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/temu_chat_dokter.dart';
 

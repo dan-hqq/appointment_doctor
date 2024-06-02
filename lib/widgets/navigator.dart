@@ -1,4 +1,4 @@
-import 'package:appointment_doctor/pages/adminApk/add_admin_rs.dart';
+import 'package:appointment_doctor/pages/adminApk/add_rs.dart';
 import 'package:appointment_doctor/pages/hospital/daftarspesialis.dart';
 import 'package:appointment_doctor/pages/adminApk/home_admin_apk.dart';
 import 'package:appointment_doctor/pages/hospital/home_admin_rs.dart';
@@ -34,7 +34,7 @@ class _NavigationState extends State<Navigation> {
 
   final List<Widget> _pages = [
     HomeAdminApk(),
-    AddAdminRS(),
+    HomeAdminApk(),
     DaftarSpesialis(),
   ];
 

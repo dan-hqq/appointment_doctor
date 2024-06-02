@@ -1,44 +1,77 @@
-import 'package:flutter/cupertino.dart';
+import 'package:appointment_doctor/pages/adminApk/temu_chat_dokter.dart';
 import 'package:flutter/material.dart';
+import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:appointment_doctor/pages/adminApk/list_daftar_rs.dart';
 import 'package:appointment_doctor/pages/adminApk/list_daftar_dokter.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomeAdminApk extends StatelessWidget {
+class HomeAdminApk extends StatefulWidget {
   const HomeAdminApk({super.key});
+
+  @override
+  State<HomeAdminApk> createState() => _HomeAdminApkState();
+}
+
+class _HomeAdminApkState extends State<HomeAdminApk> {
+  List<HospitalModel> hospitals = [];
+  List<HospitalModel> filteredHospitals = [];
+  TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHospitals();
+    searchController.addListener(filterHospitals);
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void fetchHospitals() async {
+    hospitals = await HospitalModel.getAllHospital();
+    setState(() {
+      filteredHospitals = hospitals;
+    });
+  }
+
+  void filterHospitals() {
+    final query = searchController.text.toLowerCase();
+    setState(() {
+      filteredHospitals = hospitals.where((hospital) {
+        final hospitalName = hospital.namaRS!.toLowerCase();
+        return hospitalName.contains(query);
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(
-            top: 50, left: 17, right: 15), // Atur padding sesuai kebutuhan
+        padding: const EdgeInsets.only(top: 50, left: 17, right: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               "Halo, John Doe!",
               style: TextStyle(
                 fontFamily: 'Poppins',
-                fontSize: 18,
+                fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 5),
             SizedBox(
-                height: 5), // Atur jarak antara teks dengan bagian selanjutnya
-            SizedBox(
-              width: MediaQuery.of(context).size.width -
-                  20, // Mengatur lebar sesuai dengan lebar layar dikurangi 20
+              width: MediaQuery.of(context).size.width - 20,
               height: 210,
               child: Padding(
-                padding: const EdgeInsets.only(
-                    right: 4.0), // Atur jarak gambar dari kanan
+                padding: const EdgeInsets.only(right: 4.0),
                 child: FittedBox(
-                  fit: BoxFit
-                      .contain, // Menggunakan FittedBox untuk menyesuaikan gambar
+                  fit: BoxFit.contain,
                   child: Image.asset(
                     'assets/images/gambar.png',
                   ),
@@ -50,7 +83,7 @@ class HomeAdminApk extends StatelessWidget {
               child: Text(
                 "Menu",
                 style: GoogleFonts.poppins(
-                  fontSize: 18,
+                  fontSize: 23,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -58,10 +91,9 @@ class HomeAdminApk extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  flex: 1, // Set flex untuk gambar menu 1
+                  flex: 1,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 5.0), // Atur padding kiri pada gambar menu 1
+                    padding: const EdgeInsets.only(left: 5.0),
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -80,12 +112,11 @@ class HomeAdminApk extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 10), // Tambahkan jarak antara gambar menu
+                const SizedBox(width: 10),
                 Expanded(
-                  flex: 1, // Set flex untuk gambar menu 2
+                  flex: 1,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        right: 5.0), // Atur padding kanan pada gambar menu 2
+                    padding: const EdgeInsets.only(right: 5.0),
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -110,15 +141,15 @@ class HomeAdminApk extends StatelessWidget {
               padding: const EdgeInsets.only(left: 5.0, top: 10.0),
               child: Row(
                 children: [
-                  Text(
+                  const Text(
                     "Rumah Sakit Terkini",
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: TextButton(
@@ -132,13 +163,13 @@ class HomeAdminApk extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Row(
+                      child: const Row(
                         children: [
                           Text(
                             "Lihat Semua",
                             style: TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: 12,
+                              fontSize: 14,
                               color: Colors.blue,
                             ),
                           ),
@@ -152,81 +183,92 @@ class HomeAdminApk extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: 5,
+                itemCount: filteredHospitals.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    padding: EdgeInsets.only(
-                        left: 5,
-                        right: 5), // Atur padding kiri dan kanan pada container
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: Offset(0, 2),
+                  final hospital = filteredHospitals[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RSUHospitalScreen(
+                            imageUrl: hospital.imageUrl!,
+                            hospitalName: hospital.namaRS!,
+                            address: hospital.alamat!,
+                            phoneNumber: hospital.telepon!,
+                          ),
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            child: AspectRatio(
-                              aspectRatio: 8 / 7,
-                              child: Image.asset(
-                                'assets/images/rs.png',
-                                fit: BoxFit.cover,
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 6, horizontal: 10),
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 1,
+                            blurRadius: 1,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              child: AspectRatio(
+                                aspectRatio: 8 / 7,
+                                child: Image.network(
+                                  hospital.imageUrl!,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'RSU. Aslam Surabaya',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.black,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
+                          Expanded(
+                            flex: 3,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    hospital.namaRS!,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  'Jl. Raya Gubeng No.70 Surabaya',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.grey[700],
-                                    fontSize: 12,
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    hospital.alamat!,
+                                    style: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontSize: 13,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 4),
-                                Text(
-                                  '+62 897 09282',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.grey[700],
-                                    fontSize: 13,
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    hospital.telepon!,
+                                    style: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontSize: 13,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },

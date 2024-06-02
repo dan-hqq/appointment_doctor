@@ -3,13 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 
+final geo = GeoFlutterFire();
+
 class HospitalModel {
   final String? id;
   final String? namaRS;
   final String? telepon;
   final String? alamat;
-  // final String? latitude;
-  // final String? longitude;
   final GeoFirePoint? position;
   final String? imageUrl;
   final DateTime? dateAdded;
@@ -19,8 +19,6 @@ class HospitalModel {
     this.namaRS,
     this.telepon,
     this.alamat,
-    // this.latitude,
-    // this.longitude,
     this.position,
     this.imageUrl,
     this.dateAdded
@@ -31,9 +29,7 @@ class HospitalModel {
     namaRS: '',
     telepon: '',
     alamat: '',
-    // latitude: '',
-    // longitude: '',
-    position: GeoFlutterFire().point(latitude: 0, longitude: 0),
+    position: geo.point(latitude: 0, longitude: 0),
     imageUrl: '',
     dateAdded: DateTime.now()
   );
@@ -43,8 +39,6 @@ class HospitalModel {
       'namaRS': namaRS,
       'telepon': telepon,
       'alamat': alamat,
-      // 'latitude': latitude,
-      // 'longitude': longitude,
       'position': position?.data,
       'imageUrl': imageUrl,
       'dateAdded': DateTime.now()
@@ -58,8 +52,6 @@ class HospitalModel {
       namaRS: data['namaRS'],
       telepon: data['telepon'],
       alamat: data['alamat'],
-      // latitude: data['latitude'],
-      // longitude: data['longitude'],
       position: GeoFirePoint(data['position']['geopoint'].latitude, data['position']['geopoint'].longitude),
       imageUrl: data['imageUrl'],
       dateAdded: (data['dateAdded'] as Timestamp).toDate()
@@ -127,5 +119,24 @@ class HospitalModel {
     }
 
     return hospitals;
+  }
+
+  static Future<List<HospitalModel>> getNearestHospitals(double latitude, double longitude) async {
+    try {
+      GeoFirePoint center = geo.point(latitude: latitude, longitude: longitude);
+
+      final stream = geo.collection(collectionRef: FirebaseFirestore.instance.collection('hospitals')).within(center: center, radius: 10, field: 'position');
+
+      List<HospitalModel> hospitals = [];
+
+      stream.listen((List<DocumentSnapshot> querySnapshot) {
+        hospitals = querySnapshot.map((doc) => HospitalModel.fromSnapshot(doc)).toList();
+      });
+      return hospitals;
+    } 
+    catch (e) {
+      print('Error retrieving hospital data: $e');
+      return [];
+    }
   }
 }

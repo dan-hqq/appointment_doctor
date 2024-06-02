@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:get/get.dart';
 
 class ProfilPasien extends StatefulWidget {
   const ProfilPasien({super.key});
@@ -15,7 +16,7 @@ class ProfilPasien extends StatefulWidget {
 
 class _ProfilPasien extends State<ProfilPasien> {
   String _imagePath = '';
-  // final Auth _auth = Get.put(Auth());
+  final Auth _auth = Get.put(Auth()); // Ensure Auth is correctly injected
 
   void _onChangeImagePath(String path) {
     setState(() {
@@ -33,31 +34,33 @@ class _ProfilPasien extends State<ProfilPasien> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: true, // Menengahkan judul appbar
-          title: const Padding(
+          title: Padding(
             padding:
                 EdgeInsets.only(top: 30), // Menambah jarak dari atas pada judul
             child: Text(
               "Profil",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20), // Ukuran teks judul
+                fontWeight: FontWeight.bold,
+                fontSize: 20, // Ukuran teks judul
+              ),
             ),
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(
+              padding: EdgeInsets.only(
                   right: 10, top: 30), // Menambah jarak dari kanan dan atas
               child: TextButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            const EditProfilPasien(title: 'Edit Profil')),
+                      builder: (context) =>
+                          EditProfilPasien(title: 'Edit Profil'),
+                    ),
                   );
                 },
-                child: const Text(
+                child: Text(
                   "Edit",
                   style: TextStyle(color: Color(0xFFDE1A51)),
                 ),
@@ -189,8 +192,8 @@ class _ProfilPasien extends State<ProfilPasien> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
-                    onTap: () async {
-                      await Auth.instance.logout();
+                    onTap: () {
+                      _auth.logout(); // Call logout method using the instance
                     },
                     child: Container(
                       decoration: BoxDecoration(
