@@ -5,14 +5,16 @@ import 'package:appointment_doctor/pages/patient/location_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class ProfilPasien extends StatefulWidget {
+  const ProfilPasien({super.key});
+
   @override
-  _ProfilPasien createState() => _ProfilPasien();
+  State<ProfilPasien> createState() => _ProfilPasien();
 }
 
 class _ProfilPasien extends State<ProfilPasien> {
@@ -92,7 +94,7 @@ class _ProfilPasien extends State<ProfilPasien> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             GestureDetector(
               onTap: () async {
                 final picker = ImagePicker();
@@ -108,7 +110,7 @@ class _ProfilPasien extends State<ProfilPasien> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: Color(0xFFDE1A51),
+                    color: const Color(0xFFDE1A51),
                     width: 3,
                   ),
                 ),
@@ -129,24 +131,23 @@ class _ProfilPasien extends State<ProfilPasien> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               user.fullName ?? "Loading",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               "ID : ${FirebaseAuth.instance.currentUser!.uid}",
               style: TextStyle(
                 fontSize: 16,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -160,7 +161,7 @@ class _ProfilPasien extends State<ProfilPasien> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: ListTile(
+                child: const ListTile(
                   leading: Icon(
                     Icons.location_on,
                     color: Color(0xFFDE1A51),
@@ -181,14 +182,14 @@ class _ProfilPasien extends State<ProfilPasien> {
               children: [
                 SizedBox(height: 5),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
                     onTap: () {
                       _auth.logout();
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Color(0xFFDE1A51),
+                        color: const Color(0xFFDE1A51),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Card(
@@ -197,7 +198,7 @@ class _ProfilPasien extends State<ProfilPasien> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: ListTile(
+                        child: const ListTile(
                           title: Center(
                             child: Text(
                               "Logout",
@@ -212,7 +213,7 @@ class _ProfilPasien extends State<ProfilPasien> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
               ],
             ),
           ],

@@ -4,6 +4,7 @@ import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/pages/success_verify_email_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 
 class VerifyEmailPage extends StatefulWidget {
@@ -14,7 +15,6 @@ class VerifyEmailPage extends StatefulWidget {
 }
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
-
   bool isEmailVerified = false;
   Timer? timer;
 
@@ -22,7 +22,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   void initState() {
     super.initState();
     Auth.instance.sendEmailVerification();
-    timer = Timer.periodic(const Duration(seconds: 1), (_) => checkEmailVerified(context));
+    timer = Timer.periodic(
+        const Duration(seconds: 1), (_) => checkEmailVerified(context));
   }
 
   Future<void> checkEmailVerified(BuildContext context) async {
@@ -35,7 +36,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     if (isEmailVerified) {
       // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email Successfully Verified")));
       timer?.cancel();
-      Get.offAll(() => const SuccessVerifyEmailPage());
+      if (!context.mounted) return;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const SuccessVerifyEmailPage()));
     }
   }
 
@@ -54,18 +59,18 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/hospify.png', 
+              'assets/images/hospify-removebg.png',
               width: 150,
               height: 150,
             ),
             const SizedBox(
               height: 80.0,
             ),
-            const Text(
+            Text(
               'Verifikasi email Anda!',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
             Text(FirebaseAuth.instance.currentUser!.email ?? ''),
@@ -82,15 +87,17 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       MaterialStateProperty.all(const Color(0xffde1a51)),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        30,
-                      ),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                 ),
-                child: const Text(
-                  'Resend email',
-                  style: TextStyle(color: Colors.white),
+                child: Text(
+                  'Kirim ulang Email',
+                  style: GoogleFonts.inter(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

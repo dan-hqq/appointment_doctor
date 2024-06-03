@@ -11,24 +11,22 @@ class DoctorModel {
   final String? profileDoctor;
   final String? status;
 
-  const DoctorModel({
-    this.id,
-    this.nama,
-    this.spesialis,
-    this.telepon,
-    this.gender,
-    this.profileDoctor,
-    this.status
-  });
+  const DoctorModel(
+      {this.id,
+      this.nama,
+      this.spesialis,
+      this.telepon,
+      this.gender,
+      this.profileDoctor,
+      this.status});
 
   static DoctorModel empty() => const DoctorModel(
-    nama: '',
-    spesialis: '',
-    telepon: '',
-    gender: 0,
-    profileDoctor: '',
-    status: 'invalid'
-  );
+      nama: '',
+      spesialis: '',
+      telepon: '',
+      gender: 0,
+      profileDoctor: '',
+      status: 'invalid');
 
   Map<String, dynamic> toJson() {
     return {
@@ -44,37 +42,36 @@ class DoctorModel {
   factory DoctorModel.fromSnapshot(DocumentSnapshot documentSnapshot) {
     final data = documentSnapshot.data() as Map<String, dynamic>;
     return DoctorModel(
-      id: documentSnapshot.id,
-      nama: data['nama'],
-      spesialis: data['spesialis'],
-      telepon: data['telepon'],
-      gender: data['gender'],
-      profileDoctor: data['profileDoctor'],
-      status: data['status']
-    );
+        id: documentSnapshot.id,
+        nama: data['nama'],
+        spesialis: data['spesialis'],
+        telepon: data['telepon'],
+        gender: data['gender'],
+        profileDoctor: data['profileDoctor'],
+        status: data['status']);
   }
 
   static Future<void> createDoctorInDatabase(String doctorId) async {
     try {
-      await FirebaseFirestore.instance.collection("doctors").doc(doctorId).set(DoctorModel.empty().toJson());
-    } 
-    on FirebaseException catch (e) {
+      await FirebaseFirestore.instance
+          .collection("doctors")
+          .doc(doctorId)
+          .set(DoctorModel.empty().toJson());
+    } on FirebaseException catch (e) {
       throw e.code;
-    } 
-    on FormatException catch (_) {
+    } on FormatException catch (_) {
       throw 'Format exeption error';
-    } 
-    on PlatformException catch (e) {
+    } on PlatformException catch (e) {
       throw e.code;
-    }
-    catch (e) {
+    } catch (e) {
       throw 'Something went wrong. Please try again $e';
     }
   }
 
   static Future<List<DoctorModel>> getAllDoctors() async {
     try {
-      final snapshot = await FirebaseFirestore.instance.collection('doctors').get();
+      final snapshot =
+          await FirebaseFirestore.instance.collection('doctors').get();
 
       return snapshot.docs.map((doc) {
         return DoctorModel.fromSnapshot(doc);
@@ -87,11 +84,13 @@ class DoctorModel {
 
   static Future<DoctorModel> getLoginDetailDoctor() async {
     try {
-      final snapshot = await FirebaseFirestore.instance.collection('doctors').doc(FirebaseAuth.instance.currentUser!.uid).get();
+      final snapshot = await FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
 
       return DoctorModel.fromSnapshot(snapshot);
-    } 
-    catch (e) {
+    } catch (e) {
       print('Error retrieving doctor data: $e');
       return const DoctorModel();
     }
@@ -105,6 +104,6 @@ class DoctorModel {
   //     print('Error retrieving doctor data: $e');
   //     return [];
   //   }
-    
+
   // }
 }

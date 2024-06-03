@@ -3,6 +3,7 @@ import 'package:appointment_doctor/pages/doctor/biodata_doctor.dart';
 import 'package:appointment_doctor/pages/doctor/main_doctor.dart';
 import 'package:appointment_doctor/pages/hospital/main_hospital.dart';
 import 'package:appointment_doctor/pages/login_page.dart';
+import 'package:appointment_doctor/pages/onboard/onboard.dart';
 import 'package:appointment_doctor/pages/patient/main_pasien.dart';
 import 'package:appointment_doctor/pages/verify_email_page.dart';
 import 'package:appointment_doctor/model/user_model.dart';
@@ -31,102 +32,84 @@ class Auth extends GetxController {
 
   screenRedirect() async {
     final user = FirebaseAuth.instance.currentUser;
-    
-    if(user != null){
-      if(user.emailVerified){
 
+    if (user != null) {
+      if (user.emailVerified) {
         final userLogin = await UserModel.getUserDetails();
         final userRole = userLogin.role;
 
-        if(userRole == 1){
+        if (userRole == 1) {
           // Admin Aplikasi
           Get.offAll(() => const MyAppAdminApk());
-        }
-        else if(userRole == 2){
+        } else if (userRole == 2) {
           // Admin Rumah Sakit
           Get.offAll(() => const MyAppHospital());
-        }
-        else if(userRole == 3){
+        } else if (userRole == 3) {
           // Dokter
           final snapshot = await FirebaseFirestore.instance
-            .collection("doctors")
-            .doc(user.uid)
-            .get();
+              .collection("doctors")
+              .doc(user.uid)
+              .get();
 
           if (snapshot.exists) {
             var data = snapshot.data();
             if (data!['status'] == 'valid') {
               Get.offAll(() => const MyAppDoctor());
-            }
-            else{
+            } else {
               Get.offAll(() => const BiodataDoctor());
             }
-          }
-          else{
+          } else {
             Auth.instance.logout();
-          } 
-        }
-        else{
+          }
+        } else {
           // Pasien
           Get.offAll(() => const MyAppPasien());
         }
-
-      } 
-      else {
+      } else {
         Get.offAll(
           () => const VerifyEmailPage(),
         );
       }
-    } 
-    else {
+    } else {
       // Local storage
-      // deviceStorage.writeIfNull('isFirstTime', true);
+      deviceStorage.writeIfNull('isFirstTime', true);
+
       // check if it's the firs time launching the app
-      // deviceStorage.read('isFirstTime') != true
-      // ? Get.offAll(() => const LoginPage());
-      // : Get.offAll(const OnBoardingScreen());
+      deviceStorage.read('isFirstTime') != true
+          ? Get.offAll(() => const LoginPage())
+          : Get.offAll(const OnboardPage());
       Get.offAll(() => const LoginPage());
     }
   }
 
-  Future<UserCredential> loginWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> loginWithEmailAndPassword(
+      String email, String password) async {
     try {
-      return await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email, 
-        password: password
-      );
-    } 
-    on FirebaseAuthException catch (e) {
+      return await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
       throw e.code;
-    } 
-    on FirebaseException catch (e) {
+    } on FirebaseException catch (e) {
       throw e.code;
-    } 
-    on FormatException catch (_) {
+    } on FormatException catch (_) {
       throw 'Format Exeption Error';
-    } 
-    catch (e) {
+    } catch (e) {
       throw 'Something went wrong. Please try again';
     }
   }
 
-  Future<UserCredential> registerWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> registerWithEmailAndPassword(
+      String email, String password) async {
     try {
-      return await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email, 
-        password: password
-      );
-    } 
-    on FirebaseAuthException catch (e) {
+      return await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
       throw e.code;
-    } 
-    on FirebaseException catch (e) {
+    } on FirebaseException catch (e) {
       throw e.code;
-    } 
-    on FormatException catch (_) {
+    } on FormatException catch (_) {
       throw 'Format Exeption Error';
-    } 
-    catch (e) {
+    } catch (e) {
       throw 'Something went wrong. Please try again';
     }
   }
@@ -134,20 +117,15 @@ class Auth extends GetxController {
   Future<void> sendEmailVerification() async {
     try {
       await FirebaseAuth.instance.currentUser?.sendEmailVerification();
-    } 
-    on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (e) {
       throw e.code;
-    } 
-    on FirebaseException catch (e) {
+    } on FirebaseException catch (e) {
       throw e.code;
-    } 
-    on FormatException catch (_) {
+    } on FormatException catch (_) {
       throw 'Format exception error';
-    } 
-    on PlatformException catch (e) {
+    } on PlatformException catch (e) {
       throw e.code;
-    } 
-    catch (e) {
+    } catch (e) {
       throw 'Something went wrong. Please try again';
     }
   }
@@ -156,22 +134,16 @@ class Auth extends GetxController {
     try {
       await FirebaseAuth.instance.signOut();
       Get.offAll(() => const LoginPage());
-    } 
-    on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException catch (e) {
       throw e.code;
-    } 
-    on FirebaseException catch (e) {
+    } on FirebaseException catch (e) {
       throw e.code;
-    } 
-    on FormatException catch (_) {
+    } on FormatException catch (_) {
       throw 'Format exception error';
-    } 
-    on PlatformException catch (e) {
+    } on PlatformException catch (e) {
       throw e.code;
-    } 
-    catch (e) {
+    } catch (e) {
       throw 'Something went wrong. Please try again';
     }
   }
-
 }

@@ -1,4 +1,8 @@
+import 'package:appointment_doctor/pages/hospital/daftarspesialis.dart';
+import 'package:appointment_doctor/pages/hospital/list_daftar_dokter.dart';
+import 'package:appointment_doctor/pages/hospital/list_specialty.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeAdminRS extends StatelessWidget {
   const HomeAdminRS({Key? key});
@@ -14,9 +18,9 @@ class HomeAdminRS extends StatelessWidget {
           children: [
             Text(
               "Halo, John Doe!",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
               ),
             ),
             SizedBox(
@@ -38,9 +42,9 @@ class HomeAdminRS extends StatelessWidget {
               padding: const EdgeInsets.only(left: 5.0, top: 5.0, bottom: 7.0),
               child: Text(
                 "Menu",
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
@@ -57,7 +61,7 @@ class HomeAdminRS extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 10), // Tambahkan jarak antara gambar menu
+                const SizedBox(width: 10), // Tambahkan jarak antara gambar menu
                 Expanded(
                   flex: 1, // Set flex untuk gambar menu 2
                   child: Padding(

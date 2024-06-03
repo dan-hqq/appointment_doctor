@@ -40,14 +40,18 @@ class HomePasien extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 5), // Atur jarak antara teks dengan bagian selanjutnya
             SizedBox(
-              width: MediaQuery.of(context).size.width - 20, // Mengatur lebar sesuai dengan lebar layar dikurangi 20
+                height: 5), // Atur jarak antara teks dengan bagian selanjutnya
+            SizedBox(
+              width: MediaQuery.of(context).size.width -
+                  20, // Mengatur lebar sesuai dengan lebar layar dikurangi 20
               height: 210,
               child: Padding(
-                padding: const EdgeInsets.only(right: 4.0), // Atur jarak gambar dari kanan
+                padding: const EdgeInsets.only(
+                    right: 4.0), // Atur jarak gambar dari kanan
                 child: FittedBox(
-                  fit: BoxFit.contain, // Menggunakan FittedBox untuk menyesuaikan gambar
+                  fit: BoxFit
+                      .contain, // Menggunakan FittedBox untuk menyesuaikan gambar
                   child: Image.asset(
                     'assets/images/gambar.png',
                   ),
@@ -69,7 +73,8 @@ class HomePasien extends StatelessWidget {
                 Expanded(
                   flex: 1, // Set flex untuk gambar menu 1
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 5.0), // Atur padding kiri pada gambar menu 1
+                    padding: const EdgeInsets.only(
+                        left: 5.0), // Atur padding kiri pada gambar menu 1
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -92,7 +97,8 @@ class HomePasien extends StatelessWidget {
                 Expanded(
                   flex: 1, // Set flex untuk gambar menu 2
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 5.0), // Atur padding kanan pada gambar menu 2
+                    padding: const EdgeInsets.only(
+                        right: 5.0), // Atur padding kanan pada gambar menu 2
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(

@@ -53,7 +53,8 @@ class _HospitalListPageState extends State<HospitalListPage> {
 
   List<HospitalModel> hospitals = [];
 
-  List<HospitalModel> filteredHospitals = []; // Inisialisasi dengan daftar kosong
+  List<HospitalModel> filteredHospitals =
+      []; // Inisialisasi dengan daftar kosong
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -63,7 +64,6 @@ class _HospitalListPageState extends State<HospitalListPage> {
   }
 
   void fetchHospitals() async {
-    
     hospitals = await HospitalModel.getAllHospital();
 
     setState(() {
@@ -72,7 +72,6 @@ class _HospitalListPageState extends State<HospitalListPage> {
     searchController.addListener(() {
       filterHospitals();
     });
-
   }
 
   @override
@@ -146,7 +145,8 @@ class _HospitalListPageState extends State<HospitalListPage> {
                     );
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       color: Colors.white,

@@ -1,6 +1,8 @@
 import 'package:appointment_doctor/backend/auth/register.dart';
 import 'package:appointment_doctor/pages/login_page.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -68,119 +70,182 @@ class _RegisterPageState extends State<RegisterPage> {
   // }
 
   Widget _submitButton() {
-
     bool isLoading = false;
 
     return ElevatedButton(
-      onPressed: isLoading == false ? () async {
+      onPressed: isLoading == false
+          ? () async {
+              setState(() {
+                isLoading = true;
+              });
 
-        setState(() {
-          isLoading = true;
-        });
-        
-        // createUserWithEmailAndPassword();
-        final register = Register(
-          fullName: _fullNameController.text,
-          email: _emailController.text,
-          password: _passwordController.text,
-          role: 4
-        );
+              // createUserWithEmailAndPassword();
+              final register = Register(
+                  fullName: _fullNameController.text,
+                  email: _emailController.text,
+                  password: _passwordController.text,
+                  role: 4);
 
-        await register.register(context);
+              await register.register(context);
 
-        setState(() {
-          isLoading = false;
-        });
-      } : null,
+              setState(() {
+                isLoading = false;
+              });
+            }
+          : null,
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xffde1a51),
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 120),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        elevation: 10,
+        shadowColor: Colors.black.withOpacity(0.6),
       ),
-      child: isLoading == false ? const Text('Create an account') : const CircularProgressIndicator(color: Colors.white,),
+      child: isLoading == false
+          ? Text(
+              'Buat Akun',
+              style: GoogleFonts.inter(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            )
+          : const CircularProgressIndicator(
+              color: Colors.white,
+            ),
     );
   }
 
   Widget _goToLoginPage() {
-    return TextButton(
-      onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
-      },
-      style: TextButton.styleFrom(
-        backgroundColor: const Color(0xffde1a51),
-        foregroundColor: Colors.white,
+    return RichText(
+      text: TextSpan(
+        children: [
+          const TextSpan(
+            text: 'Sudah punya akun? ',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+            ),
+          ),
+          TextSpan(
+            text: 'Masuk',
+            style: const TextStyle(
+              color: Color(0xffde1a51),
+              fontSize: 16,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+              },
+          ),
+        ],
       ),
-      child: const Text('Login'),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Register'),
-        backgroundColor: Colors.white,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Create your account in a seconds',
-                style: TextStyle(fontSize: 18.0),
+              const SizedBox(height: 75),
+              Image.asset(
+                'assets/images/hospify-removebg.png',
+                height: 180,
               ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _fullNameController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your full name';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Full Name',
-                  border: OutlineInputBorder(),
+              const SizedBox(height: 25),
+              Text(
+                'Buat Akun',
+                style: GoogleFonts.poppins(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _emailController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Email',
-                  border: OutlineInputBorder(),
+              const SizedBox(height: 5),
+              Text(
+                'Daftarkan akun Anda dalam',
+                style: GoogleFonts.inter(
+                  fontSize: 16,
+                  color: Colors.grey,
                 ),
               ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _passwordController,
-                obscureText: true,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  else if (value.length < 8){
-                    return 'At least 8 characters password';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Password',
-                  border: OutlineInputBorder(),
+              Text(
+                ' waktu singkat',
+                style: GoogleFonts.inter(
+                  fontSize: 16,
+                  color: Colors.grey,
                 ),
               ),
-              const SizedBox(height: 32.0),
-              _submitButton(),
-              const SizedBox(height: 16.0),
-              _goToLoginPage()
+              const SizedBox(height: 15),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _fullNameController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your full name';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Full Name',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _emailController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your password';
+                          } else if (value.length < 8) {
+                            return 'At least 8 characters password';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Password',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      _submitButton(),
+                      const SizedBox(height: 10),
+                      _goToLoginPage(),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

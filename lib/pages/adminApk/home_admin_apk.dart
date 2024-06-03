@@ -198,8 +198,8 @@ class _HomeAdminApkState extends State<HomeAdminApk> {
                       );
                     },
                     child: Container(
-                      margin:
-                          const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 6, horizontal: 10),
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         color: Colors.white,

@@ -3,11 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/hospital/home_admin_rs.dart';
 import 'package:appointment_doctor/pages/hospital/profile_admin_rs.dart';
 
-
-// void main() {
-//   runApp(MyApp());
-// }
-
 class MyAppHospital extends StatefulWidget {
   const MyAppHospital({super.key});
 
@@ -21,7 +16,7 @@ class _MyAppHospitalState extends State<MyAppHospital> {
   static const List<Widget> _screens = [
     HomeAdminRS(),
     UndangDokter(),
-    ProfilAdminRS(),
+    ProfileAdminRS(),
   ];
 
   void _onItemTapped(int index) {

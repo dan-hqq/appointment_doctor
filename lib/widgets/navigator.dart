@@ -1,4 +1,3 @@
-
 import 'package:appointment_doctor/pages/adminApk/add_rs.dart';
 import 'package:appointment_doctor/pages/hospital/daftarspesialis.dart';
 import 'package:appointment_doctor/pages/adminApk/home_admin_apk.dart';
@@ -8,7 +7,6 @@ import 'package:appointment_doctor/pages/patient/home_pasien.dart';
 import 'package:appointment_doctor/pages/patient/profil_pasien.dart';
 import 'package:appointment_doctor/pages/hospital/profile_admin_rs.dart';
 import 'package:flutter/material.dart';
-
 
 void main() => runApp(const NavigationBarApp());
 
@@ -57,7 +55,8 @@ class _NavigationState extends State<Navigation> {
         currentIndex: currentPageIndex,
         onTap: _onItemTapped,
         selectedIconTheme: IconThemeData(color: Colors.white, size: 30.0),
-        unselectedIconTheme: IconThemeData(color: Colors.white.withOpacity(0.5), size: 24.0),
+        unselectedIconTheme:
+            IconThemeData(color: Colors.white.withOpacity(0.5), size: 24.0),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),

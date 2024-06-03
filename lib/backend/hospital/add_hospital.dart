@@ -22,16 +22,15 @@ class AddHospital {
   final String email;
   final String password;
 
-  const AddHospital({
-    required this.namaRS,
-    required this.telepon,
-    required this.alamat,
-    required this.latitude,
-    required this.longitude,
-    required this.imagePath,
-    required this.email,
-    required this.password
-  });
+  const AddHospital(
+      {required this.namaRS,
+      required this.telepon,
+      required this.alamat,
+      required this.latitude,
+      required this.longitude,
+      required this.imagePath,
+      required this.email,
+      required this.password});
 
   // Upload Image to Cloudinary
   Future<String?> uploadImageToCloudinary(String? imagePath) async {
@@ -56,13 +55,19 @@ class AddHospital {
   }
 
   Future<void> addNewHospital(BuildContext context) async {
-    FirebaseApp app = await Firebase.initializeApp(name: FirebaseAuth.instance.currentUser?.uid, options: Firebase.app().options);
-    
+    FirebaseApp app = await Firebase.initializeApp(
+        name: FirebaseAuth.instance.currentUser?.uid,
+        options: Firebase.app().options);
+
     try {
-      
-      UserCredential newAdminHospitalCredential= await FirebaseAuth.instanceFor(app: app).createUserWithEmailAndPassword(email: email.trim(), password: password.trim());
-      await FirebaseAuth.instanceFor(app: app).currentUser?.sendEmailVerification();
-      
+      UserCredential newAdminHospitalCredential =
+          await FirebaseAuth.instanceFor(app: app)
+              .createUserWithEmailAndPassword(
+                  email: email.trim(), password: password.trim());
+      await FirebaseAuth.instanceFor(app: app)
+          .currentUser
+          ?.sendEmailVerification();
+
       // Set the UID generated to a variable so we can use it later
       // String? uid = newAdminHospitalCredential.user?.uid;
 
@@ -71,28 +76,27 @@ class AddHospital {
 
       // final newAdminHospitalCredential = await Auth.instance.registerWithEmailAndPassword(email.trim(), password.trim());
 
-      // Auth.instance.sendEmailVerification(); 
-      
+      // Auth.instance.sendEmailVerification();
+
       final newAdminHospital = UserModel(
-        id: newAdminHospitalCredential.user!.uid,
-        fullName: namaRS.trim(),
-        email: email.trim(),
-        role: 2
-      );
+          id: newAdminHospitalCredential.user!.uid,
+          fullName: namaRS.trim(),
+          email: email.trim(),
+          role: 2);
 
       final tempUserModel = UserModel();
-      await tempUserModel.createUserInDatabase(newAdminHospital);     
+      await tempUserModel.createUserInDatabase(newAdminHospital);
 
-      final imageUrl = await uploadImageToCloudinary(imagePath); 
+      final imageUrl = await uploadImageToCloudinary(imagePath);
 
       final newHospital = HospitalModel(
-        id: newAdminHospitalCredential.user!.uid,
-        namaRS: namaRS.trim(), 
-        telepon: telepon.trim(), 
-        alamat: alamat.trim(), 
-        position: GeoFlutterFire().point(latitude: latitude, longitude: longitude),
-        imageUrl: imageUrl!
-      );
+          id: newAdminHospitalCredential.user!.uid,
+          namaRS: namaRS.trim(),
+          telepon: telepon.trim(),
+          alamat: alamat.trim(),
+          position:
+              GeoFlutterFire().point(latitude: latitude, longitude: longitude),
+          imageUrl: imageUrl!);
 
       await HospitalModel.createHospitalInDatabase(newHospital);
 
@@ -110,8 +114,7 @@ class AddHospital {
       );
 
       Get.offAll(() => const MyAppDoctor());
-    } 
-    catch (e) {
+    } catch (e) {
       showTopSnackBar(
         Overlay.of(context),
         CustomSnackBar.error(
@@ -119,6 +122,5 @@ class AddHospital {
         ),
       );
     }
-
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Specialty {
   final String name;
@@ -15,8 +16,11 @@ List<Specialty> getSpecialties() {
     Specialty(name: 'Kulit', imageUrl: 'assets/images/kulit.png'),
     Specialty(name: 'Anak', imageUrl: 'assets/images/anak.png'),
     Specialty(name: 'Dokter Umum', imageUrl: 'assets/images/dokter_umum.png'),
-    Specialty(name: 'Penyakit Dalam', imageUrl: 'assets/images/penyakit_dalam.png'),
-    Specialty(name: 'Psikologi Klinis', imageUrl: 'assets/images/psikologi_klinis.png'),
+    Specialty(
+        name: 'Penyakit Dalam', imageUrl: 'assets/images/penyakit_dalam.png'),
+    Specialty(
+        name: 'Psikologi Klinis',
+        imageUrl: 'assets/images/psikologi_klinis.png'),
     Specialty(name: 'COVID-19', imageUrl: 'assets/images/covid19.png'),
     Specialty(name: 'Gizi Klinik', imageUrl: 'assets/images/gizi_klinik.png'),
     Specialty(name: 'Kandungan', imageUrl: 'assets/images/kandungan.png'),
@@ -30,25 +34,31 @@ List<Specialty> getSpecialties() {
     Specialty(name: 'Saraf', imageUrl: 'assets/images/saraf.png'),
     Specialty(name: 'Jantung', imageUrl: 'assets/images/jantung.png'),
     Specialty(name: 'Laktasi', imageUrl: 'assets/images/laktasi.png'),
-    Specialty(name: 'Program Hamil', imageUrl: 'assets/images/program_hamil.png'),
+    Specialty(
+        name: 'Program Hamil', imageUrl: 'assets/images/program_hamil.png'),
     Specialty(name: 'Mata', imageUrl: 'assets/images/mata.png'),
     Specialty(name: 'Paru', imageUrl: 'assets/images/paru.png'),
     Specialty(name: 'Fisioterapi', imageUrl: 'assets/images/fisioterapi.png'),
     Specialty(name: 'Medikolegal', imageUrl: 'assets/images/medikolegal.png'),
     Specialty(name: 'Talk Therapy', imageUrl: 'assets/images/talk_therapy.png'),
-    Specialty(name: 'Pemeriksaan Lab', imageUrl: 'assets/images/pemeriksaan_lab.png'),
+    Specialty(
+        name: 'Pemeriksaan Lab', imageUrl: 'assets/images/pemeriksaan_lab.png'),
     Specialty(name: 'Bidanku', imageUrl: 'assets/images/bidanku.png'),
-    Specialty(name: 'Layanan Kontrasepsi', imageUrl: 'assets/images/layanan_kontrasepsi.png'),
+    Specialty(
+        name: 'Layanan Kontrasepsi',
+        imageUrl: 'assets/images/layanan_kontrasepsi.png'),
   ];
 }
 
 class ListSpecialty extends StatefulWidget {
+  const ListSpecialty({super.key});
+
   @override
-  _ListSpecialtyState createState() => _ListSpecialtyState();
+  State<ListSpecialty> createState() => _ListSpecialtyState();
 }
 
 class _ListSpecialtyState extends State<ListSpecialty> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   List<Specialty> _specialties = [];
   List<Specialty> _filteredSpecialties = [];
 
@@ -75,68 +85,34 @@ class _ListSpecialtyState extends State<ListSpecialty> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'Detail Rumah Sakit',
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Colors.black,
+          ),
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            backgroundColor: const Color(0xFFDE1A51),
+            child: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ),
+      ),
       body: Stack(
         children: [
-          Column(
-            children: [
-              Image.asset(
-                'assets/images/bgrs.png', // Replace with your background image
-                width: double.infinity,
-                height: 250,
-                fit: BoxFit.cover,
-              ),
-              SizedBox(height: 120),
-            ],
-          ),
-          Positioned(
-            top: 40,
-            left: 16,
-            child: CircleAvatar(
-              backgroundColor: Color(0xFFDE1A51),
-              child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ),
-          Positioned(
-            top: 155,
-            left: 35,
-            right: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'RSU Siloam Surabaya',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  'Jl. Raya Gubeng No. 70, Surabaya',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  '+62 31 500 5333',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
           Positioned(
             top: 300,
             left: 20,
@@ -153,22 +129,22 @@ class _ListSpecialtyState extends State<ListSpecialty> {
                       ),
                       filled: true,
                       fillColor: Colors.white,
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: const Icon(Icons.search),
                     ),
                     onChanged: _filterSpecialties,
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Builder(
                   builder: (context) => ElevatedButton(
                     onPressed: () {
                       Scaffold.of(context).openEndDrawer();
                     },
-                    child: Icon(Icons.filter_list),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFDE1A51),
+                      backgroundColor: const Color(0xFFDE1A51),
                       foregroundColor: Colors.white,
                     ),
+                    child: const Icon(Icons.filter_list),
                   ),
                 ),
               ],
@@ -180,7 +156,7 @@ class _ListSpecialtyState extends State<ListSpecialty> {
             right: 20,
             bottom: 0,
             child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4, // Number of items per row
                 crossAxisSpacing: 10.0,
                 mainAxisSpacing: 10.0,
@@ -194,7 +170,8 @@ class _ListSpecialtyState extends State<ListSpecialty> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ListDaftarDokter(specialty: specialty.name),
+                        builder: (context) =>
+                            ListDaftarDokter(specialty: specialty.name),
                       ),
                     );
                   },
@@ -203,11 +180,11 @@ class _ListSpecialtyState extends State<ListSpecialty> {
                       Expanded(
                         child: Image.asset(specialty.imageUrl),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Text(
                         specialty.name,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
+                        style: const TextStyle(fontSize: 12),
                       ),
                     ],
                   ),
@@ -224,23 +201,24 @@ class _ListSpecialtyState extends State<ListSpecialty> {
 class ListDaftarDokter extends StatelessWidget {
   final String specialty;
 
-  ListDaftarDokter({required this.specialty});
+  const ListDaftarDokter({super.key, required this.specialty});
 
   @override
   Widget build(BuildContext context) {
-    final doctors = getDoctors().where((doctor) => doctor.specialty == specialty).toList();
+    final doctors =
+        getDoctors().where((doctor) => doctor.specialty == specialty).toList();
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Dokter $specialty'),
-        backgroundColor: Color(0xFFDE1A51),
+        backgroundColor: const Color(0xFFDE1A51),
       ),
       body: ListView.builder(
         itemCount: doctors.length,
         itemBuilder: (context, index) {
           final doctor = doctors[index];
           return Card(
-            margin: EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
             child: ListTile(
               leading: Image.asset(doctor.imageUrl, width: 50, height: 50),
               title: Text(doctor.name),
@@ -248,7 +226,7 @@ class ListDaftarDokter extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(doctor.specialty),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -258,14 +236,14 @@ class ListDaftarDokter extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Text('Chat Dokter'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Color(0xFFDE1A51),
+                      backgroundColor: const Color(0xFFDE1A51),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
+                    child: const Text('Chat Dokter'),
                   ),
                 ],
               ),
@@ -317,14 +295,14 @@ class Doctor {
 class ChatScreen extends StatelessWidget {
   final Doctor doctor;
 
-  ChatScreen({required this.doctor});
+  const ChatScreen({super.key, required this.doctor});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Chat with ${doctor.name}'),
-        backgroundColor: Color(0xFFDE1A51),
+        backgroundColor: const Color(0xFFDE1A51),
       ),
       body: Center(
         child: Text('Chat feature for ${doctor.name}'),

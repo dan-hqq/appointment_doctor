@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: DaftarSpesialis(),
     );
   }
 }
 
 class DaftarSpesialis extends StatefulWidget {
+  const DaftarSpesialis({super.key});
+
   @override
-  _DaftarSpesialisState createState() => _DaftarSpesialisState();
+  State<DaftarSpesialis> createState() => _DaftarSpesialisState();
 }
 
 class _DaftarSpesialisState extends State<DaftarSpesialis> {
@@ -46,7 +51,10 @@ class _DaftarSpesialisState extends State<DaftarSpesialis> {
     {"title": "Talk Therapy Clinic", "image": "assets/images/talk_therapy.png"},
     {"title": "Pemeriksaan Lab", "image": "assets/images/pemeriksaan_lab.png"},
     {"title": "Bidanku", "image": "assets/images/bidanku.png"},
-    {"title": "Layanan Kontrasepsi", "image": "assets/images/layanan_kontrasepsi.png"},
+    {
+      "title": "Layanan Kontrasepsi",
+      "image": "assets/images/layanan_kontrasepsi.png"
+    },
   ];
 
   List<Map<String, String>> filteredSpesialis = [];
@@ -81,20 +89,30 @@ class _DaftarSpesialisState extends State<DaftarSpesialis> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.red),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
         centerTitle: true,
         title: Text(
           'Daftar Spesialis',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Colors.black,
+          ),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            backgroundColor: const Color(0xFFDE1A51),
+            child: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -133,15 +151,20 @@ class _DaftarSpesialisState extends State<DaftarSpesialis> {
                           color: Colors.grey.shade200,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(filteredSpesialis[index]['image']!),
+                          padding: const EdgeInsets.all(6.0),
+                          child:
+                              Image.asset(filteredSpesialis[index]['image']!),
                         ),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Text(
                         filteredSpesialis[index]['title']!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
+                        style: GoogleFonts.poppins(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
                       ),
                     ],
                   );

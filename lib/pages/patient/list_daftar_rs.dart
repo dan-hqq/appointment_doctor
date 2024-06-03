@@ -53,7 +53,8 @@ class _HospitalListPageState extends State<HospitalListPage> {
 
   List<HospitalModel> hospitals = [];
 
-  List<HospitalModel> filteredHospitals = []; // Inisialisasi dengan daftar kosong
+  List<HospitalModel> filteredHospitals =
+      []; // Inisialisasi dengan daftar kosong
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -65,7 +66,8 @@ class _HospitalListPageState extends State<HospitalListPage> {
   void fetchHospital() async {
     hospitals = await HospitalModel.getAllHospital();
     setState(() {
-      filteredHospitals = hospitals; // Inisialisasi daftar filteredHospitals dengan hospitals
+      filteredHospitals =
+          hospitals; // Inisialisasi daftar filteredHospitals dengan hospitals
     });
     // filteredHospitals = hospitals; // Inisialisasi daftar filteredHospitals
     searchController.addListener(() {
