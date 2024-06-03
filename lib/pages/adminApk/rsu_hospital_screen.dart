@@ -1,5 +1,6 @@
 import 'package:appointment_doctor/model/doctor_model.dart';
 import 'package:appointment_doctor/model/hospital_model.dart';
+import 'package:appointment_doctor/pages/adminApk/detail_dokter.dart';
 import 'package:appointment_doctor/pages/adminApk/detail_rs.dart';
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/list_specialty.dart';
@@ -89,52 +90,52 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                title: Text('Filters', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                title: const Text('Filters', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 trailing: TextButton(
                   onPressed: _resetFilters,
-                  child: Text('Reset', style: TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w300)),
+                  child: const Text('Reset', style: TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w300)),
                 ),
               ),
-              Divider(),
+              const Divider(),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Urut berdasarkan', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const Text('Urut berdasarkan', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     RadioListTile<String>(
-                      title: Text('Dokter'),
+                      title: const Text('Dokter'),
                       value: 'Dokter',
                       groupValue: _filterGroup,
                       onChanged: _handleFilterChange,
-                      activeColor: Color(0xFFDE1A51), // Set the color of the radio button
+                      activeColor: const Color(0xFFDE1A51), // Set the color of the radio button
                       controlAffinity: ListTileControlAffinity.trailing, // Position radio to the right
                     ),
                     RadioListTile<String>(
-                      title: Text('Spesialis'),
+                      title: const Text('Spesialis'),
                       value: 'Spesialis',
                       groupValue: _filterGroup,
                       onChanged: _handleFilterChange,
-                      activeColor: Color(0xFFDE1A51), // Set the color of the radio button
+                      activeColor: const Color(0xFFDE1A51), // Set the color of the radio button
                       controlAffinity: ListTileControlAffinity.trailing, // Position radio to the right
                     ),
                   ],
                 ),
               ),
-              Expanded(child: SizedBox()), // This pushes the button to the bottom
+              const Expanded(child: SizedBox()), // This pushes the button to the bottom
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Center(
                   child: ElevatedButton(
                     onPressed: _applyFilters,
-                    child: Text('Tampilkan Hasil'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFDE1A51),
+                      backgroundColor: const Color(0xFFDE1A51),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8), // Make the border square
                       ),
                     ),
+                    child: const Text('Tampilkan Hasil'),
                   ),
                 ),
               ),
@@ -152,7 +153,7 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
                 height: 250,
                 fit: BoxFit.cover,
               ),
-              SizedBox(height: 120),
+              const SizedBox(height: 120),
             ],
           ),
         Positioned(
@@ -162,7 +163,7 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
     onTap: () {
       Navigator.pop(context);
     },
-    child: CircleAvatar(
+    child: const CircleAvatar(
       backgroundColor: Color(0xFFDE1A51),
       child: Icon(Icons.arrow_back, color: Colors.white),
     ),
@@ -178,9 +179,9 @@ Positioned(
         onTap: () {
           showMenu(
             context: context,
-            position: RelativeRect.fromLTRB(90, 80, 10, 0),
+            position: const RelativeRect.fromLTRB(90, 80, 10, 0),
             items: [
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'view_detail',
                 child: Text('View Detail'),
               ),
@@ -191,13 +192,13 @@ Positioned(
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DetailRS(),
+                  builder: (context) => DetailRS(hospital: widget.hospital)
                 ),
               );
             }
           });
         },
-        child: CircleAvatar(
+        child: const CircleAvatar(
           backgroundColor: Color(0xFFDE1A51),
           child: Icon(Icons.more_horiz, color: Colors.white),
         ),
@@ -216,25 +217,25 @@ Positioned(
               children: [
                 Text(
                   widget.hospital.namaRS!,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   widget.hospital.alamat!,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   widget.hospital.telepon!,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
@@ -259,20 +260,20 @@ Positioned(
                       ),
                       filled: true,
                       fillColor: Colors.white,
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: const Icon(Icons.search),
                     ),
                     onChanged: _filterDoctors,
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Builder(
                   builder: (context) => ElevatedButton(
                     onPressed: () {
                       Scaffold.of(context).openEndDrawer();
                     },
-                    child: Icon(Icons.filter_list),
+                    child: const Icon(Icons.filter_list),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFDE1A51),
+                      backgroundColor: const Color(0xFFDE1A51),
                       foregroundColor: Colors.white,
                     ),
                   ),
@@ -291,38 +292,38 @@ Positioned(
       final doctor = _filteredDoctors[index];
       return GestureDetector(
         onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => DetailDoctor(),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailDoctor(doctor: doctor),
+            ),
+          );
         },
         child: Card(
-          margin: EdgeInsets.symmetric(vertical: 10),
+          margin: const EdgeInsets.symmetric(vertical: 10),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                Image.asset(
+                Image.network(
                   doctor.profileDoctor!,
                   width: 100,
                   height: 100,
                   fit: BoxFit.cover,
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         doctor.nama!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         doctor.spesialis!,
                         style: TextStyle(

@@ -70,8 +70,7 @@ class DoctorModel {
 
   static Future<List<DoctorModel>> getAllDoctors() async {
     try {
-      final snapshot =
-          await FirebaseFirestore.instance.collection('doctors').get();
+      final snapshot = await FirebaseFirestore.instance.collection('doctors').where("status", isEqualTo: "valid").get();
 
       return snapshot.docs.map((doc) {
         return DoctorModel.fromSnapshot(doc);

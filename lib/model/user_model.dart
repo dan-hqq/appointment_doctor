@@ -86,4 +86,28 @@ class UserModel {
       throw 'Something went wrong. Please try again';
     }
   }
+
+  static Future<UserModel> getUserDetailsWithId(String userId) async {
+    try {
+      final documentSnapshot = await FirebaseFirestore.instance.collection("users").doc(userId).get();
+      if (documentSnapshot.exists) {
+        return UserModel.fromSnapshot(documentSnapshot);
+      } 
+      else {
+        throw UserModel.empty();
+      }
+    } 
+    on FirebaseException catch (e) {
+      throw e.code;
+    } 
+    on FormatException catch (_) {
+      throw 'Format exeption error';
+    } 
+    on PlatformException catch (e) {
+      throw e.code;
+    } 
+    catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
 }
