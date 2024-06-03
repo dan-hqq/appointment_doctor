@@ -35,14 +35,14 @@ class _MyAppAdminApkState extends State<MyAppAdminApk> {
                     backgroundColor: const Color(0xFFE91E63),
                   ),
                   onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TambahRS(),
-                    ),
-                  );
-                },
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TambahRS(),
+                      ),
+                    );
+                  },
                   child: Text(
                     'Tambah Rumah Sakit',
                     style: GoogleFonts.poppins(
@@ -56,14 +56,16 @@ class _MyAppAdminApkState extends State<MyAppAdminApk> {
                     backgroundColor: const Color(0xFFE91E63),
                   ),
                   onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddDoctorPage(title: 'Tambah Dokter',),
-                    ),
-                  );
-                },
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddDoctorPage(
+                          title: 'Tambah Dokter',
+                        ),
+                      ),
+                    );
+                  },
                   child: Text(
                     'Tambah Dokter',
                     style: GoogleFonts.poppins(
@@ -87,10 +89,10 @@ class _MyAppAdminApkState extends State<MyAppAdminApk> {
     return _screens.elementAt(_selectedIndex);
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: _buildScreen(),
         bottomNavigationBar: NavigationBar(
@@ -110,7 +112,6 @@ class _MyAppAdminApkState extends State<MyAppAdminApk> {
               icon: Icon(Icons.add_outlined, color: Colors.white),
               selectedIcon: Icon(Icons.add, color: Colors.white),
               label: '',
-              
             ),
             NavigationDestination(
               icon: Icon(Icons.person_outline, color: Colors.white),
@@ -130,4 +131,3 @@ class _MyAppAdminApkState extends State<MyAppAdminApk> {
 void main() {
   runApp(const MyAppAdminApk());
 }
-

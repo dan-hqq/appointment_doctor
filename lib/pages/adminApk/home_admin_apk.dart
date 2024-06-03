@@ -60,7 +60,7 @@ class _HomeAdminApkState extends State<HomeAdminApk> {
               "Halo, John Doe!",
               style: TextStyle(
                 fontFamily: 'Poppins',
-                fontSize: 25,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -83,7 +83,7 @@ class _HomeAdminApkState extends State<HomeAdminApk> {
               child: Text(
                 "Menu",
                 style: GoogleFonts.poppins(
-                  fontSize: 23,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -145,7 +145,7 @@ class _HomeAdminApkState extends State<HomeAdminApk> {
                     "Rumah Sakit Terkini",
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -169,7 +169,7 @@ class _HomeAdminApkState extends State<HomeAdminApk> {
                             "Lihat Semua",
                             style: TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: 14,
+                              fontSize: 12,
                               color: Colors.blue,
                             ),
                           ),

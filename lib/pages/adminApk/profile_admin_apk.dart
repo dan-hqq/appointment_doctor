@@ -25,21 +25,6 @@ class _ProfileAdminApkState extends State<ProfileAdminApk> {
             color: Colors.black,
           ),
         ),
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundColor: const Color(0xFFDE1A51),
-            child: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -65,9 +50,9 @@ class _ProfileAdminApkState extends State<ProfileAdminApk> {
               ),
               const SizedBox(height: 20),
               Text(
-                'RSU Siloam Surabaya',
+                'John Doe',
                 style: GoogleFonts.poppins(
-                  fontSize: 22,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -118,7 +103,7 @@ class _ProfileAdminApkState extends State<ProfileAdminApk> {
                     ),
                   ),
                   subtitle: Text(
-                    'siloamhospitalby@gmail.com',
+                    'johndoe@gmail.com',
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.normal,
                       fontSize: 14,

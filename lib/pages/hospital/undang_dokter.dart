@@ -2,6 +2,7 @@ import 'package:appointment_doctor/model/schedule_hospital_model.dart';
 import 'package:flutter/material.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UndangDokter extends StatefulWidget {
   const UndangDokter({super.key});
@@ -35,9 +36,8 @@ class _UndangDokterState extends State<UndangDokter> {
   }
 
   void _showTimePicker(String day, {int? index}) async {
-    TimeOfDay initialTime = index != null
-        ? doctorSchedule[day]![index]
-        : TimeOfDay.now();
+    TimeOfDay initialTime =
+        index != null ? doctorSchedule[day]![index] : TimeOfDay.now();
     TimeOfDay? selectedTime = await showTimePicker(
       context: context,
       initialTime: initialTime,
@@ -115,7 +115,15 @@ class _UndangDokterState extends State<UndangDokter> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Undang Dokter'),
+        centerTitle: true,
+        title: Text(
+          'Undang Dokter',
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Colors.black,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -125,6 +133,11 @@ class _UndangDokterState extends State<UndangDokter> {
               controller: doctorIdController,
               decoration: InputDecoration(
                 labelText: 'ID Dokter',
+                labelStyle: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
               ),
             ),
             SizedBox(height: 16),
@@ -136,32 +149,56 @@ class _UndangDokterState extends State<UndangDokter> {
                 });
               },
               items: <String>[
-                'Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'
+                'Minggu',
+                'Senin',
+                'Selasa',
+                'Rabu',
+                'Kamis',
+                'Jumat',
+                'Sabtu'
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value),
+                  child: Text(
+                    value,
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: Colors.black,
+                    ),
+                  ),
                 );
               }).toList(),
             ),
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => _showTimePicker(selectedDay),
-              child: Text('Tambah Waktu Praktek'),
+              child: Text(
+                'Tambah Waktu Praktek',
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  color: Colors.black,
+                ),
+              ),
             ),
             SizedBox(height: 16),
             Expanded(
               child: ListView(
                 children: doctorSchedule.entries.map((entry) {
                   return ExpansionTile(
-                    title: Text(entry.key),
+                    title: Text(
+                      entry.key,
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: Colors.black,
+                      ),
+                    ),
                     children: entry.value.asMap().entries.map((timeEntry) {
                       return ListTile(
                         title: Text(_formatTimeOfDay(timeEntry.value)),
                         trailing: IconButton(
                           icon: Icon(Icons.edit),
-                          onPressed: () => _showTimePicker(
-                              entry.key, index: timeEntry.key),
+                          onPressed: () =>
+                              _showTimePicker(entry.key, index: timeEntry.key),
                         ),
                       );
                     }).toList(),
@@ -180,9 +217,7 @@ class _UndangDokterState extends State<UndangDokter> {
                 print(formattedSchedule);
                 try {
                   await ScheduleHospitalModel.inviteDoctor(
-                    doctorIdController.text, 
-                    formattedSchedule
-                  );
+                      doctorIdController.text, formattedSchedule);
                   showTopSnackBar(
                     Overlay.of(context),
                     const CustomSnackBar.success(
