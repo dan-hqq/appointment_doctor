@@ -1,6 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'dart:io';
 import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -49,14 +48,6 @@ class _ProfileAdminApkState extends State<ProfileAdminApk> {
                 ),
               ),
               const SizedBox(height: 20),
-              Text(
-                'John Doe',
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 20),
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -66,25 +57,6 @@ class _ProfileAdminApkState extends State<ProfileAdminApk> {
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: ListTile(
-                  leading: const Icon(Icons.phone, color: Color(0xFFDE1A51)),
-                  title: Text(
-                    'Telepon',
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                  ),
-                  subtitle: Text(
-                    '+62 12345678',
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 14,
-                      color: Colors.black,
-                    ),
-                  ),
                 ),
               ),
               const SizedBox(height: 10),
@@ -103,7 +75,7 @@ class _ProfileAdminApkState extends State<ProfileAdminApk> {
                     ),
                   ),
                   subtitle: Text(
-                    'johndoe@gmail.com',
+                    FirebaseAuth.instance.currentUser!.email!,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.normal,
                       fontSize: 14,

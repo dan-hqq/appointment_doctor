@@ -1,14 +1,35 @@
+import 'package:appointment_doctor/model/hospital_model.dart';
+import 'package:appointment_doctor/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailRS extends StatefulWidget {
-  const DetailRS({super.key});
+  
+  final HospitalModel hospital;
+
+  const DetailRS({super.key, required this.hospital});
 
   @override
   State<DetailRS> createState() => _DetailRSState();
 }
 
 class _DetailRSState extends State<DetailRS> {
+  
+  UserModel userHospital = UserModel.empty();
+
+  @override
+  void initState(){
+    super.initState();
+    fetchUserHospital();
+  }
+
+  void fetchUserHospital() async {
+    final fetchHospital = await UserModel.getUserDetailsWithId(widget.hospital.id!);
+    setState(() {
+      userHospital = fetchHospital;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,16 +74,15 @@ class _DetailRSState extends State<DetailRS> {
                       width: 4.0, // Ketebalan border
                     ),
                   ),
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage(
-                        'assets/images/bgrs.png'), // Gambar yang diupload pengguna
+                    backgroundImage: NetworkImage(widget.hospital.imageUrl!), // Gambar yang diupload pengguna
                   ),
                 ),
               ),
               const SizedBox(height: 20),
               Text(
-                'RSU Siloam Surabaya',
+                widget.hospital.namaRS!,
                 style: GoogleFonts.poppins(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -85,7 +105,7 @@ class _DetailRSState extends State<DetailRS> {
                     ),
                   ),
                   subtitle: Text(
-                    'Jl. Y. Sadantho No. 40, Citraland, Surabaya, Jawa Timur 60200',
+                    widget.hospital.alamat!,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.normal,
                       fontSize: 14,
@@ -110,7 +130,7 @@ class _DetailRSState extends State<DetailRS> {
                     ),
                   ),
                   subtitle: Text(
-                    '+62 12345678',
+                    widget.hospital.telepon!,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.normal,
                       fontSize: 14,
@@ -135,7 +155,7 @@ class _DetailRSState extends State<DetailRS> {
                     ),
                   ),
                   subtitle: Text(
-                    'siloamhospitalby@gmail.com',
+                    userHospital.email!,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.normal,
                       fontSize: 14,
@@ -160,7 +180,7 @@ class _DetailRSState extends State<DetailRS> {
                     ),
                   ),
                   child: Text(
-                    'Hapus Rumash Sakit',
+                    'Hapus Rumah Sakit',
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600,
                       fontSize: 18,

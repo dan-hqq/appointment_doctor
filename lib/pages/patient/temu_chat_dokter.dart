@@ -193,7 +193,7 @@ Positioned(
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => DetailRS(),
+                  builder: (context) => DetailRS(hospital: widget.hospital),
                 ),
               );
             }
