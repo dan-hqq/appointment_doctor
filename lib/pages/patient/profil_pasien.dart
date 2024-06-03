@@ -1,14 +1,15 @@
 import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/model/user_model.dart';
 // import 'package:appointment_doctor/pages/patient/edit_profil_pasien.dart';
-import 'package:appointment_doctor/pages/patient/location_picker.dart';
+// import 'package:appointment_doctor/pages/patient/location_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ProfilPasien extends StatefulWidget {
   const ProfilPasien({super.key});
@@ -27,7 +28,7 @@ class _ProfilPasien extends State<ProfilPasien> {
   void initState() {
     super.initState();
     fetchUserDetails();
-    _loadLocation();
+    // _loadLocation();
   }
 
   void fetchUserDetails() async {
@@ -43,41 +44,41 @@ class _ProfilPasien extends State<ProfilPasien> {
     });
   }
 
-  void _loadLocation() async {
-    final prefs = await SharedPreferences.getInstance();
-    final double? lat = prefs.getDouble('latitude');
-    final double? lng = prefs.getDouble('longitude');
-    if (lat != null && lng != null) {
-      setState(() {
-        _selectedLocation = LatLng(lat, lng);
-      });
-    }
-  }
+  // void _loadLocation() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final double? lat = prefs.getDouble('latitude');
+  //   final double? lng = prefs.getDouble('longitude');
+  //   if (lat != null && lng != null) {
+  //     setState(() {
+  //       _selectedLocation = LatLng(lat, lng);
+  //     });
+  //   }
+  // }
 
-  void _pickLocation() async {
-    final selectedLocation = await Navigator.of(context).push<LatLng>(
-      MaterialPageRoute(
-        builder: (ctx) => LocationPicker(),
-      ),
-    );
-    if (selectedLocation != null) {
-      setState(() {
-        _selectedLocation = selectedLocation;
-      });
-    }
-  }
+  // void _pickLocation() async {
+  //   final selectedLocation = await Navigator.of(context).push<LatLng>(
+  //     MaterialPageRoute(
+  //       builder: (ctx) => LocationPicker(),
+  //     ),
+  //   );
+  //   if (selectedLocation != null) {
+  //     setState(() {
+  //       _selectedLocation = selectedLocation;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70),
+        preferredSize: const Size.fromHeight(70),
         child: AppBar(
           scrolledUnderElevation: 0,
           backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: true,
-          title: Padding(
+          title: const Padding(
             padding: EdgeInsets.only(top: 30),
             child: Text(
               "Profil",
@@ -134,15 +135,16 @@ class _ProfilPasien extends State<ProfilPasien> {
             const SizedBox(height: 20),
             Text(
               user.fullName ?? "Loading",
-              style: TextStyle(
+              style: GoogleFonts.poppins(
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 10),
             Text(
               "ID : ${FirebaseAuth.instance.currentUser!.uid}",
-              style: TextStyle(
-                fontSize: 16,
+              style: GoogleFonts.poppins(
+                fontSize: 14,
               ),
             ),
             const SizedBox(height: 20),
@@ -161,26 +163,26 @@ class _ProfilPasien extends State<ProfilPasien> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const ListTile(
-                  leading: Icon(
+                child: ListTile(
+                  leading: const Icon(
                     Icons.location_on,
                     color: Color(0xFFDE1A51),
                   ),
-                  title: Text(
+                  title: const Text(
                     "Alamat",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   subtitle: _selectedLocation == null
-                      ? Text("Pilih Lokasi")
+                      ? const Text("Pilih Lokasi")
                       : Text("Lat: ${_selectedLocation!.latitude}, Lng: ${_selectedLocation!.longitude}"),
-                  onTap: _pickLocation,
+                  // onTap: _pickLocation,
                 ),
               ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
