@@ -1,28 +1,26 @@
+import 'package:appointment_doctor/model/doctor_model.dart';
+import 'package:appointment_doctor/model/hospital_model.dart';
+import 'package:appointment_doctor/pages/adminApk/detail_rs.dart';
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/list_specialty.dart';
 import 'package:appointment_doctor/pages/filter_dokter.dart';
 
 class RSUHospitalScreen extends StatefulWidget {
-  final String imageUrl;
-  final String hospitalName;
-  final String address;
-  final String phoneNumber;
+  final HospitalModel hospital;
 
-  RSUHospitalScreen({
-    required this.imageUrl,
-    required this.hospitalName,
-    required this.address,
-    required this.phoneNumber,
+  const RSUHospitalScreen({super.key, 
+    required this.hospital
   });
 
   @override
-  _RSUHospitalScreenState createState() => _RSUHospitalScreenState();
+  State<RSUHospitalScreen> createState() => _RSUHospitalScreenState();
 }
 
 class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
-  TextEditingController _searchController = TextEditingController();
-  List<Doctor> _doctors = [];
-  List<Doctor> _filteredDoctors = [];
+  
+  final TextEditingController _searchController = TextEditingController();
+  List<DoctorModel> _doctors = [];
+  List<DoctorModel> _filteredDoctors = [];
   String _filterGroup = 'Dokter'; // State variable for radio buttons
 
   @override
@@ -31,9 +29,11 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
     _loadDoctors();
   }
 
-  void _loadDoctors() {
-    _doctors = getDoctors();
-    _filteredDoctors = _doctors;
+  void _loadDoctors() async {
+    _doctors = await HospitalModel.getDoctorsHospital(widget.hospital.id!);
+    setState(() {
+      _filteredDoctors = _doctors;
+    });
   }
 
   void _filterDoctors(String? query) {
@@ -43,7 +43,7 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
       } else {
         _filteredDoctors = _doctors
             .where((doctor) =>
-                doctor.name.toLowerCase().contains(query.toLowerCase()))
+                doctor.nama!.toLowerCase().contains(query.toLowerCase()))
             .toList();
       }
     });
@@ -69,13 +69,13 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => FilterDokter(doctors: _filteredDoctors),
+          builder: (context) => FilterDokter(doctors: _filteredDoctors, hospital: widget.hospital),
         ),
       );
     } else if (_filterGroup == 'Spesialis') {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ListSpecialty()),
+        MaterialPageRoute(builder: (context) => ListSpecialty(doctors: _doctors, hospital: widget.hospital)),
       );
     }
   }
@@ -147,7 +147,7 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
           Column(
             children: [
               Image.network(
-                widget.imageUrl,
+                widget.hospital.imageUrl!,
                 width: double.infinity,
                 height: 250,
                 fit: BoxFit.cover,
@@ -155,19 +155,58 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
               SizedBox(height: 120),
             ],
           ),
-          Positioned(
-            top: 40,
-            left: 16,
-            child: CircleAvatar(
-              backgroundColor: Color(0xFFDE1A51),
-              child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+        Positioned(
+  top: 40,
+  left: 16,
+  child: GestureDetector(
+    onTap: () {
+      Navigator.pop(context);
+    },
+    child: CircleAvatar(
+      backgroundColor: Color(0xFFDE1A51),
+      child: Icon(Icons.arrow_back, color: Colors.white),
+    ),
+  ),
+),
+Positioned(
+  top: 40,
+  right: 16,
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      GestureDetector(
+        onTap: () {
+          showMenu(
+            context: context,
+            position: RelativeRect.fromLTRB(90, 80, 10, 0),
+            items: [
+              PopupMenuItem(
+                value: 'view_detail',
+                child: Text('View Detail'),
               ),
-            ),
-          ),
+            ],
+            elevation: 5.0,
+          ).then((value) {
+            if(value == 'view_detail') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailRS(),
+                ),
+              );
+            }
+          });
+        },
+        child: CircleAvatar(
+          backgroundColor: Color(0xFFDE1A51),
+          child: Icon(Icons.more_horiz, color: Colors.white),
+        ),
+      ),
+    ],
+  ),
+),
+
+
           Positioned(
             top: 155,
             left: 35,
@@ -176,7 +215,7 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.hospitalName,
+                  widget.hospital.namaRS!,
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
@@ -185,7 +224,7 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  widget.address,
+                  widget.hospital.alamat!,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
@@ -194,7 +233,7 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  widget.phoneNumber,
+                  widget.hospital.telepon!,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
@@ -242,78 +281,69 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
             ),
           ),
           Positioned(
-            top: 320,
-            left: 20,
-            right: 20,
-            bottom: 0,
-            child: ListView.builder(
-              itemCount: _filteredDoctors.length,
-              itemBuilder: (context, index) {
-                final doctor = _filteredDoctors[index];
-                return Card(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          doctor.imageUrl,
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
+  top: 320,
+  left: 20,
+  right: 20,
+  bottom: 0,
+  child: ListView.builder(
+    itemCount: _filteredDoctors.length,
+    itemBuilder: (context, index) {
+      final doctor = _filteredDoctors[index];
+      return GestureDetector(
+        onTap: () {
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => DetailDoctor(),
+          //   ),
+          // );
+        },
+        child: Card(
+          margin: EdgeInsets.symmetric(vertical: 10),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Image.asset(
+                  doctor.profileDoctor!,
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        doctor.nama!,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                doctor.name,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(doctor.specialty),
-                             
-                            ],
-                          ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        doctor.spesialis!,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey[600],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                );
-              },
+                ),
+              ],
             ),
           ),
+        ),
+      );
+    },
+  ),
+),
+
         ],
       ),
     );
   }
-}
-
-List<Doctor> getDoctors() {
-  return [
-    Doctor(
-        name: 'Dr. Dodi Maulana',
-        specialty: 'Dokter Umum',
-        imageUrl: 'assets/images/doctor1.png'),
-    Doctor(
-        name: 'Dr. Siti Azizah',
-        specialty: 'Sp. Penyakit Dalam',
-        imageUrl: 'assets/images/doctor2.png'),
-    Doctor(
-        name: 'Dr. Carla Levara',
-        specialty: 'Sp. Kulit & Kelamin',
-        imageUrl: 'assets/images/doctor3.png'),
-    Doctor(
-        name: 'Dr. Hendry Agus',
-        specialty: 'Sp. Gizi Klinik',
-        imageUrl: 'assets/images/doctor4.png'),
-    Doctor(
-        name: 'Dr. Endang Pratiwi',
-        specialty: 'Sp. Kandungan',
-        imageUrl: 'assets/images/doctor5.png'),
-  ];
 }

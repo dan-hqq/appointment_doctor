@@ -19,6 +19,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
   List<DoctorModel> filteredDoctors = [];
   TextEditingController searchController = TextEditingController();
 
+
   @override
   void initState() {
     super.initState();

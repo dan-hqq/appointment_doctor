@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/patient/list_daftar_rs.dart';
 import 'package:appointment_doctor/pages/patient/list_daftar_dokter.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/widgets.dart';
 
 class HomePasien extends StatelessWidget {
   const HomePasien({Key? key}) : super(key: key);
@@ -123,8 +120,8 @@ class HomePasien extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: HomePasien(),
-  ));
-}
+// void main() {
+//   runApp(MaterialApp(
+//     home: HomePasien(),
+//   ));
+// }

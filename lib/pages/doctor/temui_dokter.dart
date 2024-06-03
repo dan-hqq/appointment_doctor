@@ -1,5 +1,7 @@
+import 'package:appointment_doctor/backend/appointment/doctor_appointment.dart';
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/doctor/detail_appointment.dart';
+import 'package:intl/intl.dart';
 
 class TemuiDokter extends StatefulWidget {
   const TemuiDokter({super.key});
@@ -9,6 +11,19 @@ class TemuiDokter extends StatefulWidget {
 }
 
 class _TemuiDokterState extends State<TemuiDokter> {
+
+  late Future<List<Map<String, dynamic>>> _appointmentsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAppointments();
+  }
+
+  void _loadAppointments() {
+    _appointmentsFuture = DoctorAppointment.getAllAppointments('pending');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,41 +49,36 @@ class _TemuiDokterState extends State<TemuiDokter> {
               color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: const [
-          PatientCard(
-            name: 'Jefri Rinantoro',
-            date: 'Selasa, 17 Juni 2024',
-            time: '17:00 PM',
-          ),
-          PatientCard(
-            name: 'Jefri Rinantoro',
-            date: 'Rabu, 18 Juni 2024',
-            time: '17:00 PM',
-          ),
-          PatientCard(
-            name: 'Jefri Rinantoro',
-            date: 'Rabu, 18 Juni 2024',
-            time: '17:00 PM',
-          ),
-          PatientCard(
-            name: 'Jefri Rinantoro',
-            date: 'Rabu, 18 Juni 2024',
-            time: '17:00 PM',
-          ),
-          PatientCard(
-            name: 'Jefri Rinantoro',
-            date: 'Rabu, 18 Juni 2024',
-            time: '17:00 PM',
-          ),
-          PatientCard(
-            name: 'Jefri Rinantoro',
-            date: 'Rabu, 18 Juni 2024',
-            time: '17:00 PM',
-          ),
-        ],
-      ),
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: _appointmentsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            List<Map<String, dynamic>> appointments = snapshot.data!;
+            return ListView.builder(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: appointments.length,
+              itemBuilder: (context, index) {
+                Map<String, dynamic> appointment = appointments[index];
+                return PatientCard(
+                  name: appointment['patientName'],
+                  date: DateFormat('EEEE, d MMMM y', 'id_ID').format(appointment['date'].toDate()),
+                  realDate: appointment['date'].toDate(),
+                  time: appointment['time'],
+                  hospitalId: appointment['hospitalId'],
+                  doctorId: appointment['doctorId'],
+                  userId: appointment['userId'],
+                  status: 'Pending',
+                  keluhan: appointment['keluhan']
+                );
+              },
+            );
+          }
+        },
+      )
     );
   }
 }
@@ -76,12 +86,24 @@ class _TemuiDokterState extends State<TemuiDokter> {
 class PatientCard extends StatelessWidget {
   final String name;
   final String date;
+  final DateTime realDate;
   final String time;
+  final String hospitalId;
+  final String doctorId;
+  final String userId;
+  final String status;
+  final String keluhan;
 
   const PatientCard({
     required this.name,
     required this.date,
+    required this.realDate,
     required this.time,
+    required this.hospitalId,
+    required this.doctorId,
+    required this.userId,
+    required this.status,
+    required this.keluhan
   });
 
   @override
@@ -91,7 +113,7 @@ class PatientCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const DetailAppointment(),
+            builder: (context) => DetailAppointment(name: name, date: date,time: time, hospitalId: hospitalId,doctorId: doctorId,userId: userId,status: status, keluhan: keluhan, realDate: realDate,),
           ),
         );
       },
@@ -140,13 +162,6 @@ class PatientCard extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Text(
-                      'Pasien',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
                       ),
                     ),
                     const SizedBox(height: 4.0),

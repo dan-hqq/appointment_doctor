@@ -1,25 +1,76 @@
-import 'package:appointment_doctor/pages/doctor/detail_appointment.dart';
+import 'package:appointment_doctor/backend/appointment/patient_appointment.dart';
+import 'package:appointment_doctor/model/doctor_model.dart';
+import 'package:appointment_doctor/model/hospital_model.dart';
+import 'package:appointment_doctor/model/schedule_hospital_model.dart';
+import 'package:appointment_doctor/pages/patient/main_pasien.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+Map<int, String> months = {
+  1: "Januari",
+  2: "Februaru",
+  3: "Maret",
+  4: "April",
+  5: "Mei",
+  6: "Juni",
+  7: "Juli",
+  8: "Agustus",
+  9: "September",
+  10: "Oktober",
+  11: "November",
+  12: "Desember"
+};
 
 class JanjiTemuDokter extends StatefulWidget {
   final String title;
+  final DoctorModel doctor;
+  final HospitalModel hospital;
 
-  const JanjiTemuDokter({Key? key, required this.title}) : super(key: key);
+  const JanjiTemuDokter({Key? key, required this.title, required this.doctor, required this.hospital}) : super(key: key);
 
   @override
   _JanjiTemuDokterState createState() => _JanjiTemuDokterState();
 }
 
 class _JanjiTemuDokterState extends State<JanjiTemuDokter> {
-  String selectedDay = 'Rab';
-  String selectedDate = '18';
-  String selectedTime = '17:00';
-  List<Map<String, String>> visitDates = [
-    {'day': 'Sel', 'date': '17'},
-    {'day': 'Rab', 'date': '18'},
-    {'day': 'Kam', 'date': '19'},
-    {'day': 'Jum', 'date': '24'},
-  ];
+  String selectedDay = '';
+  String selectedDate = '';
+  String selectedTime = '';
+  String selectedMonth = '';
+  DateTime? selectedFullDate;
+  List<int> shiftDays = [];
+  List<String> availableTimes = [];
+  String keluhan = "";
+
+  bool isInputValid() {
+    return selectedDay.isNotEmpty &&
+           selectedDate.isNotEmpty &&
+           selectedTime.isNotEmpty &&
+           keluhan.isNotEmpty;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchShiftDays();
+  }
+
+  void fetchShiftDays() async {
+    final fetchingShiftDays = await ScheduleHospitalModel.getShiftDays(widget.doctor.id!, widget.hospital.id!);
+    setState(() {
+      shiftDays = fetchingShiftDays;
+    });
+  }
+
+  void fetchAvailableTimes(DateTime date) async {
+    final times = await ScheduleHospitalModel.getTimeAppointment(widget.doctor.id!, widget.hospital.id!, date);
+    setState(() {
+      availableTimes = times;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,21 +104,21 @@ class _JanjiTemuDokterState extends State<JanjiTemuDokter> {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  backgroundImage: AssetImage('assets/images/doctor1.png'),
+                  backgroundImage: NetworkImage(widget.doctor.profileDoctor!),
                 ),
                 SizedBox(width: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Dr. Carla Levara',
+                      widget.doctor.nama!,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      'Sp. Kulit & Kelamin',
+                      widget.doctor.spesialis!,
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey,
@@ -108,7 +159,7 @@ class _JanjiTemuDokterState extends State<JanjiTemuDokter> {
                           ),
                         ),
                         Text(
-                          'RSU Siloam Surabaya\nJl. Raya Gubeng No.70 Surabaya',
+                          '${widget.hospital.namaRS}\n${widget.hospital.alamat}',
                           style: TextStyle(fontSize: 14),
                         ),
                       ],
@@ -130,8 +181,13 @@ class _JanjiTemuDokterState extends State<JanjiTemuDokter> {
               spacing: 8.0,
               runSpacing: 4.0,
               children: [
-                ...visitDates.map((date) => _buildDateChip(context, date['day']!, date['date']!)).toList(),
-                _buildDateChip(context, 'Jun', '', isIcon: true),
+                IconButton(
+                  icon: Icon(Icons.calendar_today, color: Color(0xFFDE1A51)),
+                  onPressed: () {
+                    _selectDate(context);
+                  },
+                ),
+                Text(selectedDay == "" ? "Tanggal dipilih: " : "Tanggal dipilih: ${selectedDay}, ${selectedDate} ${selectedMonth}")
               ],
             ),
             SizedBox(height: 16),
@@ -146,24 +202,59 @@ class _JanjiTemuDokterState extends State<JanjiTemuDokter> {
             Wrap(
               spacing: 8.0,
               runSpacing: 4.0,
-              children: [
-                _buildTimeChip(context, '16:00'),
-                _buildTimeChip(context, '17:00'),
-                _buildTimeChip(context, '18:00'),
-              ],
+              children: _buildTimeChips()
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Keluhan',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            TextFormField(
+              onChanged: (value) {
+                setState(() {
+                  keluhan = value;
+                });
+              },
+              decoration: InputDecoration(
+                hintText: 'Masukkan keluhan Anda',
+                border: OutlineInputBorder(),
+              ),
             ),
             Spacer(),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DetailAppointment(),
-                    ),
-                  );
-                },
+                onPressed: isInputValid() ? () async {
+                  // Handle logic for appointment creation here
+                  try {
+                    print(selectedFullDate);
+                    print(selectedTime);
+                    print(keluhan);
+                    await PatientAppointment.makeNewAppointment(widget.doctor.id!, widget.hospital.id!, selectedFullDate!, selectedTime, keluhan);
+
+                    showTopSnackBar(
+                      Overlay.of(context),
+                      const CustomSnackBar.success(
+                        message: "Kamu telah berhasil membuat appointment, silahkan tunggu konfirmasi dari dokter",
+                      ),
+                    );
+
+                    Get.offAll(() => const MyAppPasien());
+
+                  } 
+                  catch (e) {
+                    showTopSnackBar(
+                      Overlay.of(context),
+                      CustomSnackBar.error(
+                        message: "Gagal membuat appointment: $e",
+                      ),
+                    );
+                  }
+                } : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.pink,
                   shape: RoundedRectangleBorder(
@@ -186,35 +277,12 @@ class _JanjiTemuDokterState extends State<JanjiTemuDokter> {
     );
   }
 
-  Widget _buildDateChip(BuildContext context, String day, String date, {bool isIcon = false}) {
-    bool isSelected = selectedDay == day && selectedDate == date;
-    return ChoiceChip(
-      label: isIcon
-          ? Icon(Icons.calendar_today, color: isSelected ? Colors.white : Colors.black)
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(day, style: TextStyle(color: isSelected ? Colors.white : Colors.black, fontSize: 12)),
-                if (date.isNotEmpty)
-                  Text(date, style: TextStyle(color: isSelected ? Colors.white : Colors.black, fontSize: 12)),
-              ],
-            ),
-      selected: isSelected,
-      onSelected: (selected) {
-        setState(() {
-          if (isIcon) {
-            _selectDate(context);
-          } else {
-            selectedDay = day;
-            selectedDate = date;
-          }
-        });
-      },
-      selectedColor: Colors.pink,
-      backgroundColor: Colors.grey[200],
-      labelPadding: EdgeInsets.symmetric(vertical: isIcon ? 4 : 4, horizontal: 8),
-      showCheckmark: false,
-    );
+  List<Widget> _buildTimeChips() {
+    List<Widget> chips = [];
+    for (String time in availableTimes) {
+      chips.add(_buildTimeChip(context, time));
+    }
+    return chips;
   }
 
   Widget _buildTimeChip(BuildContext context, String time) {
@@ -241,34 +309,45 @@ class _JanjiTemuDokterState extends State<JanjiTemuDokter> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2030),
+      firstDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+      lastDate: DateTime((DateTime.now().month == 12) ? DateTime.now().year + 1 : DateTime.now().year, (DateTime.now().month == 12) ? 1 : DateTime.now().month + 1, DateTime.now().day),
+      selectableDayPredicate: (DateTime date) {
+        // Menentukan apakah tanggal bisa dipilih atau tidak berdasarkan hari
+        return shiftDays.contains(date.weekday);
+      },
     );
     if (picked != null) {
       setState(() {
         String newDay = _getDayOfWeek(picked.weekday);
         String newDate = picked.day.toString();
-        visitDates.add({'day': newDay, 'date': newDate});
+        int newMonth = picked.month;
+        selectedDay = newDay;
+        selectedDate = newDate;
+        selectedMonth = months[newMonth]!;
+        selectedTime = '';
+        selectedFullDate = picked;
+        fetchAvailableTimes(picked);
       });
     }
   }
 
+
   String _getDayOfWeek(int day) {
     switch (day) {
       case 1:
-        return 'Sen';
+        return 'Senin';
       case 2:
-        return 'Sel';
+        return 'Selasa';
       case 3:
-        return 'Rab';
+        return 'Rabu';
       case 4:
-        return 'Kam';
+        return 'Kamis';
       case 5:
-        return 'Jum';
+        return 'Jumat';
       case 6:
-        return 'Sab';
+        return 'Sabtu';
       case 7:
-        return 'Min';
+        return 'Minggu';
       default:
         return '';
     }

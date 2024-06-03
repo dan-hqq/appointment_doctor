@@ -1,6 +1,6 @@
 import 'package:appointment_doctor/model/hospital_model.dart';
+import 'package:appointment_doctor/pages/adminApk/rsu_hospital_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:appointment_doctor/pages/temu_chat_dokter.dart';
 
 class HospitalListPage extends StatefulWidget {
   final String title;
@@ -140,10 +140,7 @@ class _HospitalListPageState extends State<HospitalListPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => RSUHospitalScreen(
-                          imageUrl: hospital.imageUrl!,
-                          hospitalName: hospital.namaRS!,
-                          address: hospital.alamat!,
-                          phoneNumber: hospital.telepon!,
+                          hospital: hospital,
                         ),
                       ),
                     );

@@ -1,7 +1,6 @@
-import 'package:appointment_doctor/pages/doctor/riwayat_appointment.dart';
+import 'package:appointment_doctor/pages/patient/riwayat_appointment.dart';
 import 'package:appointment_doctor/pages/patient/home_pasien.dart';
 import 'package:appointment_doctor/pages/patient/profil_pasien.dart';
-import 'package:appointment_doctor/pages/patient/riwayat_konsultasi.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

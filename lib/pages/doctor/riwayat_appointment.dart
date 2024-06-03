@@ -1,4 +1,7 @@
+import 'package:appointment_doctor/backend/appointment/doctor_appointment.dart';
+import 'package:appointment_doctor/pages/doctor/detail_appointment.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class RiwayatAppointment extends StatefulWidget {
   const RiwayatAppointment({super.key});
@@ -50,7 +53,7 @@ class _RiwayatAppointmentState extends State<RiwayatAppointment>
       body: TabBarView(
         controller: _tabController,
         children: [
-          AppointmentList(status: 'Menunggu Konfirmasi', color: Colors.orange),
+          AppointmentList(status: 'Pending', color: Colors.orange),
           AppointmentList(status: 'Diterima', color: Colors.green),
           AppointmentList(status: 'Selesai', color: Colors.blue),
           AppointmentList(status: 'Batal', color: Colors.red),
@@ -60,46 +63,96 @@ class _RiwayatAppointmentState extends State<RiwayatAppointment>
   }
 }
 
-class AppointmentList extends StatelessWidget {
+class AppointmentList extends StatefulWidget {
   final String status;
   final Color color;
 
   const AppointmentList({super.key, required this.status, required this.color});
 
   @override
+  State<AppointmentList> createState() => _AppointmentListState();
+}
+
+class _AppointmentListState extends State<AppointmentList> {
+  List<Map<String, dynamic>> appointments = [];
+  
+  @override
+  void initState() {
+    super.initState();
+    fetchAppointments(widget.status);
+  }
+
+  void fetchAppointments(String status) async {
+    final resultAppointments = await DoctorAppointment.getAllAppointments(status);
+    setState(() {
+      appointments = resultAppointments;
+    });
+    print(status);
+    print(appointments);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(16.0),
-      children: [
-        AppointmentCard(
-          name: 'Jefri Rinantoro',
-          role: 'Pasien',
-          date: 'Selasa, 17 Juni 2024',
-          time: '17:00 PM',
-          status: status,
-          statusColor: color,
+    // Daftar janji temu
+
+    // Tampilkan teks jika tidak ada janji temu
+    if (appointments.isEmpty) {
+      return Center(
+        child: Text(
+          'Belum ada janji temu.',
+          style: TextStyle(fontSize: 18, color: Colors.grey),
         ),
-        // Tambahkan AppointmentCard lainnya sesuai kebutuhan
-      ],
+      );
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16.0),
+      itemCount: appointments.length,
+      itemBuilder: (context, index) {
+        final appointment = appointments[index];
+        return AppointmentCard(
+          name: appointment['patientName'],
+          date: DateFormat('EEEE, d MMMM y', 'id_ID').format(appointment['date'].toDate()),
+          realDate: appointment['date'].toDate(),
+          time: appointment['time'],
+          hospitalId: appointment['hospitalId'],
+          doctorId: appointment['doctorId'],
+          userId: appointment['userId'],
+          keluhan: appointment['keluhan'],
+          note: appointment['note'],
+          status: widget.status,
+          statusColor: widget.color,
+        );
+      },
     );
   }
 }
 
 class AppointmentCard extends StatelessWidget {
   final String name;
-  final String role;
   final String date;
+  final DateTime realDate;
   final String time;
+  final String hospitalId;
+  final String doctorId;
+  final String userId;
   final String status;
+  final String keluhan;
+  final String? note;
   final Color statusColor;
 
   const AppointmentCard({
     super.key,
     required this.name,
-    required this.role,
     required this.date,
+    required this.realDate,
     required this.time,
+    required this.hospitalId,
+    required this.doctorId,
+    required this.userId,
     required this.status,
+    required this.keluhan,
+    this.note,
     required this.statusColor,
   });
 
@@ -108,6 +161,12 @@ class AppointmentCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         // Implementasikan navigasi ke detail janji temu di sini
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailAppointment(name: name, date: date,time: time, hospitalId: hospitalId,doctorId: doctorId,userId: userId,status: status, keluhan: keluhan, realDate: realDate, note: note,),
+          ),
+        );
       },
       child: Container(
         padding: const EdgeInsets.all(16.0),
@@ -141,13 +200,6 @@ class AppointmentCard extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    role,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
                     ),
                   ),
                   Text(

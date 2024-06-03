@@ -1,11 +1,12 @@
+import 'package:appointment_doctor/model/doctor_model.dart';
+import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:flutter/material.dart';
-import 'package:appointment_doctor/pages/list_specialty.dart';
-import 'package:appointment_doctor/pages/temu_chat_dokter.dart';
 
 class FilterDokter extends StatefulWidget {
-  final List<Doctor> doctors;
+  final List<DoctorModel> doctors;
+  final HospitalModel hospital;
 
-  FilterDokter({required this.doctors});
+  FilterDokter({required this.doctors, required this.hospital});
 
   @override
   _FilterDokterState createState() => _FilterDokterState();
@@ -13,7 +14,7 @@ class FilterDokter extends StatefulWidget {
 
 class _FilterDokterState extends State<FilterDokter> {
   TextEditingController _searchController = TextEditingController();
-  List<Doctor> _filteredDoctors = [];
+  List<DoctorModel> _filteredDoctors = [];
 
   @override
   void initState() {
@@ -30,8 +31,8 @@ class _FilterDokterState extends State<FilterDokter> {
       } else {
         _filteredDoctors = widget.doctors
             .where((doctor) =>
-                doctor.name.toLowerCase().contains(query) ||
-                doctor.specialty.toLowerCase().contains(query))
+                doctor.nama!.toLowerCase().contains(query) ||
+                doctor.spesialis!.toLowerCase().contains(query))
             .toList();
       }
     });
@@ -78,7 +79,7 @@ class _FilterDokterState extends State<FilterDokter> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'RSU Siloam Surabaya',
+                      widget.hospital.namaRS!,
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w900,
@@ -86,7 +87,7 @@ class _FilterDokterState extends State<FilterDokter> {
                       ),
                     ),
                     Text(
-                      'Jalan Raya Gubeng No. 70, Surabaya',
+                      widget.hospital.alamat!,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w900,
@@ -94,7 +95,7 @@ class _FilterDokterState extends State<FilterDokter> {
                       ),
                     ),
                     Text(
-                      '+62 31 500 9333',
+                      widget.hospital.telepon!,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w900,
@@ -136,8 +137,8 @@ class _FilterDokterState extends State<FilterDokter> {
                     padding: const EdgeInsets.all(3.0),
                     child: Row(
                       children: [
-                        Image.asset(
-                          doctor.imageUrl,
+                        Image.network(
+                          doctor.profileDoctor!,
                           width: 100,
                           height: 100,
                           fit: BoxFit.cover,
@@ -148,14 +149,14 @@ class _FilterDokterState extends State<FilterDokter> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                doctor.name,
+                                doctor.nama!,
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               SizedBox(height: 4),
-                              Text(doctor.specialty),
+                              Text(doctor.spesialis!),
                               SizedBox(height: 10),
                               ElevatedButton(
                                 onPressed: () {

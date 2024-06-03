@@ -1,5 +1,8 @@
+import 'package:appointment_doctor/backend/appointment/doctor_appointment.dart';
+import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/pages/doctor/detail_appointment.dart';
+import 'package:intl/intl.dart';
 
 class KonsulDokter extends StatefulWidget {
   const KonsulDokter({super.key});
@@ -9,6 +12,18 @@ class KonsulDokter extends StatefulWidget {
 }
 
 class _KonsulDokterState extends State<KonsulDokter> {
+  late Future<List<Map<String, dynamic>>> _appointmentsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAppointments();
+  }
+
+  void _loadAppointments() {
+    _appointmentsFuture = DoctorAppointment.getAllAppointments('Diterima');
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,56 +56,90 @@ class _KonsulDokterState extends State<KonsulDokter> {
           ),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: const [
-          PatientCard(
-            name: 'Jefri Rinantoro',
-            role: 'Pasien',
-            visitDate: 'Selasa, 17 Juni 2024',
-            visitTime: '17:00 PM',
-            location: 'RSU Siloam Surabaya',
-            address: 'Jl. Raya Gubeng No.70 Surabaya',
-          ),
-          PatientCard(
-            name: 'Christoper Yudhis',
-            role: 'Pasien',
-            visitDate: 'Kamis, 19 Juni 2024',
-            visitTime: '10:00 AM',
-            location: 'RSU Mitra Keluarga Kenjeran',
-            address: 'Jl. Kenjeran No.90 Surabaya',
-          ),
-        ],
-      ),
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: _appointmentsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            List<Map<String, dynamic>> appointments = snapshot.data!;
+            return ListView.builder(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: appointments.length,
+              itemBuilder: (context, index) {
+                Map<String, dynamic> appointment = appointments[index];
+                return PatientCard(
+                  name: appointment['patientName'],
+                  date: DateFormat('EEEE, d MMMM y', 'id_ID').format(appointment['date'].toDate()),
+                  realDate: appointment['date'].toDate(),
+                  time: appointment['time'],
+                  hospitalId: appointment['hospitalId'],
+                  doctorId: appointment['doctorId'],
+                  userId: appointment['userId'],
+                  status: 'Diterima',
+                  keluhan: appointment['keluhan']
+                );
+              },
+            );
+          }
+        },
+      )
     );
   }
 }
 
-class PatientCard extends StatelessWidget {
+class PatientCard extends StatefulWidget {
   final String name;
-  final String role;
-  final String visitDate;
-  final String visitTime;
-  final String location;
-  final String address;
+  final String date;
+  final DateTime realDate;
+  final String time;
+  final String hospitalId;
+  final String doctorId;
+  final String userId;
+  final String status;
+  final String keluhan;
 
   const PatientCard({
-    super.key,
     required this.name,
-    required this.role,
-    required this.visitDate,
-    required this.visitTime,
-    required this.location,
-    required this.address,
+    required this.date,
+    required this.realDate,
+    required this.time,
+    required this.hospitalId,
+    required this.doctorId,
+    required this.userId,
+    required this.status,
+    required this.keluhan
   });
 
+  @override
+  State<PatientCard> createState() => _PatientCardState();
+}
+
+class _PatientCardState extends State<PatientCard> {
+  HospitalModel hospital = HospitalModel.empty();
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
+
+  void fetchDetailHospital() async {
+    final fetchHospital = await HospitalModel.getHospitalDetailsWithId(widget.hospitalId);
+    setState(() {
+      hospital = fetchHospital;
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const DetailAppointment()),
+          MaterialPageRoute(builder: (context) => DetailAppointment(name: widget.name, date: widget.date,time: widget.time, hospitalId: widget.hospitalId,doctorId: widget.doctorId,userId: widget.userId,status: widget.status, keluhan: widget.keluhan, realDate: widget.realDate,)),
         );
       },
       child: Container(
@@ -117,17 +166,10 @@ class PatientCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        name,
+                        widget.name,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        role,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
                         ),
                       ),
                     ],
@@ -137,14 +179,14 @@ class PatientCard extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              location,
+              hospital.namaRS!,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
-            Text(address),
+            Text(hospital.alamat!),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,7 +198,7 @@ class PatientCard extends StatelessWidget {
                       'Tanggal Kunjungan:',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Text(visitDate),
+                    Text(widget.date),
                   ],
                 ),
                 Column(
@@ -166,7 +208,7 @@ class PatientCard extends StatelessWidget {
                       'Waktu Kunjungan:',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Text(visitTime),
+                    Text(widget.time),
                   ],
                 ),
               ],

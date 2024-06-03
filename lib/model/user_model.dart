@@ -1,5 +1,5 @@
-import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
 class UserModel {
@@ -35,7 +35,7 @@ class UserModel {
     final data = documentSnapshot.data() as Map<String, dynamic>;
     return UserModel(
       id: documentSnapshot.id,
-      fullName: data['name'],
+      fullName: data['fullName'],
       email: data['email'],
       role: data['role']
     );
@@ -65,7 +65,7 @@ class UserModel {
 
   static Future<UserModel> getUserDetails() async {
     try {
-      final documentSnapshot = await FirebaseFirestore.instance.collection("users").doc(Auth.instance.authUser?.uid).get();
+      final documentSnapshot = await FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).get();
       if (documentSnapshot.exists) {
         return UserModel.fromSnapshot(documentSnapshot);
       } 

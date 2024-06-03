@@ -1,4 +1,4 @@
-import 'package:appointment_doctor/pages/adminApk/temu_chat_dokter.dart';
+import 'package:appointment_doctor/pages/adminApk/rsu_hospital_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:appointment_doctor/pages/adminApk/list_daftar_rs.dart';
@@ -192,10 +192,7 @@ class _HomeAdminApkState extends State<HomeAdminApk> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => RSUHospitalScreen(
-                            imageUrl: hospital.imageUrl!,
-                            hospitalName: hospital.namaRS!,
-                            address: hospital.alamat!,
-                            phoneNumber: hospital.telepon!,
+                            hospital: hospital,
                           ),
                         ),
                       );

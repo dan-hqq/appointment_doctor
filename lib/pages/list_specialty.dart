@@ -1,3 +1,5 @@
+import 'package:appointment_doctor/model/doctor_model.dart';
+import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:flutter/material.dart';
 
 class Specialty {
@@ -43,6 +45,11 @@ List<Specialty> getSpecialties() {
 }
 
 class ListSpecialty extends StatefulWidget {
+  final List<DoctorModel> doctors;
+  final HospitalModel hospital;
+  
+  const ListSpecialty({super.key, required this.doctors, required this.hospital});
+
   @override
   _ListSpecialtyState createState() => _ListSpecialtyState();
 }
@@ -79,8 +86,8 @@ class _ListSpecialtyState extends State<ListSpecialty> {
         children: [
           Column(
             children: [
-              Image.asset(
-                'assets/images/bgrs.png', // Replace with your background image
+              Image.network(
+                widget.hospital.imageUrl!, // Replace with your background image
                 width: double.infinity,
                 height: 250,
                 fit: BoxFit.cover,
@@ -109,7 +116,7 @@ class _ListSpecialtyState extends State<ListSpecialty> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'RSU Siloam Surabaya',
+                  widget.hospital.namaRS!,
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
@@ -118,7 +125,7 @@ class _ListSpecialtyState extends State<ListSpecialty> {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  'Jl. Raya Gubeng No. 70, Surabaya',
+                  widget.hospital.alamat!,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
@@ -127,7 +134,7 @@ class _ListSpecialtyState extends State<ListSpecialty> {
                 ),
                 SizedBox(height: 5),
                 Text(
-                  '+62 31 500 5333',
+                  widget.hospital.telepon!,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
@@ -194,7 +201,7 @@ class _ListSpecialtyState extends State<ListSpecialty> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ListDaftarDokter(specialty: specialty.name),
+                        builder: (context) => ListDaftarDokter(specialty: specialty.name, listDoctors: widget.doctors),
                       ),
                     );
                   },
@@ -223,12 +230,13 @@ class _ListSpecialtyState extends State<ListSpecialty> {
 
 class ListDaftarDokter extends StatelessWidget {
   final String specialty;
+  final List<DoctorModel> listDoctors;
 
-  ListDaftarDokter({required this.specialty});
+  ListDaftarDokter({required this.specialty, required this.listDoctors});
 
   @override
   Widget build(BuildContext context) {
-    final doctors = getDoctors().where((doctor) => doctor.specialty == specialty).toList();
+    final doctors = listDoctors.where((doctor) => doctor.spesialis == specialty).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -242,12 +250,12 @@ class ListDaftarDokter extends StatelessWidget {
           return Card(
             margin: EdgeInsets.all(8.0),
             child: ListTile(
-              leading: Image.asset(doctor.imageUrl, width: 50, height: 50),
-              title: Text(doctor.name),
+              leading: Image.network(doctor.profileDoctor!, width: 50, height: 50),
+              title: Text(doctor.nama!),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(doctor.specialty),
+                  Text(doctor.spesialis!),
                   SizedBox(height: 8),
                   ElevatedButton(
                     onPressed: () {
@@ -277,45 +285,45 @@ class ListDaftarDokter extends StatelessWidget {
   }
 }
 
-List<Doctor> getDoctors() {
-  return [
-    Doctor(
-        name: 'Dr. Dodi Maulana',
-        specialty: 'Dokter Umum',
-        imageUrl: 'assets/images/doctor1.png'),
-    Doctor(
-        name: 'Dr. Siti Azizah',
-        specialty: 'Penyakit Dalam',
-        imageUrl: 'assets/images/doctor2.png'),
-    Doctor(
-        name: 'Dr. Carla Levara',
-        specialty: 'Kulit',
-        imageUrl: 'assets/images/doctor3.png'),
-    Doctor(
-        name: 'Dr. Hendry Agus',
-        specialty: 'Gizi Klinik',
-        imageUrl: 'assets/images/doctor4.png'),
-    Doctor(
-        name: 'Dr. Endang Pratiwi',
-        specialty: 'Kandungan',
-        imageUrl: 'assets/images/doctor5.png'),
-  ];
-}
+// List<Doctor> getDoctors() {
+//   return [
+//     Doctor(
+//         name: 'Dr. Dodi Maulana',
+//         specialty: 'Dokter Umum',
+//         imageUrl: 'assets/images/doctor1.png'),
+//     Doctor(
+//         name: 'Dr. Siti Azizah',
+//         specialty: 'Penyakit Dalam',
+//         imageUrl: 'assets/images/doctor2.png'),
+//     Doctor(
+//         name: 'Dr. Carla Levara',
+//         specialty: 'Kulit',
+//         imageUrl: 'assets/images/doctor3.png'),
+//     Doctor(
+//         name: 'Dr. Hendry Agus',
+//         specialty: 'Gizi Klinik',
+//         imageUrl: 'assets/images/doctor4.png'),
+//     Doctor(
+//         name: 'Dr. Endang Pratiwi',
+//         specialty: 'Kandungan',
+//         imageUrl: 'assets/images/doctor5.png'),
+//   ];
+// }
 
-class Doctor {
-  final String name;
-  final String specialty;
-  final String imageUrl;
+// class Doctor {
+//   final String name;
+//   final String specialty;
+//   final String imageUrl;
 
-  Doctor({
-    required this.name,
-    required this.specialty,
-    required this.imageUrl,
-  });
-}
+//   Doctor({
+//     required this.name,
+//     required this.specialty,
+//     required this.imageUrl,
+//   });
+// }
 
 class ChatScreen extends StatelessWidget {
-  final Doctor doctor;
+  final DoctorModel doctor;
 
   ChatScreen({required this.doctor});
 
@@ -323,11 +331,11 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat with ${doctor.name}'),
+        title: Text('Chat with ${doctor.nama}'),
         backgroundColor: Color(0xFFDE1A51),
       ),
       body: Center(
-        child: Text('Chat feature for ${doctor.name}'),
+        child: Text('Chat feature for ${doctor.nama}'),
       ),
     );
   }

@@ -1,4 +1,5 @@
-import 'package:appointment_doctor/pages/adminApk/detail_dokter.dart';
+import 'package:appointment_doctor/model/doctor_model.dart';
+import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:appointment_doctor/pages/adminApk/detail_rs.dart';
 import 'package:appointment_doctor/pages/patient/janji_temu_dokter.dart';
 import 'package:flutter/material.dart';
@@ -6,16 +7,10 @@ import 'package:appointment_doctor/pages/list_specialty.dart';
 import 'package:appointment_doctor/pages/filter_dokter.dart';
 
 class RSUHospitalScreen extends StatefulWidget {
-  final String imageUrl;
-  final String hospitalName;
-  final String address;
-  final String phoneNumber;
+  final HospitalModel hospital;
 
   const RSUHospitalScreen({super.key, 
-    required this.imageUrl,
-    required this.hospitalName,
-    required this.address,
-    required this.phoneNumber,
+    required this.hospital
   });
 
   @override
@@ -25,8 +20,8 @@ class RSUHospitalScreen extends StatefulWidget {
 class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
   
   final TextEditingController _searchController = TextEditingController();
-  List<Doctor> _doctors = [];
-  List<Doctor> _filteredDoctors = [];
+  List<DoctorModel> _doctors = [];
+  List<DoctorModel> _filteredDoctors = [];
   String _filterGroup = 'Dokter'; // State variable for radio buttons
 
   @override
@@ -35,9 +30,12 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
     _loadDoctors();
   }
 
-  void _loadDoctors() {
-    _doctors = getDoctors();
-    _filteredDoctors = _doctors;
+  void _loadDoctors() async {
+    _doctors = await HospitalModel.getDoctorsHospital(widget.hospital.id!);
+    print(_doctors);
+    setState(() {
+      _filteredDoctors = _doctors;
+    });
   }
 
   void _filterDoctors(String? query) {
@@ -47,7 +45,7 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
       } else {
         _filteredDoctors = _doctors
             .where((doctor) =>
-                doctor.name.toLowerCase().contains(query.toLowerCase()))
+                doctor.nama!.toLowerCase().contains(query.toLowerCase()))
             .toList();
       }
     });
@@ -73,13 +71,13 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => FilterDokter(doctors: _filteredDoctors),
+          builder: (context) => FilterDokter(doctors: _filteredDoctors, hospital: widget.hospital),
         ),
       );
     } else if (_filterGroup == 'Spesialis') {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ListSpecialty()),
+        MaterialPageRoute(builder: (context) => ListSpecialty(doctors: _doctors, hospital: widget.hospital)),
       );
     }
   }
@@ -151,7 +149,7 @@ class _RSUHospitalScreenState extends State<RSUHospitalScreen> {
           Column(
             children: [
               Image.network(
-                widget.imageUrl,
+                widget.hospital.imageUrl!,
                 width: double.infinity,
                 height: 250,
                 fit: BoxFit.cover,
@@ -219,7 +217,7 @@ Positioned(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.hospitalName,
+                  widget.hospital.namaRS!,
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
@@ -228,7 +226,7 @@ Positioned(
                 ),
                 SizedBox(height: 5),
                 Text(
-                  widget.address,
+                  widget.hospital.alamat!,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
@@ -237,7 +235,7 @@ Positioned(
                 ),
                 SizedBox(height: 5),
                 Text(
-                  widget.phoneNumber,
+                  widget.hospital.telepon!,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
@@ -308,8 +306,8 @@ Positioned(
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                Image.asset(
-                  doctor.imageUrl,
+                Image.network(
+                  doctor.profileDoctor!,
                   width: 100,
                   height: 100,
                   fit: BoxFit.cover,
@@ -320,7 +318,7 @@ Positioned(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        doctor.name,
+                        doctor.nama!,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -328,7 +326,7 @@ Positioned(
                       ),
                       SizedBox(height: 4),
                       Text(
-                        doctor.specialty,
+                        doctor.spesialis!,
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[600],
@@ -348,7 +346,7 @@ Positioned(
                                     Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => JanjiTemuDokter(title: 'Temui Dokter',),
+                builder: (context) => JanjiTemuDokter(title: 'Temui Dokter', doctor: doctor, hospital: widget.hospital,),
               ),
             );// Handle chat doctor action
                                   },
@@ -378,29 +376,4 @@ Positioned(
       ),
     );
   }
-}
-
-List<Doctor> getDoctors() {
-  return [
-    Doctor(
-        name: 'Dr. Dodi Maulana',
-        specialty: 'Dokter Umum',
-        imageUrl: 'assets/images/doctor1.png'),
-    Doctor(
-        name: 'Dr. Siti Azizah',
-        specialty: 'Sp. Penyakit Dalam',
-        imageUrl: 'assets/images/doctor2.png'),
-    Doctor(
-        name: 'Dr. Carla Levara',
-        specialty: 'Sp. Kulit & Kelamin',
-        imageUrl: 'assets/images/doctor3.png'),
-    Doctor(
-        name: 'Dr. Hendry Agus',
-        specialty: 'Sp. Gizi Klinik',
-        imageUrl: 'assets/images/doctor4.png'),
-    Doctor(
-        name: 'Dr. Endang Pratiwi',
-        specialty: 'Sp. Kandungan',
-        imageUrl: 'assets/images/doctor5.png'),
-  ];
 }

@@ -1,3 +1,4 @@
+import 'package:appointment_doctor/model/doctor_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -101,6 +102,30 @@ class HospitalModel {
     }
   }
 
+  static Future<HospitalModel> getHospitalDetailsWithId(String hospitalId) async {
+    try {
+      final documentSnapshot = await FirebaseFirestore.instance.collection("hospitals").doc(hospitalId).get();
+      if (documentSnapshot.exists) {
+        return HospitalModel.fromSnapshot(documentSnapshot);
+      } 
+      else {
+        throw HospitalModel.empty();
+      }
+    } 
+    on FirebaseException catch (e) {
+      throw e.code;
+    } 
+    on FormatException catch (_) {
+      throw 'Format exeption error';
+    } 
+    on PlatformException catch (e) {
+      throw e.code;
+    } 
+    catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
   static Future<List<HospitalModel>> getAllHospital() async {
     List<HospitalModel> hospitals = [];
 
@@ -136,6 +161,43 @@ class HospitalModel {
     } 
     catch (e) {
       print('Error retrieving hospital data: $e');
+      return [];
+    }
+  }
+
+  static Future<List<DoctorModel>> getDoctorsHospital(String hospitalId) async {
+    try {
+      
+      DocumentSnapshot scheduleDoc = await FirebaseFirestore.instance
+          .collection('schedules')
+          .doc(hospitalId)
+          .get();
+          
+      if (!scheduleDoc.exists) {
+        throw 'No schedule found for the current hospital';
+      }
+
+      // Get the doctor IDs from the schedule
+      Map<String, dynamic> scheduleData = scheduleDoc.data() as Map<String, dynamic>;
+      List<String> doctorIds = scheduleData.keys.toList();
+
+      // Fetch doctor details for each doctor ID
+      List<DoctorModel> doctors = [];
+      for (String doctorId in doctorIds) {
+        DocumentSnapshot doctorDoc = await FirebaseFirestore.instance
+            .collection('doctors')
+            .doc(doctorId)
+            .get();
+        
+        if (doctorDoc.exists) {
+          doctors.add(DoctorModel.fromSnapshot(doctorDoc));
+        }
+      }
+
+      return doctors;
+    } 
+    catch (e) {
+      print('Error retrieving doctors for the hospital: $e');
       return [];
     }
   }

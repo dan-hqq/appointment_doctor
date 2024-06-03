@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:appointment_doctor/backend/auth/auth.dart';
 import 'package:appointment_doctor/pages/doctor/jadwal_praktek.dart'; // Import halaman JadwalPraktek
-import 'dart:io';
-import 'package:get/get.dart';
 
 class ProfileDokter extends StatefulWidget {
   const ProfileDokter({super.key});

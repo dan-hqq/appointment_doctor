@@ -1,9 +1,14 @@
 import 'package:appointment_doctor/backend/auth/auth.dart';
-import 'package:appointment_doctor/pages/patient/edit_profil_pasien.dart';
+import 'package:appointment_doctor/model/user_model.dart';
+// import 'package:appointment_doctor/pages/patient/edit_profil_pasien.dart';
+import 'package:appointment_doctor/pages/patient/location_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class ProfilPasien extends StatefulWidget {
   @override
@@ -12,7 +17,23 @@ class ProfilPasien extends StatefulWidget {
 
 class _ProfilPasien extends State<ProfilPasien> {
   String _imagePath = '';
-  final Auth _auth = Get.put(Auth()); // Ensure Auth is correctly injected
+  final Auth _auth = Get.put(Auth());
+  UserModel user = UserModel.empty();
+  LatLng? _selectedLocation;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserDetails();
+    _loadLocation();
+  }
+
+  void fetchUserDetails() async {
+    final fetchuser = await UserModel.getUserDetails();
+    setState(() {
+      user = fetchuser;
+    });
+  }
 
   void _onChangeImagePath(String path) {
     setState(() {
@@ -20,48 +41,52 @@ class _ProfilPasien extends State<ProfilPasien> {
     });
   }
 
+  void _loadLocation() async {
+    final prefs = await SharedPreferences.getInstance();
+    final double? lat = prefs.getDouble('latitude');
+    final double? lng = prefs.getDouble('longitude');
+    if (lat != null && lng != null) {
+      setState(() {
+        _selectedLocation = LatLng(lat, lng);
+      });
+    }
+  }
+
+  void _pickLocation() async {
+    final selectedLocation = await Navigator.of(context).push<LatLng>(
+      MaterialPageRoute(
+        builder: (ctx) => LocationPicker(),
+      ),
+    );
+    if (selectedLocation != null) {
+      setState(() {
+        _selectedLocation = selectedLocation;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70), // Tinggi AppBar
+        preferredSize: Size.fromHeight(70),
         child: AppBar(
-  scrolledUnderElevation: 0,
-  backgroundColor: Colors.transparent,
-  elevation: 0,
-  centerTitle: true, // Menengahkan judul appbar
-  title: Padding(
-    padding: EdgeInsets.only(top: 30), // Menambah jarak dari atas pada judul
-    child: Text(
-      "Profil",
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 20, // Ukuran teks judul
-      ),
-    ),
-  ),
-  actions: [
-    Padding(
-      padding: EdgeInsets.only(right: 10, top: 30), // Menambah jarak dari kanan dan atas
-      child: TextButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => EditProfilPasien(title: 'Edit Profil'),
+          scrolledUnderElevation: 0,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Padding(
+            padding: EdgeInsets.only(top: 30),
+            child: Text(
+              "Profil",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
             ),
-          );
-        },
-        child: Text(
-          "Edit",
-          style: TextStyle(color: Color(0xFFDE1A51)),
+          ),
         ),
-      ),
-    ),
-  ],
-),
-
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -71,7 +96,7 @@ class _ProfilPasien extends State<ProfilPasien> {
             GestureDetector(
               onTap: () async {
                 final picker = ImagePicker();
-                final pickedImage = await picker.getImage(source: ImageSource.gallery);
+                final pickedImage = await picker.pickImage(source: ImageSource.gallery);
                 if (pickedImage != null) {
                   File imageFile = File(pickedImage.path);
                   _onChangeImagePath(imageFile.path);
@@ -96,7 +121,7 @@ class _ProfilPasien extends State<ProfilPasien> {
                           fit: BoxFit.cover,
                         )
                       : Image.asset(
-                          'assets/images/profil.png', // Ganti dengan path foto template dari assets
+                          'assets/images/profil.png',
                           width: 150,
                           height: 150,
                           fit: BoxFit.cover,
@@ -106,7 +131,7 @@ class _ProfilPasien extends State<ProfilPasien> {
             ),
             SizedBox(height: 20),
             Text(
-              "John Doe",
+              user.fullName ?? "Loading",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -114,7 +139,7 @@ class _ProfilPasien extends State<ProfilPasien> {
             ),
             SizedBox(height: 10),
             Text(
-              "ID : NhusdjW28739DJSHUSjcsud",
+              "ID : ${FirebaseAuth.instance.currentUser!.uid}",
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -123,17 +148,17 @@ class _ProfilPasien extends State<ProfilPasien> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
-                color: Colors.white, // Mengubah warna container menjadi putih
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: Colors.grey[300]!, // Warna border abu-abu
-                  width: 1, // Lebar border
-                ), // Memberi radius border pada container
+                  color: Colors.grey[300]!,
+                  width: 1,
+                ),
               ),
               child: Card(
-                elevation: 0, // Menghilangkan shadow pada card
+                elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Memberi radius border pada card
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: ListTile(
                   leading: Icon(
@@ -144,63 +169,22 @@ class _ProfilPasien extends State<ProfilPasien> {
                     "Alamat",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  subtitle: Text("Jl. Soekarno gang 15, LebakBulus"),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: Colors.white, // Mengubah warna container menjadi putih
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: Colors.grey[300]!, // Warna border abu-abu
-                  width: 1, // Lebar border
-                ), // Memberi radius border pada container
-              ),
-              child: Card(
-                elevation: 0, // Menghilangkan shadow pada card
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Memberi radius border pada card
-                ),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.phone,
-                    color: Color(0xFFDE1A51),
-                  ),
-                  title: Text(
-                    "Telepon",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text("+62 12345678"),
+                  subtitle: _selectedLocation == null
+                      ? Text("Pilih Lokasi")
+                      : Text("Lat: ${_selectedLocation!.latitude}, Lng: ${_selectedLocation!.longitude}"),
+                  onTap: _pickLocation,
                 ),
               ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Card(
-                    child: ListTile(
-                      onTap: () {
-                        // Handle lupa password
-                      },
-                      title: Center(
-                        child: Text(
-                          "Lupa Password ?",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(height: 5),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: GestureDetector(
                     onTap: () {
-                      _auth.logout(); // Call logout method using the instance
+                      _auth.logout();
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -236,10 +220,4 @@ class _ProfilPasien extends State<ProfilPasien> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: ProfilPasien(),
-  ));
 }

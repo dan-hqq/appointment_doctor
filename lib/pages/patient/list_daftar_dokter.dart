@@ -1,4 +1,5 @@
 import 'package:appointment_doctor/model/doctor_model.dart';
+import 'package:appointment_doctor/model/hospital_model.dart';
 import 'package:appointment_doctor/pages/adminApk/detail_dokter.dart';
 import 'package:appointment_doctor/pages/patient/janji_temu_dokter.dart';
 import 'package:flutter/material.dart';
@@ -164,7 +165,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => JanjiTemuDokter(title: 'Temui Dokter',),
+                builder: (context) => JanjiTemuDokter(title: 'Temui Dokter', doctor: DoctorModel.empty(), hospital: HospitalModel.empty(),),
               ),
             );// Tambahkan logika untuk tombol janji temu di sini
           },

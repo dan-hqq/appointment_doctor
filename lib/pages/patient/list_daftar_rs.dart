@@ -137,10 +137,7 @@ class _HospitalListPageState extends State<HospitalListPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => RSUHospitalScreen(
-                          imageUrl: hospital.imageUrl!,
-                          hospitalName: hospital.namaRS!,
-                          address: hospital.alamat!,
-                          phoneNumber: hospital.telepon!,
+                          hospital: hospital,
                         ),
                       ),
                     );
